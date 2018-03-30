@@ -3,14 +3,21 @@ import numpy as np
 
 
 class Board:
-    box_height = 2
-    box_width = 2
-    side_length = box_height * box_width
-    # board is ndarray(4,4,4)
-    double_loop = [(i,j) for i in range(4) for j in range(4)]
-    
-    def __init__(self, side_length=4):
-        self.side_length = side_length
+
+    def __init__(self, *args):
+        if len(args) == 0:
+            self.box_height = 3
+            self.box_width = 3
+            self.side_length = self.box_height * self.box_width
+        elif len(args) == 1:
+            self.side_length = args[0]
+        elif len(args) == 2:
+            self.box_height = args[0]
+            self.box_width = args[1]
+            self.side_length = self.box_height * self.box_width
+        else:
+            raise ValueError
+        
         self.double_loop = [(i,j) for i in range(self.side_length) for j in range(self.side_length)]
         self.board = np.array([[[True] * self.side_length] * self.side_length] * self.side_length, dtype=bool)
         
