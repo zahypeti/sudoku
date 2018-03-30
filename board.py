@@ -1,29 +1,26 @@
-import code
 from copy import deepcopy
 import numpy as np
 
 
-DOUBLE_LOOP = [(i,j) for i in range(4) for j in range(4)]
-
-
 class Board:
-    box_shape = (2, 2)
-    side_length = 4
+    box_height = 2
+    box_width = 2
+    side_length = box_height * box_width
     # board is ndarray(4,4,4)
+    double_loop = [(i,j) for i in range(self.side_length) for j in range(self.side_length)]
     
     def __init__(self):
-        self.board = np.array([[[True] * 4] * 4] * 4, dtype=bool)
+        self.board = np.array([[[True] * self.side_length] * self.side_length] * self.side_length, dtype=bool)
         
     def __repr__(self):
         result = ''
-        for row in range(4):
-            for col in range(4):
-                digit = '.'
-                candidates = self.board[:, row, col].nonzero()[0]
-                if len(candidates) == 1:
-                    digit = str(1 + candidates[0])
-                result += digit
-            result += '\n'
+        for row, col in self.double_loop:
+            digit = '.'
+            candidates = self.board[:, row, col].nonzero()[0]
+            if len(candidates) == 1:
+                digit = str(1 + candidates[0])
+            result += digit
+        result += '\n'
         return result
         # or try list comprehension
         # ['.' if only_one else whatev for col in range(4) for row in range(4)]
@@ -42,13 +39,13 @@ class Board:
             return False
         
         # Remove same candidates in row, col
-        self.board[candidate, :, col] = [False] * 4
-        self.board[candidate, row, :] = [False] * 4
+        self.board[candidate, :, col] = [False] * self.side_length
+        self.board[candidate, row, :] = [False] * self.side_length
         
         # Remove same candidates in box, FIXME 30 Mar 2018
         
         # Remove other candidates in cell
-        self.board[:, row, col] = [False] * 4
+        self.board[:, row, col] = [False] * self.side_length
         
         # Make this a candidate in the cell
         self.board[candidate, row, col] = True
@@ -63,17 +60,15 @@ class Board:
         self.__init__()
         i = 0
         
-        for row in range(4):
-            for col in range(4):
-            
-                candidate = lst[i]
-                if candidate in '1234':
-                    candidate = int(candidate)-1
-                    success = self.add(candidate, row, col)
-                    if not success:
-                        self.__init__()
-                        return False
-                i += 1
+        for row, col in self.double_loop:
+            candidate = lst[i]
+            if candidate in [str(x) for x in range(1,self.side_length+1)]:
+                candidate = int(candidate)-1
+                success = self.add(candidate, row, col)
+                if not success:
+                    self.__init__()
+                    return False
+            i += 1
                 
         return True
         
@@ -90,7 +85,7 @@ class Board:
         # repeat this until no new entry, FIXME 30 Mar 2018
         for _ in range(10):
             # for i, j in itertools.product(range(4), range(4)):
-            for i, j in DOUBLE_LOOP:
+            for i, j in self.double_loop:
                 
                 # Find cells with unique candidates
                 row, col = i, j
@@ -134,7 +129,7 @@ class Board:
         Return None if all cells have at least one possible candidate, otherwise return the position of the first found.
         """
         
-        for i,j in DOUBLE_LOOP:
+        for i,j in self.double_loop:
             if len(self.board[:,i,j].nonzero()[0]) == 0:
                 return i,j
         
@@ -146,7 +141,7 @@ class Board:
         Find an empty cell to be filled in and return its coordinates.
         """
         
-        for row, col in DOUBLE_LOOP:
+        for row, col in self.double_loop:
             if len(self.board[:, row, col].nonzero()[0]) > 1:
                 return row, col
         
@@ -205,7 +200,7 @@ class Board:
         Update nonzero cells from the board attribute of obj.
         """
         
-        for i,j in DOUBLE_LOOP:
+        for i,j in self.double_loop:
             candidates = obj.board[:, i, j].nonzero()[0]
             if len(candidates) == 1:
                 candidate = candidates[0]
