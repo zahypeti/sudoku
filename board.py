@@ -7,7 +7,7 @@ class Board:
     box_width = 2
     side_length = box_height * box_width
     # board is ndarray(4,4,4)
-    double_loop = [(i,j) for i in range(self.side_length) for j in range(self.side_length)]
+    double_loop = [(i,j) for i in range(4) for j in range(4)]
     
     def __init__(self):
         self.board = np.array([[[True] * self.side_length] * self.side_length] * self.side_length, dtype=bool)
@@ -19,8 +19,9 @@ class Board:
             candidates = self.board[:, row, col].nonzero()[0]
             if len(candidates) == 1:
                 digit = str(1 + candidates[0])
-            result += digit
-        result += '\n'
+                result += digit
+            if col == self.side_length - 1:
+                result += '\n'
         return result
         # or try list comprehension
         # ['.' if only_one else whatev for col in range(4) for row in range(4)]
@@ -135,7 +136,6 @@ class Board:
         
         return None
         
-    
     def _first_empty_cell(self):
         """
         Find an empty cell to be filled in and return its coordinates.
