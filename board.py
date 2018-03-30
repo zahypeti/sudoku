@@ -9,7 +9,7 @@ DOUBLE_LOOP = [(i,j) for i in range(4) for j in range(4)]
 class Board:
     box_shape = (2, 2)
     side_length = 4
-	# board is ndarray(4,4,4)
+    # board is ndarray(4,4,4)
     
     def __init__(self):
         self.board = np.array([[[True] * 4] * 4] * 4, dtype=bool)
