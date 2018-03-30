@@ -9,7 +9,9 @@ class Board:
     # board is ndarray(4,4,4)
     double_loop = [(i,j) for i in range(4) for j in range(4)]
     
-    def __init__(self):
+    def __init__(self, side_length=4):
+        self.side_length = side_length
+        self.double_loop = [(i,j) for i in range(self.side_length) for j in range(self.side_length)]
         self.board = np.array([[[True] * self.side_length] * self.side_length] * self.side_length, dtype=bool)
         
     def __repr__(self):
@@ -19,7 +21,7 @@ class Board:
             candidates = self.board[:, row, col].nonzero()[0]
             if len(candidates) == 1:
                 digit = str(1 + candidates[0])
-                result += digit
+            result += digit
             if col == self.side_length - 1:
                 result += '\n'
         return result
