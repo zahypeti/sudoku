@@ -40,7 +40,9 @@ class Board:
         self._dig_col_quickfilled = np.array([[False] * self._side_length] * self._side_length)
         self._dig_box_quickfilled = np.array([[False] * self._side_length] * self._side_length)
         
+        # Accessible attributes
         self.empties = self._side_length ** 2
+        self.depth = -1
         
     def __repr__(self):
         result = ''
@@ -238,6 +240,7 @@ class Board:
         # Find a square not yet filled
         i,j = self._first_empty_square()
         if i is None and j is None:
+            self.depth = -1
             return True
         
         # Put most probable candidate first, FIXME 30 Mar
@@ -254,6 +257,7 @@ class Board:
             else:
                 if not self._update(child):
                     return False
+                self.depth = child.depth + 1
                 del child
                 return True
         else:
