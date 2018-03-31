@@ -1,4 +1,5 @@
 from copy import deepcopy
+from math import sqrt
 import numpy as np
 
 
@@ -11,6 +12,9 @@ class Board:
             self.side_length = self.box_height * self.box_width
         elif len(args) == 1:
             self.side_length = args[0]
+            # Assume square box, FIXME 31 Mar 2018
+            self.box_height = int(sqrt(self.side_length))
+            self.box_width = int(sqrt(self.side_length))
         elif len(args) == 2:
             self.box_height = args[0]
             self.box_width = args[1]
@@ -20,11 +24,16 @@ class Board:
         
         if 37 <= self.side_length:
             raise ValueError
-        abcdef = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        self.alphabet = abcdef[:self.side_length]
+        base36digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        self.alphabet = base36digits[1:self.side_length+1]
         
         self.double_loop = [(i,j) for i in range(self.side_length) for j in range(self.side_length)]
         self.board = np.array([[[True] * self.side_length] * self.side_length] * self.side_length, dtype=bool)
+        
+        self._row_col_quickfilled = np.array([[False] * self.side_length] * self.side_length)
+        self._dig_row_quickfilled = np.array([[False] * self.side_length] * self.side_length)
+        self._dig_col_quickfilled = np.array([[False] * self.side_length] * self.side_length)
+        self._dig_box_quickfilled = np.array([[False] * self.side_length] * self.side_length)
         
     def __repr__(self):
         result = ''
@@ -37,33 +46,65 @@ class Board:
             if col == self.side_length - 1:
                 result += '\n'
         return result
-        # or try list comprehension
-        # ['.' if only_one else whatev for col in range(4) for row in range(4)]
     
-    def _add(self, candidate, row, col):
+    def _boxrows(self, row):
         """
-        Make candidate the only one in the given cell if possible.
+        Return a tuple (start,end) used for array slicing, that corresponds to the rows of the box containing the given single row.
+        """
+        start = row // self.box_height * self.box_height
+        finish = start + self.box_height
+        return (start, finish)
+        
+        return [(r//self.box_height == row//self.box_height) for r in range(self.side_length)]
+    
+    def _boxcols(self, col):
+        """
+        Return a tuple (start,end) used for array slicing, that corresponds to the columns of the box containing the given single column.
+        """
+        start = col // self.box_width * self.box_width
+        finish = start + self.box_width
+        return (start, finish)
+    
+    def _boxindex(self, row, col):
+        """
+        Return the index of the box containing the given cell.
+        """
+        return row//self.box_height*self.box_height + col%self.box_width
+    
+    def _add(self, digit, row, col):
+        """
+        Make digit the only candidate in the given cell, if possible.
         
         Returns
         -------
         success : bool
-            Whether candidate is already a candidate at the given position.
+            Whether digit is already a candidate at the given position.
         """
-        # Check if actually a candidate in the given cell
-        if not self.board[candidate, row, col]:
+        # Check if digit is actually a candidate in the given cell
+        if not self.board[digit, row, col]:
             return False
         
-        # Remove same candidates in row, col
-        self.board[candidate, :, col] = [False] * self.side_length
-        self.board[candidate, row, :] = [False] * self.side_length
+        # Calculate box_rows, box_cols, box
+        srow, erow = self._boxrows(row)
+        scol, ecol = self._boxcols(col)
+        box = self._boxindex(row, col)
         
-        # Remove same candidates in box, FIXME 30 Mar 2018
-        
-        # Remove other candidates in cell
+        # Remove other digits in cell, and same digits in row & col
         self.board[:, row, col] = [False] * self.side_length
+        self.board[digit, row, :] = [False] * self.side_length
+        self.board[digit, :, col] = [False] * self.side_length
         
-        # Make this a candidate in the cell
-        self.board[candidate, row, col] = True
+        # Remove same digits in box
+        self.board[digit:digit+1, srow:erow, scol:ecol] = [[False] * self.box_width] * self.box_height  # slice
+        
+        # Make this a digit in the cell
+        self.board[digit, row, col] = True
+        
+        # Update quick_fill'ed cells
+        self._row_col_quickfilled[row, col] = True
+        self._dig_row_quickfilled[digit, row] = True
+        self._dig_col_quickfilled[digit, col] = True
+        self._dig_box_quickfilled[digit, box] = True
         
         return True
     
@@ -72,7 +113,7 @@ class Board:
         Build the board from the given string or list representation.
         Candidates are 1-based, '.' and '0' represent missing values.
         """
-        self.__init__()
+        self.__init__(self.side_length)
         i = 0
         
         for row, col in self.double_loop:
@@ -104,38 +145,42 @@ class Board:
                 
                 # Find cells with unique candidates
                 row, col = i, j
-                candidates = self.board[:, row, col].nonzero()[0]
-                if len(candidates) == 1:
-                    candidate = candidates[0]
-                    if not self._add(candidate, row, col):
-                        return False
+                if not self._row_col_quickfilled[row, col]:
+                    candidates = self.board[:, row, col].nonzero()[0]
+                    if len(candidates) == 1:
+                        digit = candidates[0]
+                        if not self._add(digit, row, col):
+                            return False
         
-                # Find row & candidate that has unique column
-                row, candidate = i, j
-                cols = self.board[candidate, row, :].nonzero()[0]
-                if len(cols) == 1:
-                    col = cols[0]
-                    if not self._add(candidate, row, col):
-                        return False
+                # Find row & digit that has unique column
+                digit, row = i, j
+                if not self._dig_row_quickfilled[digit, row]:
+                    cols = self.board[digit, row, :].nonzero()[0]
+                    if len(cols) == 1:
+                        col = cols[0]
+                        if not self._add(digit, row, col):
+                            return False
                 
-                # Find col & candidate that has unique row
-                col, candidate = i, j
-                rows = self.board[candidate, :, col].nonzero()[0]
-                if len(rows) == 1:
-                    row = rows[0]
-                    if not self._add(candidate, row, col):
-                        return False
+                # Find col & digit that has unique row
+                digit, col = i, j
+                if not self._dig_col_quickfilled[digit, col]:
+                    rows = self.board[digit, :, col].nonzero()[0]
+                    if len(rows) == 1:
+                        row = rows[0]
+                        if not self._add(digit, row, col):
+                            return False
                 
-                # Find box & candidate that has unique position within box
+                # Find box & digit that has unique position within box
                 # FIXME 30 Mar 2018
-                box, candidate = i, j 
-                positions = []  # .nonzero()[0] FIXME
-                if len(positions) == 1:
-                    position = positions(0)
-                    # row, col = ...
-                    # OR: use self.add with alternative indexing
-                    if not self._add(candidate, row, col):
-                        return False
+                digit, box = i, j
+                if not self._dig_box_quickfilled[digit, box]:
+                    positions = []  # .nonzero()[0] FIXME
+                    if len(positions) == 1:
+                        position = positions(0)
+                        # row, col = ...
+                        # OR: use self.add with alternative indexing
+                        if not self._add(digit, row, col):
+                            return False
                 
         return True
     
