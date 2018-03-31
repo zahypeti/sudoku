@@ -126,7 +126,7 @@ class Board:
         for row, col in self._double_loop:
             digit = lst[i]
             if digit in self._alphabet:
-                digit = int(digit) - 1
+                digit = int(digit, base=36) - 1
                 success = self._add(digit, row, col)
                 if not success:
                     self.__init__(self._box_height, self._box_width)
