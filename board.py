@@ -40,7 +40,7 @@ class Board:
         # or try list comprehension
         # ['.' if only_one else whatev for col in range(4) for row in range(4)]
     
-    def add(self, candidate, row, col):
+    def _add(self, candidate, row, col):
         """
         Make candidate the only one in the given cell if possible.
         
@@ -79,7 +79,7 @@ class Board:
             candidate = lst[i]
             if candidate in [str(x) for x in range(1,self.side_length+1)]:
                 candidate = int(candidate)-1
-                success = self.add(candidate, row, col)
+                success = self._add(candidate, row, col)
                 if not success:
                     self.__init__()
                     return False
@@ -107,7 +107,7 @@ class Board:
                 candidates = self.board[:, row, col].nonzero()[0]
                 if len(candidates) == 1:
                     candidate = candidates[0]
-                    if not self.add(candidate, row, col):
+                    if not self._add(candidate, row, col):
                         return False
         
                 # Find row & candidate that has unique column
@@ -115,7 +115,7 @@ class Board:
                 cols = self.board[candidate, row, :].nonzero()[0]
                 if len(cols) == 1:
                     col = cols[0]
-                    if not self.add(candidate, row, col):
+                    if not self._add(candidate, row, col):
                         return False
                 
                 # Find col & candidate that has unique row
@@ -123,7 +123,7 @@ class Board:
                 rows = self.board[candidate, :, col].nonzero()[0]
                 if len(rows) == 1:
                     row = rows[0]
-                    if not self.add(candidate, row, col):
+                    if not self._add(candidate, row, col):
                         return False
                 
                 # Find box & candidate that has unique position within box
@@ -134,7 +134,7 @@ class Board:
                     position = positions(0)
                     # row, col = ...
                     # OR: use self.add with alternative indexing
-                    if not self.add(candidate, row, col):
+                    if not self._add(candidate, row, col):
                         return False
                 
         return True
@@ -195,7 +195,7 @@ class Board:
         # Recursively call solve() with one new entry
         for candidate in candidates:
             child = deepcopy(self)
-            child.add(candidate, i, j)  # Supposed to always return True
+            child._add(candidate, i, j)  # Supposed to always return True
             success = child.solve()
             
             if not success:
@@ -218,7 +218,7 @@ class Board:
             candidates = obj.board[:, i, j].nonzero()[0]
             if len(candidates) == 1:
                 candidate = candidates[0]
-                success = self.add(candidate, i, j)
+                success = self._add(candidate, i, j)
                 if not success:
                     return False
         return True
