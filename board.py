@@ -28,12 +28,15 @@ class Board:
         self.alphabet = base36digits[1:self.side_length+1]
         
         self.double_loop = [(i,j) for i in range(self.side_length) for j in range(self.side_length)]
+        
         self.board = np.array([[[True] * self.side_length] * self.side_length] * self.side_length, dtype=bool)
         
         self._row_col_quickfilled = np.array([[False] * self.side_length] * self.side_length)
         self._dig_row_quickfilled = np.array([[False] * self.side_length] * self.side_length)
         self._dig_col_quickfilled = np.array([[False] * self.side_length] * self.side_length)
         self._dig_box_quickfilled = np.array([[False] * self.side_length] * self.side_length)
+        
+        self.empties = self.side_length ** 2
         
     def __repr__(self):
         result = ''
@@ -75,6 +78,8 @@ class Board:
         """
         Make digit the only candidate in the given cell, if possible.
         
+        Use this as the only single interface to modify `self.board`.
+        
         Returns
         -------
         success : bool
@@ -105,6 +110,9 @@ class Board:
         self._dig_row_quickfilled[digit, row] = True
         self._dig_col_quickfilled[digit, col] = True
         self._dig_box_quickfilled[digit, box] = True
+        
+        # Update attributes
+        self.empties -= 1
         
         return True
     
