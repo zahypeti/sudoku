@@ -6,47 +6,51 @@ import numpy as np
 class Board:
 
     def __init__(self, *args):
+        
+        # Board size
         if len(args) == 0:
-            self.box_height = 3
-            self.box_width = 3
-            self.side_length = self.box_height * self.box_width
+            self._box_height = 3
+            self._box_width = 3
         elif len(args) == 1:
-            self.side_length = args[0]
-            # Assume square box, FIXME 31 Mar 2018
-            self.box_height = int(sqrt(self.side_length))
-            self.box_width = int(sqrt(self.side_length))
+            # Assume square box
+            side_length = args[0]
+            self._box_height = int(sqrt(side_length))
+            self._box_width = int(sqrt(side_length))
         elif len(args) == 2:
-            self.box_height = args[0]
-            self.box_width = args[1]
-            self.side_length = self.box_height * self.box_width
+            self._box_height = args[0]
+            self._box_width = args[1]
         else:
             raise ValueError
+        self._side_length = self._box_height * self._box_width
         
-        if 37 <= self.side_length:
+        # Constants
+        self._double_loop = [(i,j) for i in range(self._side_length) for j in range(self._side_length)]
+        
+        # Main data structure
+        self._board = np.array([[[True] * self._side_length] * self._side_length] * self._side_length, dtype=bool)
+        
+        # __repr__
+        if 37 <= self._side_length:
             raise ValueError
         base36digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        self.alphabet = base36digits[1:self.side_length+1]
+        self._alphabet = base36digits[1:self._side_length+1]
         
-        self.double_loop = [(i,j) for i in range(self.side_length) for j in range(self.side_length)]
+        self._row_col_quickfilled = np.array([[False] * self._side_length] * self._side_length)
+        self._dig_row_quickfilled = np.array([[False] * self._side_length] * self._side_length)
+        self._dig_col_quickfilled = np.array([[False] * self._side_length] * self._side_length)
+        self._dig_box_quickfilled = np.array([[False] * self._side_length] * self._side_length)
         
-        self.board = np.array([[[True] * self.side_length] * self.side_length] * self.side_length, dtype=bool)
-        
-        self._row_col_quickfilled = np.array([[False] * self.side_length] * self.side_length)
-        self._dig_row_quickfilled = np.array([[False] * self.side_length] * self.side_length)
-        self._dig_col_quickfilled = np.array([[False] * self.side_length] * self.side_length)
-        self._dig_box_quickfilled = np.array([[False] * self.side_length] * self.side_length)
-        
-        self.empties = self.side_length ** 2
+        self.empties = self._side_length ** 2
         
     def __repr__(self):
         result = ''
-        for row, col in self.double_loop:
-            candidates = self.board[:, row, col].nonzero()[0]
+        for row, col in self._double_loop:
+            candidates = self._board[:, row, col].nonzero()[0]
             if len(candidates) == 1:
-                result += self.alphabet[candidates[0]]
+                result += self._alphabet[candidates[0]]
             else:
                 result += '.'
-            if col == self.side_length - 1:
+            if col == self._side_length - 1:
                 result += '\n'
         return result
     
@@ -54,58 +58,53 @@ class Board:
         """
         Return a tuple (start,end) used for array slicing, that corresponds to the rows of the box containing the given single row.
         """
-        start = row // self.box_height * self.box_height
-        finish = start + self.box_height
+        start = row // self._box_height * self._box_height
+        finish = start + self._box_height
         return (start, finish)
-        
-        return [(r//self.box_height == row//self.box_height) for r in range(self.side_length)]
     
     def _boxcols(self, col):
         """
         Return a tuple (start,end) used for array slicing, that corresponds to the columns of the box containing the given single column.
         """
-        start = col // self.box_width * self.box_width
-        finish = start + self.box_width
+        start = col // self._box_width * self._box_width
+        finish = start + self._box_width
         return (start, finish)
     
     def _boxindex(self, row, col):
         """
-        Return the index of the box containing the given cell.
+        Return the index of the box containing the given square.
         """
-        return row//self.box_height*self.box_height + col%self.box_width
+        return (row // self._box_height * self._box_height) + (col % self._box_width)
     
     def _add(self, digit, row, col):
         """
-        Make digit the only candidate in the given cell, if possible.
+        Make digit the only candidate in the given square, if possible.
         
-        Use this as the only single interface to modify `self.board`.
+        To be used as the only direct interface that modifies this class object.
         
         Returns
         -------
         success : bool
             Whether digit is already a candidate at the given position.
         """
-        # Check if digit is actually a candidate in the given cell
-        if not self.board[digit, row, col]:
+        # Check if digit is actually a candidate in the given square
+        if not self._board[digit, row, col]:
             return False
         
-        # Calculate box_rows, box_cols, box
         srow, erow = self._boxrows(row)
         scol, ecol = self._boxcols(col)
         box = self._boxindex(row, col)
         
-        # Remove other digits in cell, and same digits in row & col
-        self.board[:, row, col] = [False] * self.side_length
-        self.board[digit, row, :] = [False] * self.side_length
-        self.board[digit, :, col] = [False] * self.side_length
+        # Remove peer candidates
+        self._board[:, row, col] = [False] * self._side_length
+        self._board[digit, row, :] = [False] * self._side_length
+        self._board[digit, :, col] = [False] * self._side_length
+        self._board[digit:digit+1, srow:erow, scol:ecol] = [[False] * self._box_width] * self._box_height  # slice
         
-        # Remove same digits in box
-        self.board[digit:digit+1, srow:erow, scol:ecol] = [[False] * self.box_width] * self.box_height  # slice
+        # Make this a digit in the square
+        self._board[digit, row, col] = True
         
-        # Make this a digit in the cell
-        self.board[digit, row, col] = True
-        
-        # Update quick_fill'ed cells
+        # Update quick_fill'ed squares
         self._row_col_quickfilled[row, col] = True
         self._dig_row_quickfilled[digit, row] = True
         self._dig_col_quickfilled[digit, col] = True
@@ -119,26 +118,25 @@ class Board:
     def from_str(self, lst):
         """
         Build the board from the given string or list representation.
-        Candidates are 1-based, '.' and '0' represent missing values.
+        Digits in lst are 1-based, and '.' & '0' represent blank squares.
         """
-        self.__init__(self.side_length)
+        self.__init__(self._box_height, self._box_width)
         i = 0
         
-        for row, col in self.double_loop:
-            candidate = lst[i]
-            if candidate in [str(x) for x in range(1,self.side_length+1)]:
-                candidate = int(candidate)-1
-                success = self._add(candidate, row, col)
+        for row, col in self._double_loop:
+            digit = lst[i]
+            if digit in self._alphabet:
+                digit = int(digit) - 1
+                success = self._add(digit, row, col)
                 if not success:
-                    self.__init__()
+                    self.__init__(self._box_height, self._box_width)
                     return False
             i += 1
-                
         return True
         
     def quick_fill(self):
         """
-        Fill in the obvious candidates in place.
+        Fill in the obvious digits in place.
         
         Returns
         -------
@@ -149,12 +147,12 @@ class Board:
         # repeat this until no new entry, FIXME 30 Mar 2018
         for _ in range(10):
             # for i, j in itertools.product(range(4), range(4)):
-            for i, j in self.double_loop:
+            for i, j in self._double_loop:
                 
-                # Find cells with unique candidates
+                # Find squares with unique digits
                 row, col = i, j
                 if not self._row_col_quickfilled[row, col]:
-                    candidates = self.board[:, row, col].nonzero()[0]
+                    candidates = self._board[:, row, col].nonzero()[0]
                     if len(candidates) == 1:
                         digit = candidates[0]
                         if not self._add(digit, row, col):
@@ -163,7 +161,7 @@ class Board:
                 # Find row & digit that has unique column
                 digit, row = i, j
                 if not self._dig_row_quickfilled[digit, row]:
-                    cols = self.board[digit, row, :].nonzero()[0]
+                    cols = self._board[digit, row, :].nonzero()[0]
                     if len(cols) == 1:
                         col = cols[0]
                         if not self._add(digit, row, col):
@@ -172,7 +170,7 @@ class Board:
                 # Find col & digit that has unique row
                 digit, col = i, j
                 if not self._dig_col_quickfilled[digit, col]:
-                    rows = self.board[digit, :, col].nonzero()[0]
+                    rows = self._board[digit, :, col].nonzero()[0]
                     if len(rows) == 1:
                         row = rows[0]
                         if not self._add(digit, row, col):
@@ -194,22 +192,22 @@ class Board:
     
     def _hidden_clash(self):
         """
-        Return None if all cells have at least one possible candidate, otherwise return the position of the first found.
+        Return None if all squares have at least one possible candidate, otherwise return the position of the first found.
         """
         
-        for i,j in self.double_loop:
-            if len(self.board[:,i,j].nonzero()[0]) == 0:
+        for i,j in self._double_loop:
+            if len(self._board[:,i,j].nonzero()[0]) == 0:
                 return i,j
         
         return None
         
-    def _first_empty_cell(self):
+    def _first_empty_square(self):
         """
-        Find an empty cell to be filled in and return its coordinates.
+        Find an empty square to be filled in and return its coordinates.
         """
         
-        for row, col in self.double_loop:
-            if len(self.board[:, row, col].nonzero()[0]) > 1:
+        for row, col in self._double_loop:
+            if len(self._board[:, row, col].nonzero()[0]) > 1:
                 return row, col
         
         return None, None
@@ -218,7 +216,7 @@ class Board:
         """
         Solve the board recursively.
         
-        Find an empty cell, try all possible candidates, and solve each new board until first solution found.
+        Find an empty square, try all possible candidates, and solve each new board recursively until first solution found.
         
         Returns
         -------
@@ -226,35 +224,35 @@ class Board:
             True if solution found, False when clash occurs.
         """
         
-        # Fill in obvious cells in place before recursion
+        # Fill in obvious squares in place before recursion
         if not self.quick_fill():
             return False
         
         # Check if finished, FIXME
         
-        # Check if there are no-candidate cells
+        # Check if there are no-candidate squares
         tpl = self._hidden_clash()
         if tpl is not None:
             return False
         
-        # Find a cell not yet filled
-        i,j = self._first_empty_cell()
+        # Find a square not yet filled
+        i,j = self._first_empty_square()
         if i is None and j is None:
             return True
         
         # Put most probable candidate first, FIXME 30 Mar
-        candidates = sorted(self.board[:, i, j].nonzero()[0])
+        candidates = sorted(self._board[:, i, j].nonzero()[0])
         
         # Recursively call solve() with one new entry
-        for candidate in candidates:
+        for digit in candidates:
             child = deepcopy(self)
-            child._add(candidate, i, j)  # Supposed to always return True
+            child._add(digit, i, j)  # Supposed to always return True
             success = child.solve()
             
             if not success:
                 continue
             else:
-                if not self.update(child):
+                if not self._update(child):
                     return False
                 del child
                 return True
@@ -262,16 +260,16 @@ class Board:
             del child
             return False
     
-    def update(self, obj):
+    def _update(self, obj):
         """
-        Update nonzero cells from the board attribute of obj.
+        Update nonzero squares from the board attribute of obj.
         """
         
-        for i,j in self.double_loop:
-            candidates = obj.board[:, i, j].nonzero()[0]
+        for i,j in self._double_loop:
+            candidates = obj._board[:, i, j].nonzero()[0]
             if len(candidates) == 1:
-                candidate = candidates[0]
-                success = self._add(candidate, i, j)
+                digit = candidates[0]
+                success = self._add(digit, i, j)
                 if not success:
                     return False
         return True
