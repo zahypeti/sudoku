@@ -73,7 +73,10 @@ class Board:
 
         # Check if digit is actually a candidate in the given square
         if not self._board[digit, row, col]:
-            return False
+            print(self)
+            print(digit, row, col)
+            raise ValueError(
+                f'{digit+1} is not a candidate at ({row+1},{col+1})')
 
         # Remove peer candidates
         row_slice, col_slice = rows_cols(row, col,
