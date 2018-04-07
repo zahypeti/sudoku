@@ -65,10 +65,10 @@ class Board:
         
         To be used as the only direct interface that modifies this class object.
         
-        Returns
-        -------
-        success : bool
-            Whether digit is already a candidate at the given position.
+        Raises
+        ------
+        ValueError
+            If digit is already a candidate at the given position.
         """
 
         # Check if digit is actually a candidate in the given square
@@ -94,13 +94,16 @@ class Board:
 
         # Update attributes
         self.empties -= 1
-        
-        return True
-    
+
     def from_str(self, lst):
         """
         Build the board from the given string or list representation.
         Digits in lst are 1-based, and '.' & '0' represent blank squares.
+
+        Raises
+        ------
+        ValueError
+            If unsuccessful for some reason.
         """
         self.__init__(self._box_height, self._box_width)
         i = 0
@@ -109,12 +112,12 @@ class Board:
             digit = lst[i]
             if digit in self._alphabet:
                 digit = int(digit, base=36) - 1
-                success = self._add(digit, row, col)
-                if not success:
+                try:
+                    self._add(digit, row, col)
+                except ValueError:
                     self.__init__(self._box_height, self._box_width)
-                    return False
+                    raise ValueError
             i += 1
-        return True
         
     def quick_fill(self):
         """
@@ -140,10 +143,7 @@ class Board:
                 candidates = self._board[:, row, col].nonzero()[0]
                 if len(candidates) == 1:
                     digit = candidates[0]
-                    if not self._add(digit, row, col):
-                        return False
-                    # Remove operations referring to this (dig,row,col)
-                    # triple and rearrange the remaining ones
+                    self._add(digit, row, col)
                     operations.remove_rearrange(digit, row, col,
                                                 self._box_height,
                                                 self._box_width)
@@ -156,8 +156,7 @@ class Board:
                 rows = self._board[digit, :, col].nonzero()[0]
                 if len(rows) == 1:
                     row = rows[0]
-                    if not self._add(digit, row, col):
-                        return False
+                    self._add(digit, row, col)
                     operations.remove_rearrange(digit, row, col,
                                                 self._box_height,
                                                 self._box_width)
@@ -170,8 +169,7 @@ class Board:
                 cols = self._board[digit, row, :].nonzero()[0]
                 if len(cols) == 1:
                     col = cols[0]
-                    if not self._add(digit, row, col):
-                        return False
+                    self._add(digit, row, col)
                     operations.remove_rearrange(digit, row, col,
                                                 self._box_height,
                                                 self._box_width)
@@ -190,8 +188,7 @@ class Board:
                     position = positions[0]
                     row, col = square(box, position,
                                       self._box_height, self._box_width)
-                    if not self._add(digit, row, col):
-                        return False
+                    self._add(digit, row, col)
                     operations.remove_rearrange(digit, row, col,
                                                 self._box_height,
                                                 self._box_width)
@@ -259,7 +256,7 @@ class Board:
         # Recursively call solve() with one new entry
         for digit in candidates:
             child = deepcopy(self)
-            child._add(digit, i, j)  # Supposed to always return True
+            child._add(digit, i, j)
             success = child.solve()
             
             if not success:
@@ -271,7 +268,7 @@ class Board:
                 del child
                 return True
         else:
-            del child
+            # None of the children lead to a solution
             return False
     
     def _update(self, obj):
@@ -283,7 +280,4 @@ class Board:
             candidates = obj._board[:, i, j].nonzero()[0]
             if len(candidates) == 1:
                 digit = candidates[0]
-                success = self._add(digit, i, j)
-                if not success:
-                    return False
-        return True
+                self._add(digit, i, j)
