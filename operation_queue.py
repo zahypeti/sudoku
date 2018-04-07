@@ -1,0 +1,59 @@
+from collections import deque
+
+from indexing import boxindex
+from operation import Operation
+
+
+class OperationQueue:
+    def __init__(self, side_length):
+        # Fill in queue with all 4*n2 possible operations in order
+        self._deque = deque()
+        double_loop = [(i, j)
+                       for i in range(side_length) for j in range(side_length)]
+        for i, j in double_loop:
+            for finds in ['dig', 'row', 'col', 'pos']:
+                operation = Operation(finds, i, j)
+                self._deque.append(operation)
+
+    def empty(self):
+        return len(self._deque) == 0
+
+    def get_head(self):
+        return self._deque[0]
+
+    def requeue(self):
+        """ Dequeue head and enqueue at the end. """
+        self._deque.rotate(-1)
+
+    def remove_rearrange(self, dig, row, col, box_height, box_width):
+        """
+        Pop the next item from the queue, remove similar operations (max 3, if
+        applicable), and rearrange the remaining ones.
+        """
+
+        # Remove next operation from the head
+        del self._deque[0]
+
+        # Remove max 3 similar operations
+        try:
+            self._deque.remove(Operation('dig', row, col))
+            self._deque.remove(Operation('row', dig, col))
+            self._deque.remove(Operation('col', dig, row))
+            box = boxindex(row, col, box_height, box_width)
+            self._deque.remove(Operation('pos', dig, box))
+        except ValueError:
+            pass
+
+        # Create peer and non-peer queues
+        peers = deque()
+        others = deque()
+        while 0 < len(self._deque):
+            item = self._deque.popleft()
+            if item.is_peer_of(dig, row, col, box_height, box_width):
+                peers.append(item)
+            else:
+                others.append(item)
+
+        # Enqueue peers then non-peers to self._deque
+        self._deque += (peers + others)
+
