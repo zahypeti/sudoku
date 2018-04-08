@@ -7,7 +7,7 @@ from operation import Operation
 class OperationQueue:
     def __init__(self, side_length):
         # Fill in queue with all 4*n2 possible operations in order
-        self._deque = deque()
+        self._deque = deque([], maxlen=4*side_length**2)
         double_loop = [(i, j)
                        for i in range(side_length) for j in range(side_length)]
         for i, j in double_loop:
