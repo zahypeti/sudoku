@@ -43,6 +43,9 @@ class Board:
         base36digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         self._alphabet = base36digits[1:self._side_length+1]
 
+        # Auxiliary members
+        self._operations = OperationQueue(self._side_length)
+
         # Accessible attributes
         self.empties = self._side_length ** 2
         self.depth = -1
@@ -73,7 +76,7 @@ class Board:
 
         # Check if digit is actually a candidate in the given square
         if not self._board[digit, row, col]:
-            print(self)
+            print(self._board)  # FIXME
             print(digit, row, col)
             raise ValueError(
                 f'{digit+1} is not a candidate at ({row+1},{col+1})')
@@ -93,6 +96,8 @@ class Board:
         self._board[digit, row, col] = True
 
         # Update attributes
+        self._operations.remove_rearrange(digit, row, col,
+                                          self._box_height, self._box_width)
         self.empties -= 1
 
     def from_str(self, lst):
@@ -100,10 +105,11 @@ class Board:
         Build the board from the given string or list representation.
         Digits in lst are 1-based, and '.' & '0' represent blank squares.
 
-        Raises
-        ------
-        ValueError
-            If unsuccessful for some reason.
+        Returns
+        -------
+        success : bool
+            Whether the input was valid with a board that does not have
+            immediate clash.
         """
         self.__init__(self._box_height, self._box_width)
         i = 0
@@ -116,8 +122,9 @@ class Board:
                     self._add(digit, row, col)
                 except ValueError:
                     self.__init__(self._box_height, self._box_width)
-                    raise ValueError
+                    return False
             i += 1
+        return True
         
     def quick_fill(self):
         """
@@ -131,10 +138,9 @@ class Board:
 
         # repeat this until no new entry, FIXME 30 Mar 2018
         niter = -1
-        operations = OperationQueue(self._side_length)
-        while not operations.empty() and niter < 400:
+        while not self._operations.empty() and niter < 400:
             niter += 1
-            operation = operations.get_head()
+            operation = self._operations.get_head()
             i, j = operation.indices
 
             if operation.finds == 'dig':
@@ -144,11 +150,8 @@ class Board:
                 if len(candidates) == 1:
                     digit = candidates[0]
                     self._add(digit, row, col)
-                    operations.remove_rearrange(digit, row, col,
-                                                self._box_height,
-                                                self._box_width)
                 else:
-                    operations.requeue()
+                    self._operations.requeue()
 
             elif operation.finds == 'row':
                 # Find col & digit that has unique row
@@ -157,11 +160,8 @@ class Board:
                 if len(rows) == 1:
                     row = rows[0]
                     self._add(digit, row, col)
-                    operations.remove_rearrange(digit, row, col,
-                                                self._box_height,
-                                                self._box_width)
                 else:
-                    operations.requeue()
+                    self._operations.requeue()
 
             elif operation.finds == 'col':
                 # Find row & digit that has unique column
@@ -170,11 +170,8 @@ class Board:
                 if len(cols) == 1:
                     col = cols[0]
                     self._add(digit, row, col)
-                    operations.remove_rearrange(digit, row, col,
-                                                self._box_height,
-                                                self._box_width)
                 else:
-                    operations.requeue()
+                    self._operations.requeue()
 
             elif operation.finds == 'pos':
                 # Find box & digit that has unique position within box
@@ -189,11 +186,8 @@ class Board:
                     row, col = square(box, position,
                                       self._box_height, self._box_width)
                     self._add(digit, row, col)
-                    operations.remove_rearrange(digit, row, col,
-                                                self._box_height,
-                                                self._box_width)
                 else:
-                    operations.requeue()
+                    self._operations.requeue()
 
         return True
 
