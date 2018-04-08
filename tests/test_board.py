@@ -27,6 +27,19 @@ class TestBoard(unittest.TestCase):
         # Then
         self.assertTrue(result)
 
+    def test_filled_board(self):
+        # Given
+        board = Board(4)
+        s = '1234432121433412'
+
+        # When
+        board.from_str(s)
+        result = board.solve()
+
+        # Then
+        print(board)
+        self.assertTrue(result)
+
     def test_board_almost_filled(self):
         # Given
         board = Board(4)
