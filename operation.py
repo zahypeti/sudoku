@@ -6,6 +6,9 @@ class Operation:
         self.finds = s
         self.indices = (i, j)
 
+    def __repr__(self):
+        return f"<{self.finds} {self.indices}, operation.Operation object>"
+
     def is_peer_of(self, dig, row, col, box_height, box_width):
         """
         Decide if slf is a peer of (dig, row, col), i.e. whether they share a
