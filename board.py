@@ -118,15 +118,17 @@ class Board:
             char = lst[i]
             if char in self._alphabet or char == '.':
                 if char == '.':
-                    digit = 0
+                    digit = -1
                 else:
                     digit = int(char, base=36) - 1
 
-                if self._board[digit, row, col]:
-                    self._add(digit, row, col)
-                else:
-                    self.__init__(self._box_height, self._box_width)
-                    return False
+                if digit != -1:
+                    if self._board[digit, row, col]:
+                        self._add(digit, row, col)
+                    else:
+                        print(digit, row, col)
+                        self.__init__(self._box_height, self._box_width)
+                        return False
             i += 1
         return True
         
