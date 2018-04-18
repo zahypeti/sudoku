@@ -38,6 +38,41 @@ class TestBoard(unittest.TestCase):
         # Then
         self.assertTrue(result)
 
+    def test_quickfill_full(self):
+        # Given
+        board = Board(4)
+        s = '4321123434122143'
+
+        # When
+        result = board.quick_fill()
+
+        # Then
+        self.assertTrue(result)
+
+    def test_quickfill_empty(self):
+        # Given
+        board = Board(4)
+        s = '....0000....0000'
+
+        # When
+        result = board.quick_fill()
+
+        # Then
+        self.assertTrue(result)
+
+    def test_quickfill_one_square(self):
+        # Given
+        board = Board(4)
+        s = '12344...0000....'
+        expected_repr = '123443..........'
+
+        # When
+        board.from_str(s)
+        result = board.quick_fill()
+
+        # Then
+        self.assertTrue(result)
+        self.assertEqual(expected_repr, board.__repr__())
 
     def test_filled_board(self):
         # Given

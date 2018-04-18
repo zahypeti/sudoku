@@ -79,6 +79,7 @@ class Board:
             print(self._board)  # FIXME
             print(digit, row, col)
             raise ValueError(
+                f'[_add({digit}, {row}, {col})] '
                 f'{digit+1} is not a candidate at ({row+1},{col+1})')
 
         # Remove peer candidates
