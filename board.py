@@ -115,12 +115,16 @@ class Board:
         i = 0
         
         for row, col in self._double_loop:
-            digit = lst[i]
-            if digit in self._alphabet:
-                digit = int(digit, base=36) - 1
-                try:
+            char = lst[i]
+            if char in self._alphabet or char == '.':
+                if char == '.':
+                    digit = 0
+                else:
+                    digit = int(char, base=36) - 1
+
+                if self._board[digit, row, col]:
                     self._add(digit, row, col)
-                except ValueError:
+                else:
                     self.__init__(self._box_height, self._box_width)
                     return False
             i += 1
