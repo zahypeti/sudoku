@@ -27,6 +27,18 @@ class TestBoard(unittest.TestCase):
         # Then
         self.assertTrue(result)
 
+    def test_board_from_str_with_dots_and_zeros(self):
+        # Given
+        board = Board(4)
+        s = '....0000....1243'
+
+        # When
+        result = board.from_str(s)
+
+        # Then
+        self.assertTrue(result)
+
+
     def test_filled_board(self):
         # Given
         board = Board(4)
