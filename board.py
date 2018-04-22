@@ -49,7 +49,7 @@ class Board:
         # Accessible attributes
         self.empties = self._side_length ** 2
         self.depth = -1
-        
+
     def __repr__(self):
         result = ''
         for row, col in self._double_loop:
@@ -76,8 +76,10 @@ class Board:
 
         # Check if digit is actually a candidate in the given square
         if not self._board[digit, row, col]:
-            print(self._board)  # FIXME
-            print(digit, row, col)
+            return
+            # this check should never fail, as _add should be called with
+            # valid parameters
+            # Raises exception with the current operation_queue, FIXME 22 Apr
             raise ValueError(
                 f'[_add({digit}, {row}, {col})] '
                 f'{digit+1} is not a candidate at ({row+1},{col+1})')

@@ -64,7 +64,7 @@ class TestBoard(unittest.TestCase):
         # Given
         board = Board(4)
         s = '12344...0000....'
-        expected_repr = '123443..........'
+        expected_repr = '1234\n43..\n....\n....\n'
 
         # When
         board.from_str(s)
