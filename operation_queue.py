@@ -43,8 +43,17 @@ class OperationQueue:
         # Remove max 3 similar operations
         try:
             self._deque.remove(Operation('dig', row, col))
+        except ValueError:
+            pass
+        try:
             self._deque.remove(Operation('row', dig, col))
+        except ValueError:
+            pass
+        try:
             self._deque.remove(Operation('col', dig, row))
+        except ValueError:
+            pass
+        try:
             box = boxindex(row, col, box_height, box_width)
             self._deque.remove(Operation('pos', dig, box))
         except ValueError:
