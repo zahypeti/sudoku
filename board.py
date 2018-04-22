@@ -50,7 +50,7 @@ class Board:
         self.empties = self._side_length ** 2
         self.depth = -1
 
-    def __repr__(self):
+    def __str__(self):
         result = ''
         for row, col in self._double_loop:
             candidates = self._board[:, row, col].nonzero()[0]
@@ -61,6 +61,9 @@ class Board:
             if col == self._side_length - 1:
                 result += '\n'
         return result
+
+    def __repr__(self):
+        return f'Board({self._box_height}, {self._box_width})'
 
     def _add(self, digit, row, col):
         """
