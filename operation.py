@@ -6,8 +6,18 @@ class Operation:
         self.finds = s
         self.indices = (i, j)
 
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        else:
+            return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def __repr__(self):
-        return f"<{self.finds} {self.indices}, operation.Operation object>"
+        return f"<Operation({self.finds}, " \
+               f"({self.indices[0]}, {self.indices[1]})>"
 
     def is_peer_of(self, dig, row, col, box_height, box_width):
         """
