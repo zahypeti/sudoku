@@ -22,7 +22,7 @@ def boxindex(row, col, box_height, box_width):
     """
     Return the index of the box containing the given square. rowcol2box
     """
-    return (row // box_height * box_height) + (col % box_width)
+    return (row // box_height * box_height) + (col // box_width)
 
 
 def rows_cols(*args):
@@ -30,8 +30,8 @@ def rows_cols(*args):
     Return a 2-tuple of slices corresponding to rows and columns containing
     the given box / square.
 
-    Usage
-    -----
+    Usages
+    ------
     row_slice, col_slice = rows_cols(box, box_height, box_width)
     row_slice, col_slice = rows_cols(row, col, box_height, box_width)
 
