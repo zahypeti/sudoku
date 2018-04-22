@@ -21,6 +21,19 @@ def _boxcols(col, box_width):
 def boxindex(row, col, box_height, box_width):
     """
     Return the index of the box containing the given square. rowcol2box
+
+    E.g. for a 3x3 board, the square indices are:
+        000 111 222
+        000 111 222
+        000 111 222
+
+        333 444 555
+        333 444 555
+        333 444 555
+
+        666 777 888
+        666 777 888
+        666 777 888
     """
     return (row // box_height * box_height) + (col // box_width)
 
