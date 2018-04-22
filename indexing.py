@@ -27,19 +27,25 @@ def boxindex(row, col, box_height, box_width):
 
 def rows_cols(*args):
     """
-    Return a 2-tuple of slices corresponding to rows and columns containing
-    the given box / square.
+    Return a 2-tuple of slices corresponding to the rows and columns of the
+    given box / of the box containing the given square.
 
     Usages
     ------
     row_slice, col_slice = rows_cols(box, box_height, box_width)
     row_slice, col_slice = rows_cols(row, col, box_height, box_width)
 
+    Parameters
+    ----------
+    box : int
+        The (0-based) index of the box. Index through the top row first,
+        then second row, etc.
+
     """
     if len(args) == 3:
         box, box_height, box_width = args
-        # Get the row and column in the given box with lowest index
-        row = box // box_height
+        # Get the row & column of the first square in the given box
+        row = box // box_height * box_height
         col = (box % box_height) * box_width
     elif len(args) == 4:
         row, col, box_height, box_width = args

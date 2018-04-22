@@ -77,7 +77,7 @@ class TestIndexing(unittest.TestCase):
         # Then
         self.assertEqual(expected_box_id, box_id)
 
-    def test_rows_cols_diagonal_box(self):
+    def test_rows_cols_box_on_diagonal(self):
         # Given
         box = 4
         box_height, box_width = 3, 3
