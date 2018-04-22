@@ -64,7 +64,7 @@ class TestBoard(unittest.TestCase):
         # Given
         board = Board(4)
         s = '12344...0000....'
-        expected_repr = '1234\n43..\n....\n....\n'
+        expected_str = '1234\n43..\n....\n....\n'
 
         # When
         board.from_str(s)
@@ -72,7 +72,7 @@ class TestBoard(unittest.TestCase):
 
         # Then
         self.assertTrue(result)
-        self.assertEqual(expected_repr, board.__repr__())
+        self.assertEqual(expected_str, board.__str__())
 
     def test_filled_board(self):
         # Given
@@ -84,7 +84,6 @@ class TestBoard(unittest.TestCase):
         result = board.solve()
 
         # Then
-        print(board)
         self.assertTrue(result)
 
     def test_board_almost_filled(self):
@@ -97,7 +96,6 @@ class TestBoard(unittest.TestCase):
         result = board.solve()
 
         # Then
-        print(board)
         self.assertTrue(result)
 
     def test_board(self):
