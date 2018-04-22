@@ -205,7 +205,7 @@ class Board:
 
     def _hidden_clash(self):
         """
-        Return None if all squares have at least one possible candidate,
+        Return False if all squares have at least one possible candidate,
         otherwise return the position of the first found.
         """
         
@@ -213,7 +213,7 @@ class Board:
             if len(self._board[:, i, j].nonzero()[0]) == 0:
                 return i, j
         
-        return None
+        return False
         
     def _first_empty_square(self):
         """
@@ -251,7 +251,7 @@ class Board:
         
         # Check if there are no-candidate squares
         tpl = self._hidden_clash()
-        if tpl is not None:
+        if tpl:
             msg = (f'Hidden clash found during the solution of the board at '
                    f'{tpl}')
             print(msg)
