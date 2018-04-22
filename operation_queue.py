@@ -15,6 +15,12 @@ class OperationQueue:
                 operation = Operation(finds, i, j)
                 self._deque.append(operation)
 
+    def __str__(self):
+        result = 'OperationQueue object:\n'
+        for op in self._deque:
+            result += (' ' + op.__str__() + '\n')
+        return result
+
     def empty(self):
         return len(self._deque) == 0
 

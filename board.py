@@ -240,7 +240,11 @@ class Board:
         """
         
         # Fill in obvious squares in place before recursion
-        if not self.quick_fill():
+
+        success = self.quick_fill()
+        if not success:
+            msg = 'Clash found during the solution of the board.'
+            print(msg)
             return False
         
         # Check if finished, FIXME
@@ -248,6 +252,9 @@ class Board:
         # Check if there are no-candidate squares
         tpl = self._hidden_clash()
         if tpl is not None:
+            msg = (f'Hidden clash found during the solution of the board at '
+                   f'{tpl}')
+            print(msg)
             return False
         
         # Find a square not yet filled
@@ -275,6 +282,8 @@ class Board:
                 return True
         else:
             # None of the children lead to a solution
+            msg = 'No solution exists.'
+            print(msg)
             return False
     
     def _update(self, obj):
