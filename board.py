@@ -80,6 +80,7 @@ class Board:
         # Check if digit is actually a candidate in the given square
         if not self._board[digit, row, col]:
             # return
+            print(self._operations)
             # this check should never fail, as _add should be called with
             # valid parameters
             # Raises exception with the current operation_queue, FIXME 22 Apr
