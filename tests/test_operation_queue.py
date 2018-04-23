@@ -47,3 +47,14 @@ class TestOperationQueue(unittest.TestCase):
 
         # Then
         self.assertTrue(operations.empty())
+
+    def test_operation_queue_remove_rearrange_len(self):
+        # Given
+        operations = OperationQueue(4)
+        expected_len = 4*16 - 4
+
+        # When
+        operations.remove_rearrange(0, 0, 0, 2, 2)
+
+        # Then
+        self.assertEqual(len(operations._deque), expected_len)
