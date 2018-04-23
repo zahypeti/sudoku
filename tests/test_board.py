@@ -109,6 +109,7 @@ class TestBoard(unittest.TestCase):
 
         # When
         board.from_str(s)
+        print(board._operations)
         result = board.solve()
 
         # Then
