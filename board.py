@@ -44,7 +44,7 @@ class Board:
         self._alphabet = base36digits[1:self._side_length+1]
 
         # Auxiliary members
-        self._operations = OperationQueue(self._side_length)
+        self._operations = OperationQueue(None, self._box_height, self._box_width)
 
         # Accessible attributes
         self.empties = self._side_length ** 2
@@ -103,8 +103,7 @@ class Board:
         self._board[digit, row, col] = True
 
         # Update attributes
-        self._operations.remove_rearrange(digit, row, col,
-                                          self._box_height, self._box_width)
+        self._operations.remove_rearrange(digit, row, col)
         self.empties -= 1
 
     def from_str(self, lst):
