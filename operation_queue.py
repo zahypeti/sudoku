@@ -42,6 +42,9 @@ class OperationQueue:
         return len(self._deque) == 0
 
     def get_head(self):
+        if self.empty():
+            msg = 'OperationQueue is empty.'
+            raise IndexError(msg)
         return self._deque[0]
 
     def requeue(self):
@@ -50,8 +53,8 @@ class OperationQueue:
 
     def remove_rearrange(self, dig, row, col):
         """
-        Pop the next item from the queue, remove similar operations (max 3, if
-        applicable), and rearrange the remaining ones.
+        Remove similar operations (max 4, ones that refer to the same square),
+        and rearrange the remaining ones.
         """
 
         # Remove similar operations referring to the same (dig, row, col)

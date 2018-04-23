@@ -16,6 +16,22 @@ class TestOperationQueue(unittest.TestCase):
         # Then
         self.assertEqual(expected_operation_count, operation_count)
 
+    def test_operation_queue_empty(self):
+        # Given
+        operations = OperationQueue([], 2, 2)
+
+        # When & Then
+        self.assertTrue(operations.empty())
+
+    def test_operation_queue_get_head_of_empty(self):
+        # Given
+        operations = OperationQueue([], 3 ,3)
+
+        # When & Then
+        with self.assertRaises(IndexError):
+            operations.get_head()
+
+
     def test_operation_queue_get_head(self):
         # Given
         expected_operation = Operation('dig', 0, 0)
