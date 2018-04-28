@@ -32,10 +32,14 @@ class OperationQueue:
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    def __repr__(self):
+        result = '<OperationQueue(box_height={}, box_width={})>'
+        return result.format(self.box_height, self.box_width)
+
     def __str__(self):
         result = 'OperationQueue object:\n'
         for op in self._deque:
-            result += (' ' + op.__str__() + '\n')
+            result += (' ' + op.__repr__() + '\n')
         return result
 
     def empty(self):
