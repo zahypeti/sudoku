@@ -31,7 +31,6 @@ class TestOperationQueue(unittest.TestCase):
         with self.assertRaises(IndexError):
             operations.get_head()
 
-
     def test_operation_queue_get_head(self):
         # Given
         expected_operation = Operation('dig', 0, 0)

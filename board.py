@@ -154,6 +154,7 @@ class Board:
             niter += 1
             operation = self._operations.get_head()
             i, j = operation.indices
+            digit = row = col = None
 
             if operation.finds == 'dig':
                 # Find squares with unique digits
@@ -161,9 +162,6 @@ class Board:
                 candidates = self._board[:, row, col].nonzero()[0]
                 if len(candidates) == 1:
                     digit = candidates[0]
-                    self._add(digit, row, col)
-                else:
-                    self._operations.requeue()
 
             elif operation.finds == 'row':
                 # Find col & digit that has unique row
@@ -171,9 +169,6 @@ class Board:
                 rows = self._board[digit, :, col].nonzero()[0]
                 if len(rows) == 1:
                     row = rows[0]
-                    self._add(digit, row, col)
-                else:
-                    self._operations.requeue()
 
             elif operation.finds == 'col':
                 # Find row & digit that has unique column
@@ -181,9 +176,6 @@ class Board:
                 cols = self._board[digit, row, :].nonzero()[0]
                 if len(cols) == 1:
                     col = cols[0]
-                    self._add(digit, row, col)
-                else:
-                    self._operations.requeue()
 
             elif operation.finds == 'pos':
                 # Find box & digit that has unique position within box
@@ -192,14 +184,15 @@ class Board:
                     rows_cols(box, self._box_height, self._box_width)
                 positions = \
                     self._board[digit, row_slice, col_slice].nonzero()[0]
-
                 if len(positions) == 1:
                     position = positions[0]
                     row, col = square(box, position,
                                       self._box_height, self._box_width)
-                    self._add(digit, row, col)
-                else:
-                    self._operations.requeue()
+
+            if digit and row and col:
+                self._add(digit, row, col)
+            else:
+                self._operations.requeue()
 
         return True
 
