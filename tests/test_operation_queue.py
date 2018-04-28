@@ -16,6 +16,23 @@ class TestOperationQueue(unittest.TestCase):
         # Then
         self.assertEqual(expected_operation_count, operation_count)
 
+    def test_operation_queue_equality(self):
+        # When
+        queue_a1 = OperationQueue([
+            Operation('col', 0, 0),
+            Operation('col', 0, 1),
+        ], 2, 2)
+        queue_a2 = OperationQueue([
+            Operation('col', 0, 0),
+            Operation('col', 0, 1),
+        ], 2, 2)
+        queue_b = OperationQueue(None, 2, 2)
+
+        # Then
+        self.assertEqual(queue_a1, queue_a2)
+        self.assertNotEqual(queue_a1, queue_b)
+        self.assertNotEqual(queue_a2, queue_b)
+
     def test_operation_queue_empty(self):
         # Given
         operations = OperationQueue([], 2, 2)
