@@ -101,7 +101,7 @@ class TestBoard(unittest.TestCase):
     def test_board(self):
         # Given
         board = Board(4)
-        s = '12344..1.......2' # two different solutions
+        s = '12344..1.......2'  # two different solutions
         # 1234  1234
         # 4..1  4321
         # ....  2  3
