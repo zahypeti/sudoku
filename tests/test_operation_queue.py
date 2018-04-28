@@ -54,17 +54,17 @@ class TestOperationQueue(unittest.TestCase):
         self.assertNotEqual(queue_a2, reverse_queue)
 
     def test_operation_queue_emptiness(self):
-        # When
+        # Given
         no_operations = OperationQueue([], 2, 2)
         some_operations = OperationQueue()
 
-        # Then
+        # When & Then
         self.assertTrue(no_operations.empty())
         self.assertFalse(some_operations.empty())
 
-    def test_operation_queue_get_head_of_empty(self):
+    def test_get_head_of_empty_operation_queue(self):
         # Given
-        operations = OperationQueue([], 3 ,3)
+        operations = OperationQueue([], 3, 3)
 
         # When & Then
         with self.assertRaises(IndexError):

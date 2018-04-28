@@ -15,7 +15,8 @@ class OperationQueue:
             # Fill in queue with all 4*n2 possible operations in order
             self._deque = deque([], maxlen=4*side_length**2)
             double_loop = [(i, j)
-                           for i in range(side_length) for j in range(side_length)]
+                           for i in range(side_length)
+                           for j in range(side_length)]
             for i, j in double_loop:
                 for finds in ['dig', 'row', 'col', 'pos']:
                     operation = Operation(finds, i, j)
@@ -92,4 +93,3 @@ class OperationQueue:
 
         # Enqueue peers then non-peers to self._deque
         self._deque += (peers + others)
-
