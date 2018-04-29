@@ -122,7 +122,7 @@ class TestOperationQueue(unittest.TestCase):
         # Then
         self.assertEqual(operations, result)
 
-    def test_operation_queue_remove_rearrange_single_operation(self):
+    def test_remove_rearrange_single_operation(self):
         # Given
         operations = OperationQueue(None, 1, 1)
 
@@ -132,7 +132,7 @@ class TestOperationQueue(unittest.TestCase):
         # Then
         self.assertTrue(operations.empty())
 
-    def test_operation_queue_remove_rearrange_len(self):
+    def test_remove_rearrange_operation_queue_len(self):
         # Given
         operations = OperationQueue(None, 2, 2)
         expected_len = 4*16 - 4
@@ -154,3 +154,45 @@ class TestOperationQueue(unittest.TestCase):
 
         # Then
         self.assertEqual(expected_operations, operations)
+
+    def test_remove_rearrange_from_full_operation_queue(self):
+        # Given
+        operations = OperationQueue([
+            Operation('row', 0, 0),
+            Operation('row', 0, 1),
+            Operation('row', 1, 0),
+            Operation('row', 1, 1),
+            Operation('col', 0, 0),
+            Operation('col', 0, 1),
+            Operation('col', 1, 0),
+            Operation('col', 1, 1),
+            Operation('dig', 0, 0),
+            Operation('dig', 0, 1),
+            Operation('dig', 1, 0),
+            Operation('dig', 1, 1),
+            Operation('pos', 0, 0),
+            Operation('pos', 0, 1),
+            Operation('pos', 1, 0),
+            Operation('pos', 1, 1),
+        ], 1, 2)
+        expected = OperationQueue([
+            Operation('row', 0, 1),
+            Operation('row', 1, 0),
+            Operation('col', 0, 1),
+            Operation('col', 1, 0),
+            Operation('dig', 0, 1),
+            Operation('dig', 1, 0),
+            Operation('pos', 0, 1),
+            Operation('pos', 1, 0),
+            # (0, 0, 0) arranged to the end
+            Operation('row', 0, 0),
+            Operation('col', 0, 0),
+            Operation('dig', 0, 0),
+            Operation('pos', 0, 0),
+        ], 1, 2)
+
+        # When
+        operations.remove_rearrange(1, 1, 1)
+
+        # Then
+        self.assertEqual(expected, operations)
