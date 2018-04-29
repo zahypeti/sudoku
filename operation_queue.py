@@ -61,11 +61,11 @@ class OperationQueue:
 
     def remove_rearrange(self, dig, row, col):
         """
-        Remove similar operations (max 4, ones that refer to the same square),
-        and rearrange the remaining ones.
+        Remove similar operations (those ones that refer to the same square),
+        and rearrange the remaining ones. Removes at most 4 operations.
         """
 
-        # Remove similar operations referring to the same (dig, row, col)
+        # Remove similar operations pointing to the same (dig, row, col) triple
         try:
             self._deque.remove(Operation('dig', row, col))
         except ValueError:
