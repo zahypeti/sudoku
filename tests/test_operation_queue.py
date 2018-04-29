@@ -70,7 +70,7 @@ class TestOperationQueue(unittest.TestCase):
         with self.assertRaises(IndexError):
             operations.get_head()
 
-    def test_operation_queue_get_head(self):
+    def test_get_head_of_full_operation_queue(self):
         # Given
         expected_operation = Operation('dig', 0, 0)
 
@@ -91,6 +91,36 @@ class TestOperationQueue(unittest.TestCase):
 
         # Then
         self.assertEqual(expected_operations, operations)
+
+    def test_requeue_single_operation(self):
+        # Given
+        result = OperationQueue([
+            Operation('row', 2, 1),
+            Operation('dig', 2, 0),
+            Operation('pos', 2, 1),
+        ])
+        expected_result = OperationQueue([
+            Operation('dig', 2, 0),
+            Operation('pos', 2, 1),
+            Operation('row', 2, 1),
+        ])
+
+        # When
+        result.requeue()
+
+        # Then
+        self.assertEqual(expected_result, result)
+
+    def test_requeue_empty_operation_queue(self):
+        # Given
+        operations = OperationQueue([], 2, 2)
+
+        # When
+        result = OperationQueue([], 2, 2)
+        result.requeue()
+
+        # Then
+        self.assertEqual(operations, result)
 
     def test_operation_queue_remove_rearrange_single_operation(self):
         # Given

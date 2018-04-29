@@ -53,7 +53,10 @@ class OperationQueue:
         return self._deque[0]
 
     def requeue(self):
-        """ Dequeue head and enqueue at the end. """
+        """
+        Dequeue head and enqueue at the end.
+        If _deque is empty, requeue() does not affect the OperationQueue.
+        """
         self._deque.rotate(-1)
 
     def remove_rearrange(self, dig, row, col):
