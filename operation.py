@@ -16,8 +16,10 @@ class Operation:
         return not self.__eq__(other)
 
     def __repr__(self):
-        return f"<Operation({self.finds}, " \
-               f"({self.indices[0]}, {self.indices[1]})>"
+        return f"<Operation(" \
+               f"'{self.finds}', " \
+               f"({self.indices[0]}, {self.indices[1]})" \
+               f")>"
 
     def is_peer_of(self, dig, row, col, box_height, box_width):
         """
