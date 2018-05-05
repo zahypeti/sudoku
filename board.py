@@ -156,28 +156,28 @@ class Board:
             i, j = operation.indices
             digit = row = col = None
 
-            if operation.finds == 'dig':
+            if operation.inspects == 'square':
                 # Find squares with unique digits
                 row, col = i, j
                 candidates = self._board[:, row, col].nonzero()[0]
                 if len(candidates) == 1:
                     digit = candidates[0]
 
-            elif operation.finds == 'row':
+            elif operation.inspects == 'digcol':
                 # Find col & digit that has unique row
                 digit, col = i, j
                 rows = self._board[digit, :, col].nonzero()[0]
                 if len(rows) == 1:
                     row = rows[0]
 
-            elif operation.finds == 'col':
+            elif operation.inspects == 'digrow':
                 # Find row & digit that has unique column
                 digit, row = i, j
                 cols = self._board[digit, row, :].nonzero()[0]
                 if len(cols) == 1:
                     col = cols[0]
 
-            elif operation.finds == 'pos':
+            elif operation.inspects == 'digbox':
                 # Find box & digit that has unique position within box
                 digit, box = i, j
                 row_slice, col_slice = \

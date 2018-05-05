@@ -5,17 +5,18 @@ class Operation:
     def __init__(self, s, i, j):
         """
         Should be one of:
-        Operation('dig', row, col)
-        Operation('row', dig, col)
-        Operation('col', dig, row)
-        Operation('pos', dig, box)
+        Operation('square', row, col)
+        Operation('digcol', dig, col)
+        Operation('digrow', dig, row)
+        Operation('digbox', dig, box)
         """
-        self.finds = s
+        self.inspects = s
         self.indices = (i, j)
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            return self.__dict__ == other.__dict__
+            return (self.inspects == other.inspects
+                   and self.indices == other.indices)
         else:
             return False
 
@@ -24,7 +25,7 @@ class Operation:
 
     def __repr__(self):
         return f"<Operation(" \
-               f"'{self.finds}', " \
+               f"'{self.inspects}', " \
                f"({self.indices[0]}, {self.indices[1]})" \
                f")>"
 
@@ -33,22 +34,22 @@ class Operation:
         Decide if this operation is a peer of (dig, row, col), i.e. whether
         it should be prioritised after _add(dig, row, col).
         """
-        if self.finds == 'dig':
+        if self.inspects == 'square':
             # same box or same row or same col
             this_row = self.indices[0]
             this_col = self.indices[1]
             this_box = boxindex(this_row, this_col, box_height, box_width)
             box = boxindex(row, col, box_height, box_width)
             return this_row == row or this_col == col or this_box == box
-        elif self.finds == 'row':
+        elif self.inspects == 'digcol':
             this_dig = self.indices[0]  # some are primary
             this_col = self.indices[1]
             return this_dig == dig or this_col == col
-        elif self.finds == 'col':
+        elif self.inspects == 'digrow':
             this_dig = self.indices[0]  # some are primary
             this_row = self.indices[1]
             return this_dig == dig or this_row == row
-        elif self.finds == 'pos':
+        elif self.inspects == 'digbox':
             this_dig = self.indices[0]
             this_box = self.indices[1]
             this_row_slice, this_col_slice = rows_cols(this_box, box_height,
