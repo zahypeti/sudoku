@@ -6,21 +6,21 @@ from operation import Operation
 class TestOperation(unittest.TestCase):
     def test_operation_init(self):
         # Given
-        s = 'dig'
+        s = 'square'
         i, j = 1, 1
-        expected_finds = 'dig'
+        expected_inspects = 'square'
         expected_indices = (1, 1)
 
         # When
         operation = Operation(s, i, j)
 
         # Then
-        self.assertEqual(expected_finds, operation.finds)
+        self.assertEqual(expected_inspects, operation.inspects)
         self.assertEqual(expected_indices, operation.indices)
 
     def test_operation_peer(self):
         # Given
-        s = 'dig'
+        s = 'square'
         i, j = 1, 1
         dig, row, col = 1, 1, 1
         box_height, box_width = 3, 3
@@ -34,7 +34,7 @@ class TestOperation(unittest.TestCase):
 
     def test_operation_peer_rectangular(self):
         # Given
-        s = 'pos'
+        s = 'digbox'
         i, j = 10, 20
         dig, row, col = 1, 1, 1
         box_height, box_width = 3, 7

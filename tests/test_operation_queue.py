@@ -19,12 +19,12 @@ class TestOperationQueue(unittest.TestCase):
     def test_operation_queue_equality(self):
         # When
         queue_a1 = OperationQueue([
-            Operation('col', 0, 0),
-            Operation('col', 0, 1),
+            Operation('digrow', 0, 0),
+            Operation('digrow', 0, 1),
         ], 2, 2)
         queue_a2 = OperationQueue([
-            Operation('col', 0, 0),
-            Operation('col', 0, 1),
+            Operation('digrow', 0, 0),
+            Operation('digrow', 0, 1),
         ], 2, 2)
         queue_b = OperationQueue(None, 2, 2)
 
@@ -36,16 +36,16 @@ class TestOperationQueue(unittest.TestCase):
     def test_operation_queue_order_equality(self):
         # When
         queue_a1 = OperationQueue([
-            Operation('col', 0, 0),
-            Operation('col', 0, 1),
+            Operation('digrow', 0, 0),
+            Operation('digrow', 0, 1),
         ], 2, 2)
         queue_a2 = OperationQueue([
-            Operation('col', 0, 0),
-            Operation('col', 0, 1),
+            Operation('digrow', 0, 0),
+            Operation('digrow', 0, 1),
         ], 2, 2)
         reverse_queue = OperationQueue([
-            Operation('col', 0, 1),
-            Operation('col', 0, 0),
+            Operation('digrow', 0, 1),
+            Operation('digrow', 0, 0),
         ], 2, 2)
 
         # Then
@@ -72,7 +72,7 @@ class TestOperationQueue(unittest.TestCase):
 
     def test_get_head_of_full_operation_queue(self):
         # Given
-        expected_operation = Operation('dig', 0, 0)
+        expected_operation = Operation('square', 0, 0)
 
         # When
         operation = OperationQueue(None, 2, 2).get_head()
@@ -95,14 +95,14 @@ class TestOperationQueue(unittest.TestCase):
     def test_requeue_single_operation(self):
         # Given
         result = OperationQueue([
-            Operation('row', 2, 1),
-            Operation('dig', 2, 0),
-            Operation('pos', 2, 1),
+            Operation('digcol', 2, 1),
+            Operation('square', 2, 0),
+            Operation('digbox', 2, 1),
         ])
         expected_result = OperationQueue([
-            Operation('dig', 2, 0),
-            Operation('pos', 2, 1),
-            Operation('row', 2, 1),
+            Operation('square', 2, 0),
+            Operation('digbox', 2, 1),
+            Operation('digcol', 2, 1),
         ])
 
         # When
@@ -145,9 +145,9 @@ class TestOperationQueue(unittest.TestCase):
 
     def test_operation_queue_arbitrary_remove_rearrange(self):
         # Given
-        operation_list = [Operation('dig', 0, 0), Operation('row', 1, 1)]
+        operation_list = [Operation('square', 0, 0), Operation('digcol', 1, 1)]
         operations = OperationQueue(operation_list, 1, 2)
-        expected_operations = OperationQueue([Operation('row', 1, 1)], 1, 2)
+        expected_operations = OperationQueue([Operation('digcol', 1, 1)], 1, 2)
 
         # When
         operations.remove_rearrange(0, 0, 0)
@@ -158,37 +158,37 @@ class TestOperationQueue(unittest.TestCase):
     def test_remove_rearrange_from_full_operation_queue(self):
         # Given
         operations = OperationQueue([
-            Operation('row', 0, 0),
-            Operation('row', 0, 1),
-            Operation('row', 1, 0),
-            Operation('row', 1, 1),
-            Operation('col', 0, 0),
-            Operation('col', 0, 1),
-            Operation('col', 1, 0),
-            Operation('col', 1, 1),
-            Operation('dig', 0, 0),
-            Operation('dig', 0, 1),
-            Operation('dig', 1, 0),
-            Operation('dig', 1, 1),
-            Operation('pos', 0, 0),
-            Operation('pos', 0, 1),
-            Operation('pos', 1, 0),
-            Operation('pos', 1, 1),
+            Operation('digcol', 0, 0),
+            Operation('digcol', 0, 1),
+            Operation('digcol', 1, 0),
+            Operation('digcol', 1, 1),
+            Operation('digrow', 0, 0),
+            Operation('digrow', 0, 1),
+            Operation('digrow', 1, 0),
+            Operation('digrow', 1, 1),
+            Operation('square', 0, 0),
+            Operation('square', 0, 1),
+            Operation('square', 1, 0),
+            Operation('square', 1, 1),
+            Operation('digbox', 0, 0),
+            Operation('digbox', 0, 1),
+            Operation('digbox', 1, 0),
+            Operation('digbox', 1, 1),
         ], 1, 2)
         expected = OperationQueue([
-            Operation('row', 0, 1),
-            Operation('row', 1, 0),
-            Operation('col', 0, 1),
-            Operation('col', 1, 0),
-            Operation('dig', 0, 1),
-            Operation('dig', 1, 0),
-            Operation('pos', 0, 1),
-            Operation('pos', 1, 0),
+            Operation('digcol', 0, 1),
+            Operation('digcol', 1, 0),
+            Operation('digrow', 0, 1),
+            Operation('digrow', 1, 0),
+            Operation('square', 0, 1),
+            Operation('square', 1, 0),
+            Operation('digbox', 0, 1),
+            Operation('digbox', 1, 0),
             # (0, 0, 0) arranged to the end
-            Operation('row', 0, 0),
-            Operation('col', 0, 0),
-            Operation('dig', 0, 0),
-            Operation('pos', 0, 0),
+            Operation('digcol', 0, 0),
+            Operation('digrow', 0, 0),
+            Operation('square', 0, 0),
+            Operation('digbox', 0, 0),
         ], 1, 2)
 
         # When

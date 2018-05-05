@@ -18,8 +18,8 @@ class OperationQueue:
                            for i in range(side_length)
                            for j in range(side_length)]
             for i, j in double_loop:
-                for finds in ['dig', 'row', 'col', 'pos']:
-                    operation = Operation(finds, i, j)
+                for inspects in ['square', 'digcol', 'digrow', 'digbox']:
+                    operation = Operation(inspects, i, j)
                     self._deque.append(operation)
         else:
             self._deque = deque(lst, maxlen=4*side_length**2)
@@ -67,20 +67,20 @@ class OperationQueue:
 
         # Remove similar operations pointing to the same (dig, row, col) triple
         try:
-            self._deque.remove(Operation('dig', row, col))
+            self._deque.remove(Operation('square', row, col))
         except ValueError:
             pass
         try:
-            self._deque.remove(Operation('row', dig, col))
+            self._deque.remove(Operation('digcol', dig, col))
         except ValueError:
             pass
         try:
-            self._deque.remove(Operation('col', dig, row))
+            self._deque.remove(Operation('digrow', dig, row))
         except ValueError:
             pass
         try:
             box = boxindex(row, col, self.box_height, self.box_width)
-            self._deque.remove(Operation('pos', dig, box))
+            self._deque.remove(Operation('digbox', dig, box))
         except ValueError:
             pass
 
