@@ -219,20 +219,26 @@ class Board:
                 return row, col
         
         return None, None
-    
+
     def solve(self):
+        self._recursively_solve()
+
+    def _recursively_solve(self):
         """
-        Solve the board recursively.
+        Solve the board recursively and using quick_fill().
         
         Find an empty square, try all possible candidates, and solve each new
         board recursively until first solution found.
         
         Returns
         -------
-        sucess : bool
+        success : bool
             True if solution found, False when clash occurs.
+        depth : int
+            Recursion depth - the number of times the method calls itself.
+            Zero if the first quick_fill() solves the board completely.
         """
-        
+
         # Fill in obvious squares in place before recursion
 
         success = self.quick_fill()
