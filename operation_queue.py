@@ -1,7 +1,7 @@
 from collections import deque
 
 from indexing import boxindex
-from operation import Operation
+from operation import DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, Operation, ROW_COLUMN
 
 
 class OperationQueue:
@@ -18,7 +18,7 @@ class OperationQueue:
                            for i in range(side_length)
                            for j in range(side_length)]
             for i, j in double_loop:
-                for inspects in ['square', 'digcol', 'digrow', 'digbox']:
+                for inspects in [ROW_COLUMN, DIGIT_ROW, DIGIT_COLUMN, DIGIT_BOX]:
                     operation = Operation(inspects, i, j)
                     self._deque.append(operation)
         else:
@@ -67,20 +67,20 @@ class OperationQueue:
 
         # Remove similar operations pointing to the same (dig, row, col) triple
         try:
-            self._deque.remove(Operation('square', row, col))
+            self._deque.remove(Operation(ROW_COLUMN, row, col))
         except ValueError:
             pass
         try:
-            self._deque.remove(Operation('digcol', dig, col))
+            self._deque.remove(Operation(DIGIT_COLUMN, dig, col))
         except ValueError:
             pass
         try:
-            self._deque.remove(Operation('digrow', dig, row))
+            self._deque.remove(Operation(DIGIT_ROW, dig, row))
         except ValueError:
             pass
         try:
             box = boxindex(row, col, self.box_height, self.box_width)
-            self._deque.remove(Operation('digbox', dig, box))
+            self._deque.remove(Operation(DIGIT_BOX, dig, box))
         except ValueError:
             pass
 
