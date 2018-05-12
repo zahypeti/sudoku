@@ -177,8 +177,10 @@ class Board:
                 digit, box = i, j
                 row_slice, col_slice = \
                     rows_cols(box, self._box_height, self._box_width)
-                positions = \
-                    self._board[digit, row_slice, col_slice].nonzero()[0]
+                subarray_2d = self._board[digit, row_slice, col_slice]
+
+                # Make the 2D array one dimensional (in row-major order)
+                positions = subarray_2d.flatten('C').nonzero()[0]
                 if len(positions) == 1:
                     position = positions[0]
                     row, col = square(box, position,
@@ -220,7 +222,7 @@ class Board:
 
     def _recursively_solve(self):
         """
-        Solve the board recursively and using quick_fill().
+        Find the "first" solution recursively and using quick_fill().
         
         Find an empty square, try all possible candidates, and solve each new
         board recursively until first solution found.
@@ -275,15 +277,16 @@ class Board:
             if not success:
                 continue
 
-            # Update self from the solved child
-            self._update(child)
-            return True, depth
+            # Stop when the first solution is found
+            if success:
+                # Update self from the solved child
+                self._update(child)
+                return True, depth
 
-        else:
-            # None of the children lead to a solution
-            msg = 'No solution exists.'
-            print(msg)
-            return False, depth
+        # None of the children lead to a solution
+        msg = 'No solution exists.'
+        print(msg)
+        return False, depth
     
     def _update(self, obj):
         """
