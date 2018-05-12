@@ -87,7 +87,7 @@ class TestQuickFill(unittest.TestCase):
 
         # When
         board.from_str(s)
-        result = board.solve()
+        result = board.quick_fill()
 
         # Then
         self.assertTrue(result)
@@ -118,3 +118,15 @@ class TestSolve(unittest.TestCase):
 
         # Then
         self.assertTrue(result)
+
+    def test_empty_2x2_board(self):
+        # Given
+        board = Board(4)
+        board.from_str('....0000....0000')
+
+        # When
+        success = board.solve()
+
+        # Then
+        print(board)
+        self.assertTrue(success)
