@@ -80,13 +80,10 @@ class Board:
         # Check if digit is actually a candidate in the given square
         if not self._board[digit, row, col]:
             # return
-            print(self._operations)
-            # this check should never fail, as _add should be called with
-            # valid parameters
-            # Raises exception with the current operation_queue, FIXME 22 Apr
             raise ValueError(
                 f'[_add({digit}, {row}, {col})] '
-                f'{digit+1} is not a candidate at ({row+1},{col+1})')
+                f'{digit+1} is not a candidate at ({row+1},{col+1})'
+            )
 
         # Remove peer candidates
         row_slice, col_slice = rows_cols(row, col,
@@ -129,7 +126,8 @@ class Board:
                     if self._board[digit, row, col]:
                         self._add(digit, row, col)
                     else:
-                        print(digit, row, col)
+                        msg = f"Clash found at ({row+1}, {col+1})"
+                        print(msg)
                         self.__init__(self._box_height, self._box_width)
                         return False
             i += 1
@@ -218,6 +216,7 @@ class Board:
 
     def solve(self):
         success, depth = self._recursively_solve()
+        return success
 
     def _recursively_solve(self):
         """

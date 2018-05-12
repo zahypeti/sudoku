@@ -76,6 +76,22 @@ class TestQuickFill(unittest.TestCase):
         self.assertTrue(result)
         self.assertEqual(expected_str, board.__str__())
 
+    def test_quickfill_multiple_solutions(self):
+        # Given
+        board = Board(4)
+        s = '12344..1.......2'  # two different solutions
+        # 1234  1234
+        # 4..1  4321
+        # ....  2  3
+        # ...2  3  2
+
+        # When
+        board.from_str(s)
+        result = board.solve()
+
+        # Then
+        self.assertTrue(result)
+
 
 class TestSolve(unittest.TestCase):
     def test_filled_board(self):
@@ -84,11 +100,12 @@ class TestSolve(unittest.TestCase):
         s = '1234432121433412'
 
         # When
-        board.from_str(s)
-        result = board.solve()
+        from_str_success = board.from_str(s)
+        success = board.solve()
 
         # Then
-        self.assertTrue(result)
+        self.assertTrue(from_str_success)
+        self.assertTrue(success)
 
     def test_board_almost_filled(self):
         # Given
@@ -100,22 +117,4 @@ class TestSolve(unittest.TestCase):
         result = board.solve()
 
         # Then
-        self.assertTrue(result)
-
-    def test_board(self):
-        # Given
-        board = Board(4)
-        s = '12344..1.......2'  # two different solutions
-        # 1234  1234
-        # 4..1  4321
-        # ....  2  3
-        # ...2  3  2
-
-        # When
-        board.from_str(s)
-        print(board._operations)
-        result = board.solve()
-
-        # Then
-        print(board)
         self.assertTrue(result)
