@@ -19,7 +19,8 @@ class OperationQueue:
                            for j in range(side_length)]
             for i, j in double_loop:
                 for inspects in [ROW_COLUMN, DIGIT_ROW,
-                                 DIGIT_COLUMN, DIGIT_BOX]:
+                                 DIGIT_COLUMN,
+                                 DIGIT_BOX]:
                     operation = Operation(inspects, i, j)
                     self._deque.append(operation)
         else:
