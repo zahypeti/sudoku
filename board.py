@@ -259,28 +259,30 @@ class Board:
             return False, depth
         
         # Find a square not yet filled
-        i, j = self._first_empty_square()
-        if i is None and j is None:
+        row, column = self._first_empty_square()
+        if row is None and column is None:
+            # No empty cells
             return True, depth
         
         # Put most probable candidate first, FIXME 30 Mar
-        candidates = sorted(self._board[:, i, j].nonzero()[0])
+        candidate_digits = sorted(self._board[:, row, column].nonzero()[0])
         
-        # Recursively call _recursively_solve() with one new entry
-        for digit in candidates:
+        # Recursively call this method with one new entry
+        for digit in candidate_digits:
+            # Add the candidate digit to the child
             child = deepcopy(self)
-            child._add(digit, i, j)
+            child._add(digit, row, column)
 
+            # Try solving with the new entry
             success, child_depth = child._recursively_solve()
             depth = child_depth + 1
-            
             if not success:
                 continue
-            else:
-                if not self._update(child):
-                    return False, depth
-                del child
-                return True, depth
+
+            # Update self from the solved child
+            self._update(child)
+            return True, depth
+
         else:
             # None of the children lead to a solution
             msg = 'No solution exists.'
@@ -289,7 +291,7 @@ class Board:
     
     def _update(self, obj):
         """
-        Update nonzero squares from the board attribute of obj.
+        Update nonzero (filled in) squares from the board attribute of obj.
         """
         
         for i, j in self._double_loop:
