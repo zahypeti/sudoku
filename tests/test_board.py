@@ -3,7 +3,7 @@ import unittest
 from board import Board
 
 
-class TestBoard(unittest.TestCase):
+class TestFromStr(unittest.TestCase):
 
     def test_board_from_str_obvious_clash(self):
         # Given
@@ -38,6 +38,8 @@ class TestBoard(unittest.TestCase):
         # Then
         self.assertTrue(result)
 
+
+class TestQuickFill(unittest.TestCase):
     def test_quickfill_full(self):
         # Given
         board = Board(4)
@@ -74,6 +76,8 @@ class TestBoard(unittest.TestCase):
         self.assertTrue(result)
         self.assertEqual(expected_str, board.__str__())
 
+
+class TestSolve(unittest.TestCase):
     def test_filled_board(self):
         # Given
         board = Board(4)
