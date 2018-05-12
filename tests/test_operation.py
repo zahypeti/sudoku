@@ -1,14 +1,14 @@
 import unittest
 
-from operation import Operation
+from operation import DIGIT_BOX, Operation, ROW_COLUMN
 
 
 class TestOperation(unittest.TestCase):
     def test_operation_init(self):
         # Given
-        s = 'square'
+        s = ROW_COLUMN
         i, j = 1, 1
-        expected_inspects = 'square'
+        expected_inspects = ROW_COLUMN
         expected_indices = (1, 1)
 
         # When
@@ -20,7 +20,7 @@ class TestOperation(unittest.TestCase):
 
     def test_operation_peer(self):
         # Given
-        s = 'square'
+        s = ROW_COLUMN
         i, j = 1, 1
         dig, row, col = 1, 1, 1
         box_height, box_width = 3, 3
@@ -34,7 +34,7 @@ class TestOperation(unittest.TestCase):
 
     def test_operation_peer_rectangular(self):
         # Given
-        s = 'digbox'
+        s = DIGIT_BOX
         i, j = 10, 20
         dig, row, col = 1, 1, 1
         box_height, box_width = 3, 7

@@ -3,6 +3,7 @@ from math import sqrt
 import numpy as np
 
 from indexing import rows_cols, square
+from operation import DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, ROW_COLUMN
 from operation_queue import OperationQueue
 
 
@@ -156,28 +157,28 @@ class Board:
             i, j = operation.indices
             digit = row = col = None
 
-            if operation.inspects == 'square':
+            if operation.inspects == ROW_COLUMN:
                 # Find squares with unique digits
                 row, col = i, j
                 candidates = self._board[:, row, col].nonzero()[0]
                 if len(candidates) == 1:
                     digit = candidates[0]
 
-            elif operation.inspects == 'digcol':
-                # Find col & digit that has unique row
-                digit, col = i, j
-                rows = self._board[digit, :, col].nonzero()[0]
-                if len(rows) == 1:
-                    row = rows[0]
-
-            elif operation.inspects == 'digrow':
+            elif operation.inspects == DIGIT_ROW:
                 # Find row & digit that has unique column
                 digit, row = i, j
-                cols = self._board[digit, row, :].nonzero()[0]
-                if len(cols) == 1:
-                    col = cols[0]
+                positions = self._board[digit, row, :].nonzero()[0]
+                if len(positions) == 1:
+                    col = positions[0]
 
-            elif operation.inspects == 'digbox':
+            elif operation.inspects == DIGIT_COLUMN:
+                # Find col & digit that has unique row
+                digit, col = i, j
+                positions = self._board[digit, :, col].nonzero()[0]
+                if len(positions) == 1:
+                    row = positions[0]
+
+            elif operation.inspects == DIGIT_BOX:
                 # Find box & digit that has unique position within box
                 digit, box = i, j
                 row_slice, col_slice = \
