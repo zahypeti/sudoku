@@ -49,7 +49,6 @@ class Board:
 
         # Accessible attributes
         self.empties = self._side_length ** 2
-        self.depth = -1
 
     def __str__(self):
         result = ''
@@ -221,7 +220,7 @@ class Board:
         return None, None
 
     def solve(self):
-        self._recursively_solve()
+        success, depth = self._recursively_solve()
 
     def _recursively_solve(self):
         """
@@ -236,8 +235,10 @@ class Board:
             True if solution found, False when clash occurs.
         depth : int
             Recursion depth - the number of times the method calls itself.
-            Zero if the first quick_fill() solves the board completely.
+            Zero if the first quick_fill() solves the board immediately.
         """
+
+        depth = 0
 
         # Fill in obvious squares in place before recursion
 
@@ -245,7 +246,7 @@ class Board:
         if not success:
             msg = 'Clash found during the solution of the board.'
             print(msg)
-            return False
+            return False, depth
         
         # Check if finished, FIXME
         
@@ -255,36 +256,36 @@ class Board:
             msg = (f'Hidden clash found during the solution of the board at '
                    f'{tpl}')
             print(msg)
-            return False
+            return False, depth
         
         # Find a square not yet filled
         i, j = self._first_empty_square()
         if i is None and j is None:
-            self.depth = -1
-            return True
+            return True, depth
         
         # Put most probable candidate first, FIXME 30 Mar
         candidates = sorted(self._board[:, i, j].nonzero()[0])
         
-        # Recursively call solve() with one new entry
+        # Recursively call _recursively_solve() with one new entry
         for digit in candidates:
             child = deepcopy(self)
             child._add(digit, i, j)
-            success = child.solve()
+
+            success, child_depth = child._recursively_solve()
+            depth = child_depth + 1
             
             if not success:
                 continue
             else:
                 if not self._update(child):
-                    return False
-                self.depth = child.depth + 1
+                    return False, depth
                 del child
-                return True
+                return True, depth
         else:
             # None of the children lead to a solution
             msg = 'No solution exists.'
             print(msg)
-            return False
+            return False, depth
     
     def _update(self, obj):
         """
