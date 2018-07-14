@@ -1,5 +1,7 @@
 from copy import deepcopy
 from math import sqrt
+import string
+
 import numpy as np
 
 from indexing import rows_cols, square
@@ -8,46 +10,86 @@ from operation_queue import OperationQueue
 
 
 class Board:
+    """
+    Object that holds the state of a sudoku board (of a fixed size) and
+    provides methods for filling in some squares and solving it completely.
+    """
 
     def __init__(self, *args):
-        
-        # Board size
+        """
+        Set up an empty board of a given size. To populate the board, use the
+        from_str() method instead.
+
+        Parameters
+        ----------
+        size : int or 2-tuple of ints
+            If a single argument is given, the board is created with the
+            given argument as its side length. Default is 9.
+            If two arguments are given, the board is created with the given
+            box height and width.
+        """
+
+        # Parse arguments and set box height and width
         if len(args) == 0:
+            # Default is a 9x9 board
             self._box_height = 3
             self._box_width = 3
+
         elif len(args) == 1:
-            # Assume square box
+
+            # Assume a square shaped board if a single argument is provided
             side_length = args[0]
+            # Raise error if it's not a square number
+            if side_length != int(sqrt(side_length))**2:
+                msg = 'The side length of the board must be a square number.'
+                raise ValueError(msg)
+
+            # The given argument corresponds to the side length
             self._box_height = int(sqrt(side_length))
             self._box_width = int(sqrt(side_length))
+
         elif len(args) == 2:
             self._box_height = args[0]
             self._box_width = args[1]
+
         else:
-            raise ValueError
+            raise ValueError('Too many arguments.')
+
+        # Constant properties #################################################
+
+        # The side length of the sudoku board
         self._side_length = self._box_height * self._box_width
-        
-        # Constants
-        self._double_loop = [(i, j)
-                             for i in range(self._side_length)
-                             for j in range(self._side_length)]
-        
-        # Main data structure
+        # Raise an error if characters would run out due to a large board size
+        if 37 <= self._side_length:
+            msg = 'The side length of the board must be less than 37.'
+            raise ValueError(msg)
+
+        # An iterator for the coordinates of all the squares
+        self._double_loop = [
+            (i, j)
+            for i in range(self._side_length)
+            for j in range(self._side_length)]
+
+        # Create the string containing all possible digits up to base 36
+        base36digits = string.digits + string.ascii_uppercase
+        # The characters used for digit representation (1-based indexing)
+        self._alphabet = base36digits[1:self._side_length+1]
+
+        # Auxiliary attributes ################################################
+
+        # Main 3D data structure representing the current state of the board
         self._board = np.array(
             [[[True]
               * self._side_length] * self._side_length] * self._side_length,
             dtype=bool)
-        
-        # __repr__
-        if 37 <= self._side_length:
-            raise ValueError
-        base36digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        self._alphabet = base36digits[1:self._side_length+1]
 
-        # Auxiliary members
-        self._operations = OperationQueue(None, self._box_height, self._box_width)
+        # Solution steps to perform
+        self._operations = OperationQueue(
+            None, self._box_height, self._box_width)
 
-        # Accessible attributes
+        # Public attributes ###################################################
+
+        # Number of empty squares at any point in time
         self.empties = self._side_length ** 2
 
     def __str__(self):
@@ -69,7 +111,20 @@ class Board:
         """
         Make digit the only candidate in the given square, if possible.
         
-        To be used as the only direct interface that modifies this class object.
+        To be used as the primary interface that directly modifies this class
+        object (beside _update).
+
+        Parameters
+        ----------
+        digit : int
+            The digit with which the given square is to be filled in.
+            0-based indexing, i.e. should be in range(_size_length).
+        row : int
+            The particular square's row index. 0-based indexing, i.e. should be
+            in range(_size_length).
+        col : int
+            The particular square's row index. 0-based indexing, i.e. should be
+            in range(_size_length).
         
         Raises
         ------
@@ -105,8 +160,13 @@ class Board:
 
     def from_str(self, lst):
         """
-        Build the board from the given string or list representation.
-        Digits in lst are 1-based, and '.' & '0' represent blank squares.
+        Build the board from the given character representation.
+        Digits are interpreted using 1-based indexing, and '.' & '0' represent
+        blank squares.
+
+        Parameters
+        ----------
+        lst : iterable of characters
 
         Returns
         -------
