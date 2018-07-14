@@ -345,7 +345,6 @@ class Board:
         success = self.quick_fill()
         if not success:
             msg = 'Clash found during the solution of the board.'
-            print(msg)
             return False, depth
         
         # Check if finished, FIXME
@@ -355,7 +354,6 @@ class Board:
         if tpl:
             msg = (f'Hidden clash found during the solution of the board at '
                    f'{tpl}')
-            print(msg)
             return False, depth
         
         # Find a square not yet filled
@@ -387,7 +385,6 @@ class Board:
 
         # None of the children lead to a solution
         msg = 'No solution exists.'
-        print(msg)
         return False, depth
     
     def _update(self, obj):

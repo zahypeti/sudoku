@@ -278,17 +278,45 @@ class TestQuickFill(unittest.TestCase):
 
 
 class TestSolve(unittest.TestCase):
+
+    def test_solve_empty_1x1(self):
+        board_1x1 = Board(1)
+        result = board_1x1.solve()
+        self.assertTrue(result)
+        self.assertEqual('1\n', str(board_1x1))
+
+    def test_solve_empty_2x2(self):
+        board_2x2 = Board(1, 2)
+        result = board_2x2.solve()
+        self.assertTrue(result)
+        # Check that it finds one of the results
+        self.assertIn(str(board_2x2), ['12\n21\n', '21\n12\n'])
+
+    def test_solve_empty_3x3(self):
+        board_3x3 = Board(1, 3)
+        result = board_3x3.solve()
+        self.assertTrue(result)
+        # Check that it finds the "first" result
+        self.assertIn(str(board_3x3), ['123\n231\n312\n'])
+
+    def test_solve_empty_4x4(self):
+        board_4x4 = Board(4)
+        result = board_4x4.solve()
+        self.assertTrue(result)
+        # Check that it finds the "first" result
+        self.assertIn(str(board_4x4), ['1234\n3412\n2143\n4321\n'])
+
     def test_filled_board(self):
         # Given
         board = Board(4)
         s = '1234432121433412'
 
         # When
-        from_str_success = board.from_str(s)
+        board.from_str(s)
         success = board.solve()
+        print(success)
 
         # Then
-        self.assertTrue(from_str_success)
         self.assertTrue(success)
 
     def test_board_almost_filled(self):
@@ -311,5 +339,4 @@ class TestSolve(unittest.TestCase):
         success = board.solve()
 
         # Then
-        print(board)
         self.assertTrue(success)
