@@ -340,3 +340,11 @@ class TestSolve(unittest.TestCase):
 
         # Then
         self.assertTrue(success)
+
+    def test_solve_almost_empty_3x3(self):
+        board = Board()
+        board._add(0, 0, 0)
+
+        result = board.solve()
+
+        self.assertTrue(result)
