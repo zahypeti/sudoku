@@ -11,7 +11,7 @@ from operation_queue import OperationQueue
 
 class Board:
     """
-    Object that holds the state of a sudoku board (of a fixed size) and
+    Object that holds the state of a (valid) sudoku board of a fixed size and
     provides methods for filling in some squares and solving it completely.
     """
 
@@ -71,7 +71,7 @@ class Board:
             msg = 'The side length of the board must be less than 37.'
             raise ValueError(msg)
 
-        # An iterator for the coordinates of all the squares
+        # A single list over the coordinates of the squares in row-major order
         self._double_loop = [
             (i, j)
             for i in range(self._side_length)
@@ -79,8 +79,8 @@ class Board:
 
         # Create the string containing all possible digits up to base 36
         base36digits = string.digits + string.ascii_uppercase
-        # The characters used for digit representation (1-based indexing)
-        self._alphabet = base36digits[1:self._side_length+1]
+        # Characters used for user-friendly square representation: .,1,2,3 etc
+        self._alphabet = '.' + base36digits[1:self._side_length+1]
 
         # Auxiliary attributes ################################################
 
@@ -101,7 +101,7 @@ class Board:
 
     def __str__(self):
         """
-        User friendly, readable string description of this Board instance
+        User-friendly, readable string description of this Board instance
         showing the current state of the sudoku board. Uses 1-based indexing
         for the digits and arranges them in a square. Shows dots (.) for the
         empty squares.
@@ -110,9 +110,11 @@ class Board:
         for row, col in self._double_loop:
             candidates = self._board[:, row, col].nonzero()[0]
             if len(candidates) == 1:
-                result += self._alphabet[candidates[0]]
+                # Convert to 1-based indexing
+                idx = candidates[0] + 1
             else:
-                result += '.'
+                idx = 0
+            result += self._alphabet[idx]
             if col == self._side_length - 1:
                 result += '\n'
         return result
@@ -182,40 +184,56 @@ class Board:
         self._operations.remove_rearrange(digit, row, col)
         self.empties -= 1
 
-    def from_str(self, lst):
+    def from_str(self, characters):
         """
-        Build the board from the given character representation.
-        Digits are interpreted using 1-based indexing, and '.' & '0' represent
-        blank squares.
+        Clear the board and rebuild it from the given character representation.
 
         Parameters
         ----------
-        lst : iterable of characters
+        characters : iterable of length-1 strings
+            Single iterable containing the digits (in row-major order) to fill
+            the board with. Digits are interpreted using 1-based indexing,
+            dot (.) and zero (0) represent empty squares. Characters not in
+            _alphabet (or not equal to '0') are ignored.
 
-        Returns
-        -------
-        success : bool
-            Whether the input was valid with a board that does not have
-            immediate clash.
+        Raises
+        ------
+        ValueError
+            If the given character representation does not correspond to a
+            valid sudoku board.
+
+        Examples
+        --------
+        >>> board = Board(4)
+        >>> board.from_str('1234....4321....')
         """
+
+        # Clear all squares
         self.__init__(self._box_height, self._box_width)
+
+        # Process characters in parallel with iterating over the squares
         i = 0
         for row, col in self._double_loop:
-            char = lst[i]
-            if char in self._alphabet or char == '.':
-                if char == '.' or char == '0':
-                    pass
+            char = characters[i]
+
+            # Ignore unknown characters
+            while char not in (self._alphabet + '0'):
+                i += 1
+                char = characters[i]
+
+            # Do not act on '0' or '.'
+            if char in self._alphabet and char != '.':
+                # Convert to 0-based internal representation
+                digit = int(char, base=36) - 1
+                if self._board[digit, row, col]:
+                    self._add(digit, row, col)
                 else:
-                    digit = int(char, base=36) - 1
-                    if self._board[digit, row, col]:
-                        self._add(digit, row, col)
-                    else:
-                        msg = f"Clash found at ({row+1}, {col+1})"
-                        print(msg)
-                        self.__init__(self._box_height, self._box_width)
-                        return False
+                    self.__init__(self._box_height, self._box_width)
+                    msg = f"Clash found at ({row+1}, {col+1})"
+                    raise ValueError(msg)
+
+            # Increase the position in the iterable
             i += 1
-        return True
         
     def quick_fill(self):
         """

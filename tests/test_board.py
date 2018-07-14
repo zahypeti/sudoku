@@ -31,16 +31,41 @@ class TestBoardInit(unittest.TestCase):
         with self.assertRaises(ValueError):
             Board(37)
 
+    def test_init_side_length(self):
+        board_6x6 = Board(2, 3)
+        self.assertEqual(6, board_6x6._side_length)
+
+    def test_init_double_loop(self):
+        expected = [
+            (0, 0), (0, 1), (0, 2),
+            (1, 0), (1, 1), (1, 2),
+            (2, 0), (2, 1), (2, 2)]
+        board_3x3 = Board(1, 3)
+        self.assertEqual(expected, board_3x3._double_loop)
+
+    def test_init_alphabet(self):
+        expected = '.123456789ABCDEFG'
+        board_16x16 = Board(16)
+        self.assertEqual(expected, board_16x16._alphabet)
+
 
 class TestBoardStr(unittest.TestCase):
 
     def test_empty_board_str(self):
-        expected = '....\n....\n....\n....\n'
+        expected = (
+            '....\n'
+            '....\n'
+            '....\n'
+            '....\n')
         board_4x4 = Board(4)
         self.assertEqual(expected, str(board_4x4))
 
     def test_nonempty_board_str(self):
-        expected = '1234\n3412\n4321\n2143\n'
+        expected = (
+            '1234\n'
+            '3412\n'
+            '4321\n'
+            '2143\n')
         board4x4 = Board(4)
         board4x4.from_str('123434124321....')
         self.assertEqual(expected, str(board4x4))
@@ -66,11 +91,8 @@ class TestFromStr(unittest.TestCase):
         board = Board(4)
         s = '1...1...........'
 
-        # When
-        result = board.from_str(s)
-
-        # Then
-        self.assertFalse(result)
+        with self.assertRaises(ValueError):
+            board.from_str(s)
 
     def test_valid_board_from_str(self):
         # Given
@@ -78,10 +100,10 @@ class TestFromStr(unittest.TestCase):
         s = '1234............'
 
         # When
-        result = board.from_str(s)
+        board.from_str(s)
 
         # Then
-        self.assertTrue(result)
+        self.assertEqual('1234\n....\n....\n....\n', str(board))
 
     def test_board_from_str_with_dots_and_zeros(self):
         # Given
@@ -89,10 +111,21 @@ class TestFromStr(unittest.TestCase):
         s = '....0000....1243'
 
         # When
-        result = board.from_str(s)
+        board.from_str(s)
 
         # Then
-        self.assertTrue(result)
+        self.assertEqual('....\n....\n....\n1243\n', str(board))
+
+    def test_ignore_unknown_characters_from_str(self):
+        string = (
+            '12|34\n'
+            '..|..\n'
+            '-----\n'
+            '..|..\n'
+            '..|..\n')
+        board_4x4 = Board(4)
+        board_4x4.from_str(string)
+        self.assertEqual('1234\n....\n....\n....\n', str(board_4x4))
 
 
 class TestQuickFill(unittest.TestCase):
