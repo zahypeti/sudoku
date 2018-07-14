@@ -1,11 +1,40 @@
 import unittest
 
+import numpy as np
+
 from board import Board
+
+
+class TestBoardInit(unittest.TestCase):
+
+    def test_default_board_instantiation(self):
+        Board()
+        # No errors
+
+    def test_4x4_board_instantiation(self):
+        Board(4)
+        # No errors
+
+    def test_invalid_side_length(self):
+        with self.assertRaises(ValueError):
+            Board(8)
+
+    def test_rectangular_board_instantiation(self):
+        Board(2, 3)
+        # No errors
+
+    def test_too_many_init_arguments(self):
+        with self.assertRaises(ValueError):
+            Board(3, 3, 9)
+
+    def test_board_too_large(self):
+        with self.assertRaises(ValueError):
+            Board(37)
 
 
 class TestFromStr(unittest.TestCase):
 
-    def test_board_from_str_obvious_clash(self):
+    def test_board_from_str_with_obvious_clash(self):
         # Given
         board = Board(4)
         s = '1...1...........'
@@ -16,7 +45,7 @@ class TestFromStr(unittest.TestCase):
         # Then
         self.assertFalse(result)
 
-    def test_board_from_str_valid_board(self):
+    def test_valid_board_from_str(self):
         # Given
         board = Board(4)
         s = '1234............'
@@ -53,6 +82,7 @@ class TestQuickFill(unittest.TestCase):
 
     def test_quickfill_empty(self):
         # Given
+        empty = Board(4)
         board = Board(4)
         s = '....0000....0000'
 
@@ -61,6 +91,7 @@ class TestQuickFill(unittest.TestCase):
 
         # Then
         self.assertTrue(result)
+        self.assertTrue(np.array_equal(empty._board, board._board))
 
     def test_quickfill_one_square(self):
         # Given
@@ -119,10 +150,9 @@ class TestSolve(unittest.TestCase):
         # Then
         self.assertTrue(result)
 
-    def test_empty_2x2_board(self):
+    def test_empty_3x3_board(self):
         # Given
-        board = Board(4)
-        board.from_str('....0000....0000')
+        board = Board()
 
         # When
         success = board.solve()
