@@ -234,7 +234,7 @@ class Board:
 
             # Increase the position in the iterable
             i += 1
-        
+
     def quick_fill(self):
         """
         Fill in the obvious digits in place.

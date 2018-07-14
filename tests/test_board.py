@@ -129,7 +129,100 @@ class TestFromStr(unittest.TestCase):
 
 
 class TestQuickFill(unittest.TestCase):
-    def test_quickfill_full(self):
+
+    def test_quickfill_empty_1x1(self):
+        board_1x1 = Board(1)
+
+        result = board_1x1.quick_fill()
+
+        self.assertTrue(result)
+        self.assertEqual('1\n', str(board_1x1))
+
+    def test_quickfill_full_1x1(self):
+        board_1x1 = Board(1)
+        board_1x1.from_str('1')
+
+        result = board_1x1.quick_fill()
+
+        self.assertTrue(result)
+        self.assertEqual('1\n', str(board_1x1))
+
+    def test_quickfill_empty_2x2(self):
+        board_2x2 = Board(1, 2)
+        result = board_2x2.quick_fill()
+        self.assertTrue(result)
+        self.assertEqual('..\n..\n', str(board_2x2))
+
+    def test_quickfill_half_done_2x2(self):
+        board_2x2 = Board(1, 2)
+        board_2x2.from_str('1...')
+
+        result = board_2x2.quick_fill()
+
+        self.assertTrue(result)
+        self.assertEqual('12\n21\n', str(board_2x2))
+
+    def test_quickfill_full_2x2(self):
+        board_2x2 = Board(1, 2)
+        board_2x2.from_str('1221')
+
+        result = board_2x2.quick_fill()
+
+        self.assertTrue(result)
+        self.assertEqual('12\n21\n', str(board_2x2))
+
+    def test_quickfill_empty_3x3(self):
+        board_3x3 = Board(1, 3)
+        result = board_3x3.quick_fill()
+        self.assertTrue(result)
+        self.assertEqual('...\n...\n...\n', str(board_3x3))
+
+    def test_quickfill_almost_empty_3x3(self):
+        board_3x3 = Board(1, 3)
+        board_3x3.from_str('120...000')
+
+        result = board_3x3.quick_fill()
+
+        self.assertTrue(result)
+        self.assertEqual('123\n...\n...\n', str(board_3x3))
+
+    def test_quickfill_halfway_3x3(self):
+        board_3x3 = Board(1, 3)
+        board_3x3.from_str('1...1...1')
+
+        result = board_3x3.quick_fill()
+
+        self.assertTrue(result)
+        self.assertEqual('1..\n.1.\n..1\n', str(board_3x3))
+
+    def test_quickfill_halfway_plus_3x3(self):
+        board_3x3 = Board(1, 3)
+        board_3x3.from_str('12..1...1')
+
+        result = board_3x3.quick_fill()
+
+        self.assertTrue(result)
+        self.assertEqual('123\n312\n231\n', str(board_3x3))
+
+    def test_quickfill_almost_full_3x3(self):
+        board_3x3 = Board(1, 3)
+        board_3x3.from_str('1202..000')
+
+        result = board_3x3.quick_fill()
+
+        self.assertTrue(result)
+        self.assertEqual('123\n231\n312\n', str(board_3x3))
+
+    def test_quickfill_full_3x3(self):
+        board_3x3 = Board(1, 3)
+        board_3x3.from_str('123231312')
+
+        result = board_3x3.quick_fill()
+
+        self.assertTrue(result)
+        self.assertEqual('123\n231\n312\n', str(board_3x3))
+
+    def test_quickfill_full_4x4(self):
         # Given
         board = Board(4)
         s = '4321123434122143'
@@ -140,7 +233,7 @@ class TestQuickFill(unittest.TestCase):
         # Then
         self.assertTrue(result)
 
-    def test_quickfill_empty(self):
+    def test_quickfill_empty_4x4(self):
         # Given
         empty = Board(4)
         board = Board(4)
