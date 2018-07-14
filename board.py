@@ -27,6 +27,13 @@ class Board:
             given argument as its side length. Default is 9.
             If two arguments are given, the board is created with the given
             box height and width.
+
+        Raises
+        ------
+        ValueError
+            If more than two arguments are provided.
+            If the side length is not a square number.
+            If the board is too big (side length larger than 36).
         """
 
         # Parse arguments and set box height and width
@@ -93,6 +100,12 @@ class Board:
         self.empties = self._side_length ** 2
 
     def __str__(self):
+        """
+        User friendly, readable string description of this Board instance
+        showing the current state of the sudoku board. Uses 1-based indexing
+        for the digits and arranges them in a square. Shows dots (.) for the
+        empty squares.
+        """
         result = ''
         for row, col in self._double_loop:
             candidates = self._board[:, row, col].nonzero()[0]
@@ -105,7 +118,16 @@ class Board:
         return result
 
     def __repr__(self):
-        return f'Board({self._box_height}, {self._box_width})'
+        """
+        A short representation of this Board instance showing its size only.
+
+        Use this to create an instance with the initial (empty) state of a
+        sudoku board that has the same size as this.
+        """
+        if self._box_height == self._box_width:
+            return 'Board({})'.format(self._side_length)
+        else:
+            return 'Board({}, {})'.format(self._box_height, self._box_width)
 
     def _add(self, digit, row, col):
         """
@@ -118,13 +140,15 @@ class Board:
         ----------
         digit : int
             The digit with which the given square is to be filled in.
-            0-based indexing, i.e. should be in range(_size_length).
+            Assumes 0-based indexing, so should be in range(_size_length).
+            Also, use ints even if the string representation is 'B' for
+            instance.
         row : int
-            The particular square's row index. 0-based indexing, i.e. should be
-            in range(_size_length).
+            The particular square's row index. Assumes 0-based indexing,
+            so should be in range(_size_length).
         col : int
-            The particular square's row index. 0-based indexing, i.e. should be
-            in range(_size_length).
+            The particular square's column index. Assumes 0-based indexing,
+            so should be in range(_size_length).
         
         Raises
         ------
