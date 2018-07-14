@@ -288,7 +288,7 @@ class Board:
                     row, col = square(box, position,
                                       self._box_height, self._box_width)
 
-            if digit and row and col:
+            if digit is not None and row is not None and col is not None:
                 self._add(digit, row, col)
             else:
                 self._operations.requeue()
