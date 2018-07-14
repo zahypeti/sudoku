@@ -32,6 +32,33 @@ class TestBoardInit(unittest.TestCase):
             Board(37)
 
 
+class TestBoardStr(unittest.TestCase):
+
+    def test_empty_board_str(self):
+        expected = '....\n....\n....\n....\n'
+        board_4x4 = Board(4)
+        self.assertEqual(expected, str(board_4x4))
+
+    def test_nonempty_board_str(self):
+        expected = '1234\n3412\n4321\n2143\n'
+        board4x4 = Board(4)
+        board4x4.from_str('123434124321....')
+        self.assertEqual(expected, str(board4x4))
+
+
+class TestBoardRepr(unittest.TestCase):
+
+    def test_board_repr_of_9x9(self):
+        expected = 'Board(9)'
+        board_9x9 = Board(9)
+        self.assertEqual(expected, repr(board_9x9))
+
+    def test_board_repr_of_12x12(self):
+        expected = 'Board(3, 4)'
+        board_3x4 = Board(3, 4)
+        self.assertEqual(expected, repr(board_3x4))
+
+
 class TestFromStr(unittest.TestCase):
 
     def test_board_from_str_with_obvious_clash(self):
