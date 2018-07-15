@@ -8,6 +8,7 @@ DIGIT_BOX = 'digbox'
 
 
 class Operation:
+
     def __init__(self, s, i, j):
         """
         An operation that inspects location (i,j) in the given coordinate
@@ -34,10 +35,12 @@ class Operation:
         return not self.__eq__(other)
 
     def __repr__(self):
-        return f"<Operation(" \
-               f"'{self.inspects}', " \
-               f"({self.indices[0]}, {self.indices[1]})" \
-               f")>"
+        """
+        A short representation of this Operation instance of the form
+        Operation('digcol', 0, 1).
+        """
+        return "Operation('{}', {}, {})".format(
+            self.inspects, self.indices[0], self.indices[1])
 
     def is_peer_of(self, dig, row, col, box_height, box_width):
         """
