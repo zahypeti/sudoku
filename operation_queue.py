@@ -97,4 +97,5 @@ class OperationQueue:
                 others.append(item)
 
         # Enqueue peers then non-peers to self._deque
-        self._deque += (peers + others)
+        self._deque += peers
+        self._deque += others
