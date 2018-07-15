@@ -160,11 +160,11 @@ class Board:
 
         # Check if digit is actually a candidate in the given square
         if not self._board[digit, row, col]:
-            # return
+            msg = '[_add({}, {}, {})]'.format(digit, row, col)
+            print(msg)
             raise ValueError(
-                f'[_add({digit}, {row}, {col})] '
-                f'{digit+1} is not a candidate at ({row+1},{col+1})'
-            )
+                '{} is not a candidate at ({},{})'.format(
+                    digit+1, row+1, col+1))
 
         # Remove peer candidates
         row_slice, col_slice = rows_cols(row, col,
@@ -229,7 +229,7 @@ class Board:
                     self._add(digit, row, col)
                 else:
                     self.__init__(self._box_height, self._box_width)
-                    msg = f"Clash found at ({row+1}, {col+1})"
+                    msg = "Clash found at ({}, {})".format(row+1, col+1)
                     raise ValueError(msg)
 
             # Increase the position in the iterable
@@ -344,7 +344,7 @@ class Board:
 
         success = self.quick_fill()
         if not success:
-            # msg = 'Clash found during the solution of the board.'
+            # Clash found during the solution of the board
             return False, depth
         
         # Check if finished, FIXME
@@ -352,8 +352,7 @@ class Board:
         # Check if there are no-candidate squares
         tpl = self._hidden_clash()
         if tpl:
-            # msg = (f'Hidden clash found during the solution of the board at '
-            #        f'{tpl}')
+            # Hidden clash found during the solution of the board at tpl
             return False, depth
         
         # Find a square not yet filled
