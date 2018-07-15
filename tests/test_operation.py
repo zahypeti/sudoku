@@ -1,6 +1,6 @@
 import unittest
 
-from operation import DIGIT_BOX, Operation, ROW_COLUMN
+from operation import DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, Operation, ROW_COLUMN
 
 
 class TestOperation(unittest.TestCase):
@@ -17,6 +17,11 @@ class TestOperation(unittest.TestCase):
         # Then
         self.assertEqual(expected_inspects, operation.inspects)
         self.assertEqual(expected_indices, operation.indices)
+
+    def test_operation_repr(self):
+        expected = "Operation('digcol', 1, 2)"
+        operation = Operation(DIGIT_COLUMN, 1, 2)
+        self.assertEqual(expected, repr(operation))
 
     def test_operation_peer(self):
         # Given
