@@ -285,13 +285,16 @@ class TestQuickFill(unittest.TestCase):
         self.assertTrue(result)
 
 
-class TestSolve(unittest.TestCase):
+class TestSolve1x1(unittest.TestCase):
 
-    def test_solve_empty_1x1(self):
+    def test_solve_empty(self):
         board_1x1 = Board(1)
         result = board_1x1.solve()
         self.assertTrue(result)
         self.assertEqual('1\n', str(board_1x1))
+
+
+class TestSolve2x2(unittest.TestCase):
 
     def test_solve_empty_2x2(self):
         board_2x2 = Board(1, 2)
@@ -300,6 +303,9 @@ class TestSolve(unittest.TestCase):
         # Check that it finds one of the results
         self.assertIn(str(board_2x2), ['12\n21\n', '21\n12\n'])
 
+
+class TestSolve3x3(unittest.TestCase):
+
     def test_solve_empty_3x3(self):
         board_3x3 = Board(1, 3)
         result = board_3x3.solve()
@@ -307,25 +313,15 @@ class TestSolve(unittest.TestCase):
         # Check that it finds the "first" result
         self.assertIn(str(board_3x3), ['123\n231\n312\n'])
 
+
+class TestSolve4x4(unittest.TestCase):
+
     def test_solve_empty_4x4(self):
         board_4x4 = Board(4)
         result = board_4x4.solve()
         self.assertTrue(result)
         # Check that it finds the "first" result
         self.assertIn(str(board_4x4), ['1234\n3412\n2143\n4321\n'])
-
-    def test_filled_board(self):
-        # Given
-        board = Board(4)
-        s = '1234432121433412'
-
-        # When
-        board.from_str(s)
-        success = board.solve()
-        print(success)
-
-        # Then
-        self.assertTrue(success)
 
     def test_board_almost_filled(self):
         # Given
@@ -339,7 +335,22 @@ class TestSolve(unittest.TestCase):
         # Then
         self.assertTrue(result)
 
-    def test_empty_3x3_board(self):
+    def test_filled_board(self):
+        # Given
+        board = Board(4)
+        s = '1234432121433412'
+
+        # When
+        board.from_str(s)
+        success = board.solve()
+
+        # Then
+        self.assertTrue(success)
+
+
+class TestSolve9x9(unittest.TestCase):
+
+    def test_empty_board(self):
         # Given
         board = Board()
 
@@ -349,7 +360,7 @@ class TestSolve(unittest.TestCase):
         # Then
         self.assertTrue(success)
 
-    def test_solve_almost_empty_3x3(self):
+    def test_solve_almost_empty(self):
         board = Board()
         board._add(0, 0, 0)
 
