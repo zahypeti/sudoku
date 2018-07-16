@@ -322,7 +322,7 @@ class TestSolve2x2(unittest.TestCase):
 
 class TestSolve3x3(unittest.TestCase):
 
-    def test_solve_empty_3x3(self):
+    def test_solve_empty(self):
         board_3x3 = Board(1, 3)
         result = board_3x3.solve()
         self.assertTrue(result)
@@ -331,32 +331,38 @@ class TestSolve3x3(unittest.TestCase):
 
 class TestSolve4x4(unittest.TestCase):
 
-    def test_solve_empty_4x4(self):
-        board_4x4 = Board(4)
-        result = board_4x4.solve()
-        self.assertTrue(result)
-        self.assertEqual(0, board_4x4.empties)
+    def setUp(self):
+        self.board = Board(4)
 
-    def test_board_almost_filled(self):
+    def test_solve_empty(self):
+        result = self.board.solve()
+        self.assertTrue(result)
+        self.assertEqual(0, self.board.empties)
+
+    def test_solve_almost_filled_board(self):
         # Given
-        board = Board(4)
         s = '12344321...33412'
+        self.board.from_str(s)
 
         # When
-        board.from_str(s)
-        result = board.solve()
+        result = self.board.solve()
 
         # Then
         self.assertTrue(result)
 
-    def test_filled_board(self):
+    def test_extra_hard_board(self):
+        self.board.from_str('4......23......1')
+        res = self.board.solve()
+        self.assertTrue(res)
+        self.assertEqual('4213\n1342\n3124\n2431\n', str(self.board))
+
+    def test_solve_filled_board(self):
         # Given
-        board = Board(4)
         s = '1234432121433412'
+        self.board.from_str(s)
 
         # When
-        board.from_str(s)
-        success = board.solve()
+        success = self.board.solve()
 
         # Then
         self.assertTrue(success)
