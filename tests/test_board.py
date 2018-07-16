@@ -326,8 +326,7 @@ class TestSolve3x3(unittest.TestCase):
         board_3x3 = Board(1, 3)
         result = board_3x3.solve()
         self.assertTrue(result)
-        # Check that it finds the "first" result
-        self.assertIn(str(board_3x3), ['123\n231\n312\n'])
+        self.assertEqual(0, board_3x3.empties)
 
 
 class TestSolve4x4(unittest.TestCase):
@@ -336,8 +335,7 @@ class TestSolve4x4(unittest.TestCase):
         board_4x4 = Board(4)
         result = board_4x4.solve()
         self.assertTrue(result)
-        # Check that it finds the "first" result
-        self.assertIn(str(board_4x4), ['1234\n3412\n2143\n4321\n'])
+        self.assertEqual(0, board_4x4.empties)
 
     def test_board_almost_filled(self):
         # Given
