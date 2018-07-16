@@ -235,6 +235,19 @@ class Board:
             # Increase the position in the iterable
             i += 1
 
+    def from_file(self, file_name):
+        """
+        Fills in this sudoku board with the contents of the given *.txt file.
+
+        Parameters
+        ----------
+        file_name : str
+            The name of the input file to read.
+        """
+        with open(file_name, 'r') as fp:
+            string = fp.read()
+            self.from_str(string)
+
     def quick_fill(self):
         """
         Fill in the obvious digits in place.

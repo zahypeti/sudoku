@@ -128,6 +128,14 @@ class TestFromStr(unittest.TestCase):
         self.assertEqual('1234\n....\n....\n....\n', str(board_4x4))
 
 
+class TestFromTxt(unittest.TestCase):
+
+    def test_from_txt(self):
+        fname = 'tests/examples/rectangular_2x3/example1.txt'
+        board = Board(2, 3)
+        board.from_file(fname)
+
+
 class TestQuickFill(unittest.TestCase):
 
     def test_quickfill_empty_1x1(self):
