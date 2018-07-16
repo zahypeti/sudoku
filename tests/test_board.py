@@ -293,15 +293,31 @@ class TestSolve1x1(unittest.TestCase):
         self.assertTrue(result)
         self.assertEqual('1\n', str(board_1x1))
 
+    def test_solve_full(self):
+        board = Board(1)
+        board.from_str('1')
+
+        result = board.solve()
+
+        self.assertTrue(result)
+        self.assertEqual('1\n', str(board))
+
 
 class TestSolve2x2(unittest.TestCase):
 
-    def test_solve_empty_2x2(self):
+    def test_solve_empty(self):
         board_2x2 = Board(1, 2)
         result = board_2x2.solve()
         self.assertTrue(result)
         # Check that it finds one of the results
         self.assertIn(str(board_2x2), ['12\n21\n', '21\n12\n'])
+
+    def test_solve_full(self):
+        board = Board(1, 2)
+        board.from_str('2112')
+        res = board.solve()
+        self.assertTrue(res)
+        self.assertEqual('21\n12\n', str(board))
 
 
 class TestSolve3x3(unittest.TestCase):
