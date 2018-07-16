@@ -339,6 +339,13 @@ class TestSolve4x4(unittest.TestCase):
         self.assertTrue(result)
         self.assertEqual(0, self.board.empties)
 
+    def test_solve_almost_empty(self):
+        self.board.from_str('.4..0000....0000')
+        res = self.board.solve()
+        print(self.board)
+        self.assertTrue(res)
+        self.assertEqual(0, self.board.empties)
+
     def test_solve_almost_filled_board(self):
         # Given
         s = '12344321...33412'
