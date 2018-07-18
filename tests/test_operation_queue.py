@@ -1,3 +1,4 @@
+from collections import deque
 import unittest
 
 from operation import DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, Operation, ROW_COLUMN
@@ -121,6 +122,13 @@ class TestOperationQueue(unittest.TestCase):
 
         # Then
         self.assertEqual(operations, result)
+
+    def test_deque_iadd(self):
+        d = deque('a')
+        d += 'bcd'
+        self.assertEqual(list(d), list('abcd'))
+        d += d
+        self.assertEqual(list(d), list('abcdabcd'))
 
     def test_remove_rearrange_single_operation(self):
         # Given
