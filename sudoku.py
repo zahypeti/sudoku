@@ -160,8 +160,18 @@ class Sudoku:
                 # Use 1-based indexing internally (and 0 for empty squares)
                 self.board[row][col] = int(char, base=36)
 
-    def from_file(self):
-        pass
+    def from_txt_file(self, file_name):
+        """
+        Fills in this sudoku board with the contents of the given *.txt file.
+
+        Parameters
+        ----------
+        file_name : str
+            The name of the input file to read.
+        """
+        with open(file_name, 'r') as fp:
+            string = fp.read()
+            self.from_str(string)
 
     def solve(self):
         # Instatiate the solver object with the current state of the board

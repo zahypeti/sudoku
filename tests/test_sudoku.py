@@ -111,3 +111,11 @@ class TestFromStr(unittest.TestCase):
         sudoku_4x4 = Sudoku(4)
         sudoku_4x4.from_str(string)
         self.assertEqual(sudoku_4x4.board, [[1, 2, 3, 4], [0]*4, [0]*4, [0]*4])
+
+
+class TestFromTxtFile(unittest.TestCase):
+
+    def test_from_txt_file(self):
+        fname = 'tests/examples/rectangular_2x3/example1.txt'
+        board = Sudoku(2, 3)
+        board.from_txt_file(fname)
