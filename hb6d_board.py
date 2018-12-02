@@ -370,17 +370,26 @@ class HB6DBoard(object):
             # Inspect a number in a single row
             if np.count_nonzero(self._cells[_p, _q, _r, _s, :, :]) == 0:
                 msg = "Inconsistency found for _num {} in _row {}."
-                raise ValueError(msg.format(3 * _p + _q, 3 * _r + _s))
+                raise ConsistencyError(
+                    msg.format(3 * _p + _q, 3 * _r + _s),
+                    (_p, _q, _r, _s, None, None)
+                )
 
             # Inspect a number in a single column
             if np.count_nonzero(self._cells[_p, _q, :, :, _r, _s]) == 0:
                 msg = "Inconsistency found for _num {} in _col {}."
-                raise ValueError(msg.format(3 * _p + _q, 3 * _r + _s))
+                raise ConsistencyError(
+                    msg.format(3 * _p + _q, 3 * _r + _s),
+                    (_p, _q, None, None, _r, _s)
+                )
 
             # Inspect a number in a single box
             if np.count_nonzero(self._cells[_p, _q, _r, :, _s, :]) == 0:
                 msg = "Inconsistency found for _num {} in _box {}."
-                raise ValueError(msg.format(3 * _p + _q, 3 * _r + _s))
+                raise ConsistencyError(
+                    msg.format(3 * _p + _q, 3 * _r + _s),
+                    (_p, _q, None, _r, None, _s)
+                )
 
     def _recursive_solve(self):
         """
