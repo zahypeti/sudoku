@@ -162,7 +162,7 @@ class HB6DBoard(object):
         # Set numcol peers to False
         self._cells[_num_div3, _num_mod3, :, :, _boxcol, _subcol] = False
         # Set numrow peers to False
-        self._cells[_num_div3, _num_mod3, _boxrow, _boxcol, :, :] = False
+        self._cells[_num_div3, _num_mod3, _boxrow, _subrow, :, :] = False
         # Set numbox peers to False
         self._cells[_num_div3, _num_mod3, _boxrow, :, _boxcol, :] = False
 
@@ -196,8 +196,8 @@ class HB6DBoard(object):
                     try:
                         obj._put(_idx)
                     except ValueError:
-                        msg = "Clash found during instantiation."
-                        raise ValueError(msg)
+                        msg = "Clash found during instantiation: {} ({}, {})."
+                        raise ValueError(msg.format(number, _row+1, _col+1))
 
         return obj
 
@@ -277,3 +277,33 @@ class HB6DBoard(object):
         except ValueError:
             msg = ""
             raise ValueError(msg)
+
+    def _quick_fill(self):
+
+        # Repeat until there are definitely no more insertions
+        for _ in range(81):
+
+            for _linear_idx in range(np.prod(self._shape[:4])):
+
+                # Fix four out of the six coordinates
+                _p, _q, _r, _s = np.unravel_index(_linear_idx, self._shape[:4])
+
+                # Inspect a single square
+                x, y = self._cells[:, :, _p, _q, _r, _s].nonzero()
+                if len(x) == 1:
+                    self._put((x[0], y[0], _p, _q, _r, _s))
+
+                # Inspect a number in a single row
+                x, y = self._cells[_p, _q, _r, _s, :, :].nonzero()
+                if len(x) == 1:
+                    self._put((_p, _q, _r, _s, x[0], y[0]))
+
+                # Inspect a number in a single column
+                x, y = self._cells[_p, _q, :, :, _r, _s].nonzero()
+                if len(x) == 1:
+                    self._put((_p, _q, x[0], y[0], _r, _s))
+
+                # Inspect a number in a single box
+                x, y = self._cells[_p, _q, _r, :, _s, :].nonzero()
+                if len(x) == 1:
+                    self._put((_p, _q, _r, x[0], _s, y[0]))
