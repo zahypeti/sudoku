@@ -1,3 +1,5 @@
+import copy
+
 import numpy as np
 
 
@@ -29,6 +31,29 @@ _STR_HORIZONTAL_SEP_SMALL = '\n'
 _STR_VERTICAL_SQUARE_MEDIUM = ' | '
 
 _STR_VERTICAL_SEP_SMALL = ' '
+
+
+class ConsistencyError(Exception):
+    """
+    Exception type for signalling the inconsistency of the sudoku board.
+    """
+    def __init__(self, message, _idx=None):
+        """
+        Initialise this Exception object.
+
+        Parameters
+        ----------
+        message : unicode
+            Error message used for reporting.
+        _idx : tuple of int or None of shape (6,) or None, optional
+            Coordinates of the HB6DBoard object's boolean array that
+            correspond to the found inconsistency. Default is None.
+        """
+        self.message = message
+        self._idx = _idx
+
+    def __str__(self):
+        return self.message
 
 
 class HB6DBoard(object):
@@ -307,3 +332,110 @@ class HB6DBoard(object):
                 x, y = self._cells[_p, _q, _r, :, _s, :].nonzero()
                 if len(x) == 1:
                     self._put((_p, _q, _r, x[0], _s, y[0]))
+
+    def _check_consistency(self):
+        """
+        Raise if it's obvious that the sudoku board has no solutions.
+
+        Check the consistency of the underlying boolean array of this
+        instance by verifying that every square has at least one candidate.
+        Perform similar checks for all numrow, numcol, and numbox
+        entities too.
+
+        Note: this function doesn't guarantee that the board is invalid. It
+        performs a simple check that might or might not indicate inconsistency.
+
+        Raises
+        ------
+        ConsistencyError
+            If the board is found to be inconsistent.
+
+            Note: this function is not guaranteed to raise for every invalid
+            sudoku board.
+        """
+
+        for _linear_idx in range(np.prod(self._shape[:4])):
+
+            # Fix four out of the six coordinates
+            _p, _q, _r, _s = np.unravel_index(_linear_idx, self._shape[:4])
+
+            # Inspect a single square
+            if np.count_nonzero(self._cells[:, :, _p, _q, _r, _s]) == 0:
+                msg = "Inconsistency found at _row {} and _col {}."
+                raise ConsistencyError(
+                    msg.format(3 * _p + _q, 3 * _r + _s),
+                    (None, None, _p, _q, _r, _s)
+                )
+
+            # Inspect a number in a single row
+            if np.count_nonzero(self._cells[_p, _q, _r, _s, :, :]) == 0:
+                msg = "Inconsistency found for _num {} in _row {}."
+                raise ValueError(msg.format(3 * _p + _q, 3 * _r + _s))
+
+            # Inspect a number in a single column
+            if np.count_nonzero(self._cells[_p, _q, :, :, _r, _s]) == 0:
+                msg = "Inconsistency found for _num {} in _col {}."
+                raise ValueError(msg.format(3 * _p + _q, 3 * _r + _s))
+
+            # Inspect a number in a single box
+            if np.count_nonzero(self._cells[_p, _q, _r, :, _s, :]) == 0:
+                msg = "Inconsistency found for _num {} in _box {}."
+                raise ValueError(msg.format(3 * _p + _q, 3 * _r + _s))
+
+    def _recursive_solve(self):
+        """
+        Solve completely this board, in-place.
+
+        Raises
+        ------
+        ConsistencyError
+            If a clash is found during the solution.
+        """
+
+        # Fill in some easy squares
+        self._quick_fill()
+
+        # Raise if an inconsistency is found
+        self._check_consistency()
+
+        # Find an empty square
+        for _linear_idx in range(np.prod(self._shape[:4])):
+
+            # Fix four out of six coordinates
+            _p, _q, _r, _s = np.unravel_index(_linear_idx, self._shape[:4])
+
+            # Inspect a single square
+            x, y = self._cells[:, :, _p, _q, _r, _s].nonzero()
+            if 1 < len(x):
+                # There are more than one candidate numbers in this square
+                break
+        else:
+            # Didn't raise due to inconsistency (so every square has at least
+            # one candidate), and no empty square found (i.e. squares have
+            # at most one candidate), so (one of) the solution(s) is found
+            return
+
+        # Try a different valid candidate on each iteration
+        for _num_div3, _num_mod3 in zip(x, y):
+
+            # Deepcopy this board
+            new = copy.deepcopy(self)
+            # Insert this candidate number to the square
+            new._put((_num_div3, _num_mod3, _p, _q, _r, _s))
+
+            # Try solving the slightly simpler board recursively
+            try:
+                new._recursive_solve()
+            except ConsistencyError:
+                # Clash found with this candidate number
+                del new
+                continue
+            # One solution found, so copy its data (the boolean array)
+            self._cells = new._cells
+            return
+
+        else:
+            # No candidate number results in a valid solution
+            # This indicates an inconsistency (that's not detected by the
+            # simple _check_inconsistency() method)
+            raise ValueError('No solution found.')
