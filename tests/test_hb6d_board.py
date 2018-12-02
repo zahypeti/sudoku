@@ -358,6 +358,50 @@ class TestConsistencyCheck(unittest.TestCase):
         # Also, ensure candidates are the same in every square
         self.assertEqual(repr_after, repr_before)
 
+    def test_consistency_check_doesnt_always_raise(self):
+        """
+        This test demonstrates that the `_check_consistency()` method
+        doesn't necessarily raise for an inconsistent board.
+        """
+        # Create a sudoku board that is invalid, but in a non-obvious way
+        # In square (2, 8) neither of the two candidates (4 and 9) lead
+        # to a valid solution (so the board has no solution), but this is
+        # not discovered by `_consistency_check()`.
+        squares = [
+            [4, 1, 7, 3, 6, 9, 8, 2,    5],
+            [2, 3, 6, 1, 5, 8, 7, None, 0],
+            [0, 5, 0, 7, 2, 4, 0, 1,    0],
+            [0, 2, 5, 4, 3, 7, 1, 6,    0],
+            [0, 0, 1, 0, 8, 0, 4, 0,    0],
+            [0, 4, 0, 0, 1, 0, 0, 0,    0],
+            [0, 0, 2, 6, 4, 3, 5, 7,    1],
+            [5, 0, 3, 2, 0, 1, 0, 0,    0],
+            [1, 0, 4, 8, 0, 5, 0, 0,    0],
+        ]
+        # Try the first candidate number: 4
+        board_1 = HB6DBoard.from_array(squares)
+        board_1.insert(4, 2, 8)
+        with self.assertRaises(ConsistencyError):
+            board_1._quick_fill()
+            board_1._check_consistency()
+        # Try the second candidate number: 9
+        board_1 = HB6DBoard.from_array(squares)
+        board_1.insert(9, 2, 8)
+        with self.assertRaises(ConsistencyError):
+            board_1._quick_fill()
+            board_1._check_consistency()
+
+        # Given
+        board = HB6DBoard.from_array(squares)
+        # Make sure that there are no other candidates
+        self.assertEqual(board.candidates(2, 8), [4, 9])
+
+        # When
+        board._check_consistency()
+
+        # Then
+        # No errors
+
 
 class TestRecursiveSolve(unittest.TestCase):
 
@@ -508,4 +552,41 @@ class TestRecursiveSolve(unittest.TestCase):
         board._recursive_solve()
 
         # Then
+        self.assertEqual(str(board), expected_str)
+
+    def test_recursive_solve_strange_board(self):
+        """
+        See `test_consistency_check_doesnt_always_raise`.
+        """
+        # Recursively solving this board happens to exercise the rare case
+        # when the `_recursive_solve()` method raises because of an
+        # inconsistency that isn't detected by `_consistency_check()`.
+        squares = [
+            [4,    1,    7,    3,    6,    9,    8,    2,    5],
+            [None, 3,    None, 1,    5,    8,    None, None, None],
+            [None, None, None, 7,    2,    4,    None, 1,    None],
+            [None, 2,    5,    4,    3,    7,    1,    6,    None],
+            [None, None, 1,    None, 8,    None, 4,    None, None],
+            [None, 4,    None, None, 1,    None, None, None, None],
+            [None, None, None, 6,    4,    3,    5,    7,    1],
+            [5,    None, 3,    2,    None, 1,    None, None, None],
+            [1,    None, 4,    8,    None, 5,    None, None, None],
+        ]
+        expected_str = (
+            "4 1 7 | 3 6 9 | 8 2 5\n"
+            "6 3 2 | 1 5 8 | 9 4 7\n"
+            "9 5 8 | 7 2 4 | 3 1 6\n"
+            "---------------------\n"
+            "8 2 5 | 4 3 7 | 1 6 9\n"
+            "7 9 1 | 5 8 6 | 4 3 2\n"
+            "3 4 6 | 9 1 2 | 7 5 8\n"
+            "---------------------\n"
+            "2 8 9 | 6 4 3 | 5 7 1\n"
+            "5 7 3 | 2 9 1 | 6 8 4\n"
+            "1 6 4 | 8 7 5 | 2 9 3\n"
+        )
+        board = HB6DBoard.from_array(squares)
+
+        board._recursive_solve()
+
         self.assertEqual(str(board), expected_str)

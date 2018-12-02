@@ -445,6 +445,6 @@ class HB6DBoard(object):
 
         else:
             # No candidate number results in a valid solution
-            # This indicates an inconsistency (that's not detected by the
-            # simple _check_inconsistency() method)
-            raise ValueError('No solution found.')
+            # This indicates an inconsistency (which is not detected by the
+            # simple `_check_inconsistency()` method)
+            raise ConsistencyError('No solution found.')
