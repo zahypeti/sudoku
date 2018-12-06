@@ -306,7 +306,9 @@ class HB6DBoard(object):
     def _quick_fill(self):
 
         # Repeat until there are definitely no more insertions
-        for _ in range(81):
+        # Assume that there are at least 17 squares filled in, so it's
+        # enough to iterate 81 - 17 = 64 times
+        for _ in range(64):
 
             for _linear_idx in range(np.prod(self._shape[:4])):
 
