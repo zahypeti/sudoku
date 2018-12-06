@@ -563,30 +563,17 @@ class TestRecursiveSolve(unittest.TestCase):
         # inconsistency that isn't detected by `_consistency_check()`.
         squares = [
             [4,    1,    7,    3,    6,    9,    8,    2,    5],
-            [None, 3,    None, 1,    5,    8,    None, None, None],
-            [None, None, None, 7,    2,    4,    None, 1,    None],
+            [2,    3,    6,    1,    5,    8,    7,    None, None],
+            [None, 5,    None, 7,    2,    4,    None, 1,    None],
             [None, 2,    5,    4,    3,    7,    1,    6,    None],
             [None, None, 1,    None, 8,    None, 4,    None, None],
             [None, 4,    None, None, 1,    None, None, None, None],
-            [None, None, None, 6,    4,    3,    5,    7,    1],
+            [None, None, 2,    6,    4,    3,    5,    7,    1],
             [5,    None, 3,    2,    None, 1,    None, None, None],
             [1,    None, 4,    8,    None, 5,    None, None, None],
         ]
-        expected_str = (
-            "4 1 7 | 3 6 9 | 8 2 5\n"
-            "6 3 2 | 1 5 8 | 9 4 7\n"
-            "9 5 8 | 7 2 4 | 3 1 6\n"
-            "---------------------\n"
-            "8 2 5 | 4 3 7 | 1 6 9\n"
-            "7 9 1 | 5 8 6 | 4 3 2\n"
-            "3 4 6 | 9 1 2 | 7 5 8\n"
-            "---------------------\n"
-            "2 8 9 | 6 4 3 | 5 7 1\n"
-            "5 7 3 | 2 9 1 | 6 8 4\n"
-            "1 6 4 | 8 7 5 | 2 9 3\n"
-        )
         board = HB6DBoard.from_array(squares)
 
-        board._recursive_solve()
-
-        self.assertEqual(str(board), expected_str)
+        with self.assertRaises(ConsistencyError) as exc_cm:
+            board._recursive_solve()
+        self.assertEqual("No solution found.", str(exc_cm.exception))
