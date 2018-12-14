@@ -1,7 +1,6 @@
-|CircleCI|_
-
-.. |CirrusCI| image:: https://api.cirrus-ci.com/github/pzahemszky/sudoku.svg
-.. _CirrusCI: https://cirrus-ci.com/github/pzahemszky/sudoku
+[
+  ![CirrusCI](https://api.cirrus-ci.com/github/pzahemszky/sudoku.svg)
+](https://cirrus-ci.com/github/pzahemszky/sudoku)
 
 # sudoku
 
