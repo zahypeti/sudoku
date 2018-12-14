@@ -1,3 +1,7 @@
+[
+  ![CirrusCI](https://api.cirrus-ci.com/github/pzahemszky/sudoku.svg)
+](https://cirrus-ci.com/github/pzahemszky/sudoku)
+
 # sudoku
 
 A Python implementation of a sudoku solver, using my own 3D `bool` data structure as well as my `quick_fill` & recursion strategies.
