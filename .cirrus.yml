@@ -2,4 +2,8 @@ container:
   image: python:latest
 
 test_task:
-  test_script: python -m unittest test_board.py
+  test_script:
+    pwd
+    ls
+    echo $CIRRUS_WORKING_DIR
+    python -m unittest test_board.py
