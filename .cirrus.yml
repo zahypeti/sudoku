@@ -2,11 +2,5 @@ container:
   image: python:latest
 
 test_task:
-  pwd_script:
-    pwd
-  ls_script:
-    ls
-  env_script:
-    echo $CIRRUS_WORKING_DIR
-  test_script:
-    python -m unittest $CIRRUS_WORKING_DIR/test_board.py
+  test_indexing_script:
+    python -m unittest $CIRRUS_WORKING_DIR/tests/test_indexing.py
