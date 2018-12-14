@@ -430,20 +430,20 @@ class HB6DBoard(object):
         for _num_div3, _num_mod3 in zip(x, y):
 
             # Deepcopy this board
-            new = copy.deepcopy(self)
+            child_board = copy.deepcopy(self)
             # Insert this candidate number to the square
-            new._put((_num_div3, _num_mod3, _p, _q, _r, _s))
+            child_board._put((_num_div3, _num_mod3, _p, _q, _r, _s))
 
             # Try solving the slightly simpler board recursively
             try:
-                new._recursive_solve()
+                child_board._recursive_solve()
             except ConsistencyError:
                 # Clash found with this candidate number
-                del new
+                del child_board
                 continue
             # One solution found, so copy its data (the boolean array)
-            self._cells = new._cells
-            del new
+            self._cells = child_board._cells
+            del child_board
             return
 
         else:
