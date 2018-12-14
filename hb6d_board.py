@@ -443,6 +443,7 @@ class HB6DBoard(object):
                 continue
             # One solution found, so copy its data (the boolean array)
             self._cells = new._cells
+            del new
             return
 
         else:
