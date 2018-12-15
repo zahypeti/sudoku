@@ -1,31 +1,31 @@
-#linux_test_task:
-#  name: test (Linux)
-#  container:
-#    image: python:latest
-#  test_indexing_script:
-#    python -m unittest tests.test_indexing
-#
-#windows_test_task:
-#  name: test (Windows)
-#  windows_container:
-#    image: python:latest
-#  test_indexing_script:
-#    python -m unittest tests.test_indexing
-
-osx_instance:
-  image: mojave-base
-
-macos_test_task:
-  name: test (macOS)
+linux_test_task:
+  name: test (Linux)
   container:
     image: python:latest
   test_indexing_script:
     python -m unittest tests.test_indexing
 
-#freebsd_test_task:
-#  name: test (FreeBSD)
-#  freebsd_instance:
-#    image: freebsd-11-2-release-amd64
-#    image: python:latest
-#  test_indexing_script:
-#    python -m unittest tests.test_indexing
+windows_test_task:
+  name: test (Windows)
+  windows_container:
+    image: python:latest
+  test_indexing_script:
+    python -m unittest tests.test_indexing
+
+macos_test_task:
+  name: test (macOS)
+  osx_instance:
+    image: mojave-base
+  container:
+    image: python:latest
+  test_indexing_script:
+    python -m unittest tests.test_indexing
+
+freebsd_test_task:
+  name: test (FreeBSD)
+  freebsd_instance:
+    image: freebsd-11-2-release-amd64
+  container:
+    image: python:latest
+  test_indexing_script:
+    python -m unittest tests.test_indexing
