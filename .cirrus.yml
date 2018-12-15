@@ -26,12 +26,12 @@ macos_test_task:
   osx_instance:
     image: mojave-base
   container:
-    matrix:
-      image: python:latest
-      image: python:3.7
-      image: python:3.6
-      image: python:3.5
-      image: python:3.4
+#    matrix:
+    image: python:latest
+#      image: python:3.7
+#      image: python:3.6
+#      image: python:3.5
+#      image: python:3.4
   test_indexing_script:
     python -m unittest tests.test_indexing
 
