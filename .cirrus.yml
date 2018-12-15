@@ -14,6 +14,8 @@ task:
           image: python:3.7
           image: python:3.6
           # No Python 3.4 or 3.5 for Windows
+      info_script:
+        echo $Env:OS
 
     - name: indexing test (macOS)
       osx_instance:
