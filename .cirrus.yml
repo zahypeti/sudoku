@@ -21,20 +21,20 @@ windows_test_task:
   test_indexing_script:
     python -m unittest tests.test_indexing
 
-#  macos_test_task:
-#    name: test (macOS)
-#    osx_instance:
-#      image: mojave-base
-#    container:
-#      matrix:
-#        image: python:latest
-#        image: python:3.7
-#        image: python:3.6
-#        image: python:3.5
-#        image: python:3.4
-#    test_indexing_script:
-#      python -m unittest tests.test_indexing
-#
+macos_test_task:
+  name: test (macOS)
+  osx_instance:
+    image: mojave-base
+  container:
+    matrix:
+      image: python:latest
+      image: python:3.7
+      image: python:3.6
+      image: python:3.5
+      image: python:3.4
+  test_indexing_script:
+    python -m unittest tests.test_indexing
+
 #  freebsd_test_task:
 #    name: test (FreeBSD)
 #    freebsd_instance:
