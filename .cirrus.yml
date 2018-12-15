@@ -15,10 +15,8 @@ windows_test_task:
   windows_container:
     matrix:
       image: python:latest
-      image: python:3.7
-      image: python:3.6
-      image: python:3.5
-      image: python:3.4
+      image: python:3.7-windowsservercore-ltsc2016
+      image: python:3.6-windowsservercore-ltsc2016
   test_indexing_script:
     python -m unittest tests.test_indexing
 
