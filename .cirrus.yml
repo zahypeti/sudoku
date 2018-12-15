@@ -1,44 +1,39 @@
-linux_task:
-  name: indexing test (Linux)
-  container:
-    matrix:
-      image: python:3.7
-      image: python:3.6
-      image: python:3.5
-      image: python:3.4
-  test_indexing_script:
-    python -m unittest tests.test_indexing
+task:
+  matrix:
+    - name: indexing test (Linux)
+      container:
+        matrix:
+          image: python:3.7
+          image: python:3.6
+          image: python:3.5
+          image: python:3.4
 
-windows_task:
-  name: indexing test (Windows)
-  windows_container:
-    matrix:
-      image: python:3.7
-      image: python:3.6
-      # No Python 3.4 or 3.5 for Windows
-  test_indexing_script:
-    python -m unittest tests.test_indexing
+    - name: indexing test (Windows)
+      windows_container:
+        matrix:
+          image: python:3.7
+          image: python:3.6
+          # No Python 3.4 or 3.5 for Windows
 
-macos_task:
-  name: indexing test (macOS)
-  osx_instance:
-    matrix:
-      image: mojave-base
-      image: high-sierra-base
-  container:
-    image: python:latest
-  test_indexing_script:
-    python -m unittest tests.test_indexing
+    - name: indexing test (macOS)
+      osx_instance:
+        matrix:
+          image: mojave-base
+          image: high-sierra-base
+      container:
+        image: python:latest
 
-freebsd_task:
-  name: indexing test (FreeBSD)
-  freebsd_instance:
-    matrix:
-      image: freebsd-12-0-release-amd64
-      image: freebsd-11-2-release-amd64
-      image: freebsd-11-1-release-amd64
-      image: freebsd-10-4-release-amd64
-  container:
-    image: python:latest
+    - name: indexing test (FreeBSD)
+      freebsd_instance:
+        matrix:
+          image: freebsd-12-0-release-amd64
+          image: freebsd-11-2-release-amd64
+          image: freebsd-11-1-release-amd64
+          image: freebsd-10-4-release-amd64
+      container:
+        image: python:latest
+
   test_indexing_script:
+    python --version
     python -m unittest tests.test_indexing
+    uname -a
