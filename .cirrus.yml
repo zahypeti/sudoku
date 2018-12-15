@@ -1,11 +1,29 @@
 linux_test_task:
+  name: test (Linux)
   container:
     image: python:latest
   test_indexing_script:
     python -m unittest $CIRRUS_WORKING_DIR/tests/test_indexing.py
 
 windows_test_task:
+  name: test (Windows)
   windows_container:
+    image: python:latest
+  test_indexing_script:
+    python -m unittest tests\test_indexing.py
+
+macos_test_task:
+  name: test (macOS)
+  osx_instance:
+    image: mojave-base
+    image: python:latest
+  test_indexing_script:
+    python -m unittest tests\test_indexing.py
+
+freebsd_test_task:
+  name: test (FreeBSD)
+  freebsd_instance:
+    image: freebsd-11-2-release-amd64
     image: python:latest
   test_indexing_script:
     python -m unittest tests\test_indexing.py
