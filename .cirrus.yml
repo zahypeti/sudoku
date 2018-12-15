@@ -34,6 +34,6 @@ task:
         image: python:latest
 
   test_indexing_script:
-    python --version
-    python -m unittest tests.test_indexing
-    uname -a
+    - python --version
+    - python -m unittest tests.test_indexing
+    - uname -a
