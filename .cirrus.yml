@@ -33,6 +33,9 @@ task:
         # Use Python 2.7 for now
         image: python:latest
 
+  setup_script:
+    - pip install -r requirements.txt
+
   test_indexing_script:
     # Print Python version for easier debugging
     - python --version
