@@ -9,7 +9,7 @@ from operation import DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, ROW_COLUMN
 from operation_queue import OperationQueue
 
 
-class Board:
+class B3DBoard:
     """
     Object that holds the state of a (valid) sudoku board of a fixed size and
     provides methods for filling in some squares and solving it completely.
@@ -101,7 +101,7 @@ class Board:
 
     def __str__(self):
         """
-        User-friendly, readable string description of this Board instance
+        User-friendly, readable string description of this B3DBoard instance
         showing the current state of the sudoku board. Uses 1-based indexing
         for the digits and arranges them in a square. Shows dots (.) for the
         empty squares.
@@ -121,15 +121,15 @@ class Board:
 
     def __repr__(self):
         """
-        A short representation of this Board instance showing its size only.
+        A short representation of this B3DBoard instance showing its size only.
 
         Use this to create an instance with the initial (empty) state of a
         sudoku board that has the same size as this.
         """
         if self._box_height == self._box_width:
-            return 'Board({})'.format(self._side_length)
+            return 'B3DBoard({})'.format(self._side_length)
         else:
-            return 'Board({}, {})'.format(self._box_height, self._box_width)
+            return 'B3DBoard({}, {})'.format(self._box_height, self._box_width)
 
     def _add(self, digit, row, col):
         """
@@ -204,7 +204,7 @@ class Board:
 
         Examples
         --------
-        >>> board = Board(4)
+        >>> board = B3DBoard(4)
         >>> board.from_str('1234....4321....')
         """
 
