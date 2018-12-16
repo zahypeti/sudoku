@@ -577,3 +577,26 @@ class TestRecursiveSolve(unittest.TestCase):
         with self.assertRaises(ConsistencyError) as exc_cm:
             board._recursive_solve()
         self.assertEqual("No solution found.", str(exc_cm.exception))
+
+
+class TestSolve(unittest.TestCase):
+
+    def test_solve_invalid_board(self):
+        # Invalid board without candidates in the three empty squares
+        # Number 9 in square (1, 2) shouldn't be there (for example)
+        squares = np.array([
+            [4,    9,    3,    None, 2,    1,    6,    5,    7],
+            [None, 6,    7,    3,    4,    5,    8,    2,    1],
+            [2,    5,    1,    8,    7,    6,    4,    9,    3],
+            [5,    4,    8,    1,    3,    2,    9,    7,    6],
+            [7,    2,    9,    5,    6,    4,    1,    3,    8],
+            [1,    3,    6,    7,    9,    8,    2,    4,    5],
+            [3,    7,    2,    6,    8,    9,    5,    1,    4],
+            [8,    1,    4,    2,    5,    3,    7,    6,    9],
+            [6,    None, 5,    4,    1,    7,    3,    8,    2],
+        ])
+
+        board = HB6DBoard.from_array(squares)
+
+        with self.assertRaises(ConsistencyError):
+            board.solve()

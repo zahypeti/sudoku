@@ -451,3 +451,18 @@ class HB6DBoard(object):
             # This indicates an inconsistency (which is not detected by the
             # simple `_check_inconsistency()` method)
             raise ConsistencyError('No solution found.')
+
+    def solve(self):
+        """
+        Fill in this board with a solution.
+
+        Raises
+        ------
+        ConsistencyError
+            If a clash is found during the solution.
+        """
+        try:
+            self._recursive_solve()
+        except ConsistencyError:
+            msg = "No solution found."
+            raise ConsistencyError(msg)
