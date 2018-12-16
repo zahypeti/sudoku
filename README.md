@@ -36,7 +36,7 @@ A Python implementation of a sudoku solver, using my own 6D boolean array data s
 
 [//]: # (Note: keep this tested in tests.test_api)
 
-```python
+```
 >>> my_board.solve()
 >>> print(my_board)
 4 1 7 | 3 6 9 | 8 2 5
