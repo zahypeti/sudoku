@@ -1,6 +1,6 @@
 task:
   matrix:
-    - name: indexing test (Linux)
+    - name: test (Linux)
       container:
         matrix:
           image: python:3.7
@@ -8,14 +8,14 @@ task:
           image: python:3.5
           image: python:3.4
 
-    - name: indexing test (Windows)
+    - name: test (Windows)
       windows_container:
         matrix:
           image: python:3.7
           image: python:3.6
           # No Python 3.4 or 3.5 for Windows
 
-    - name: indexing test (macOS)
+    - name: test (macOS)
       osx_instance:
         matrix:
           image: mojave-base
@@ -24,7 +24,7 @@ task:
         # Use Python 2.7 for now
         image: python:latest
 
-    - name: indexing test (FreeBSD)
+    - name: test (FreeBSD)
       freebsd_instance:
         matrix:
           image: freebsd-12-0-release-amd64
