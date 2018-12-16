@@ -38,4 +38,4 @@ task:
   test_indexing_script:
     # Print Python version for easier debugging
     - python --version
-    - python -m unittest tests.test_indexing
+    - python -m unittest tests.test_hb6d_board
