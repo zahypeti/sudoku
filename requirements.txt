@@ -1,2 +1,0 @@
-# Dependencies used by pip install
-numpy >= 1.14.2
