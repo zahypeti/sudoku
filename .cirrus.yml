@@ -37,7 +37,7 @@ task:
         image: python:latest
       # Install Python 3
       python_script:
-        apt-get install python3
+        pkg install python3
 
   setup_script:
     # Use `pip install .` instead of `setup.py install`
