@@ -34,7 +34,8 @@ task:
         image: python:latest
 
   setup_script:
-    - python setup.py install
+    # Use `pip install .` instead of `setup.py install`
+    - python -m pip install --no-deps .
 
   test_script:
     # Print Python version for easier debugging
