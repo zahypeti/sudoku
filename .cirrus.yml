@@ -40,6 +40,8 @@ task:
         pkg install python3
 
   setup_script:
+    # Try to "bootstrap" pip
+    - python -m ensurepip --default-pip
     # Use `pip install .` instead of `setup.py install`
     - python -m pip install --no-deps .
 
