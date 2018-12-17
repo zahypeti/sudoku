@@ -34,10 +34,10 @@ task:
         image: python:latest
 
   setup_script:
-    - pip install -r requirements.txt
+    # Use `pip install .` instead of `setup.py install`
+    - python -m pip install --no-deps .
 
   test_script:
     # Print Python version for easier debugging
     - python --version
-    - python -m unittest tests.test_api
-    - python -m unittest tests.test_hb6d_board
+    - python setup.py test
