@@ -390,7 +390,7 @@ class HB6DBoard(object):
                 msg = "Inconsistency found for _num {} in _box {}."
                 raise ConsistencyError(
                     msg.format(3 * _p + _q, 3 * _r + _s),
-                    (_p, _q, None, _r, None, _s)
+                    (_p, _q, _r, None, _s, None)
                 )
 
     def _recursive_solve(self):
