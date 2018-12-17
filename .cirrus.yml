@@ -20,8 +20,9 @@ task:
           image: mojave-base
           image: high-sierra-base
       container:
-        # Use Python 2.7 for now
+        # Python 2.7 is the default
         image: python:latest
+      # Install Python 3
       python_script:
         - brew install python3
 
@@ -32,8 +33,11 @@ task:
           image: freebsd-11-1-release-amd64
           image: freebsd-10-4-release-amd64
       container:
-        # Use Python 2.7 for now
+        # Python 2.7 is the default
         image: python:latest
+      # Install Python 3
+      python_script:
+        apt-get install python3
 
   setup_script:
     # Use `pip install .` instead of `setup.py install`
