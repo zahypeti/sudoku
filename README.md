@@ -28,7 +28,7 @@ A Python implementation of a sudoku solver, using my own 6D boolean array data s
 [//]: # (Note: keep this tested in tests.test_api)
 
 ```python
->>> from api import Board
+>>> from sudoku.api import Board
 >>> my_board = Board.from_array(squares)
 ```
 
