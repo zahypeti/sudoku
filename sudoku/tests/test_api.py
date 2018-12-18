@@ -5,7 +5,8 @@ class TestReadme(unittest.TestCase):
 
     def test_readme(self):
         """
-        This test is covering the example script in README.md
+        This test is covering the example script in `README.md`.
+        Make sure it is up to date.
         """
         # Given
         squares = [
@@ -21,7 +22,7 @@ class TestReadme(unittest.TestCase):
         ]
 
         # When
-        from api import Board
+        from sudoku.api import Board
         my_board = Board.from_array(squares)
         my_board.solve()
         # Use str() instead of print() to keep the test output clean
