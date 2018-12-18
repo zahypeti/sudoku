@@ -8,5 +8,5 @@ setuptools.setup(
     # Requirements installed by `python setup.py install`
     install_requires=["numpy >= 1.14.2"],
     # Test run by `python setup.py test`
-    test_suite="sudoku.tests.test_hb6d_board",
+    test_suite="sudoku.tests",
 )
