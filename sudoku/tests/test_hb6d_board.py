@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from hb6d_board import ConsistencyError, HB6DBoard
+from sudoku.hb6d_board import ConsistencyError, HB6DBoard
 
 
 class TestHB6DBoard(unittest.TestCase):
@@ -307,7 +307,7 @@ class TestQuickFill(unittest.TestCase):
 
 class TestConsistencyCheck(unittest.TestCase):
 
-    def test_consistency_check_for_invalid_board(self):
+    def test_consistency_check_doesnt_mutate_board(self):
         # Invalid board without candidates in the three empty squares
         # Number 9 in square (1, 2) shouldn't be there (for example)
         squares = np.array([
@@ -329,11 +329,109 @@ class TestConsistencyCheck(unittest.TestCase):
         repr_after = repr(board)
 
         self.assertIn("Inconsistency found", str(exc_cm.exception))
-        # Reason for the inconsistency:
-        # no candidate number (None, None) at _row 0 (0, 0) and _col 3 (1, 0)
-        self.assertEqual(exc_cm.exception._idx, (None, None, 0, 0, 1, 0))
         # Make sure the `_check_consistency()` method doesn't change the board
         self.assertEqual(repr_after, repr_before)
+
+    def test_square_consistency_check(self):
+        """
+        Check that _consistency_check() raises when there is no candidate
+        number in the top left square.
+        """
+        squares = np.array([
+            [0, 2, 3, 4, 5, 6, 7, 8, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [9, 0, 0, 0, 0, 0, 0, 0, 0],
+        ])
+        board = HB6DBoard.from_array(squares)
+        # Nones are for 'no candidate', _row is 0, _col is 0
+        _expected_idx = (None, None, 0, 0, 0, 0)
+
+        with self.assertRaises(ConsistencyError) as exc_cm:
+            board._check_consistency()
+
+        self.assertEqual(exc_cm.exception._idx, _expected_idx)
+
+    def test_row_consistency_check(self):
+        """
+        Check that _consistency_check() raises when number 2 has no valid
+        place in the fourth row.
+        """
+        squares = np.array([
+            [2, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 3, 4, 5, 6, 7, 8, 9],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 2, 0, 0, 0, 0, 0, 0, 0],
+        ])
+        board = HB6DBoard.from_array(squares)
+        # _num is 1, _row is 3, Nones are for 'no column'
+        _expected_idx = (0, 1, 1, 0, None, None)
+
+        with self.assertRaises(ConsistencyError) as exc_cm:
+            board._check_consistency()
+
+        self.assertEqual(exc_cm.exception._idx, _expected_idx)
+
+    def test_column_consistency_check(self):
+        """
+        Check that _consistency_check() raises when number 3 has no valid
+        place in the last column.
+        """
+        squares = np.array([
+            [0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 3, 0, 0, 0, 0, 0],
+            [3, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 4],
+            [0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [0, 0, 0, 0, 0, 0, 0, 0, 6],
+            [0, 0, 0, 0, 0, 0, 0, 0, 7],
+            [0, 0, 0, 0, 0, 0, 0, 0, 8],
+            [0, 0, 0, 0, 0, 0, 0, 0, 9],
+        ])
+        board = HB6DBoard.from_array(squares)
+        # _num is 2, Nones are for 'no row', _col is 8
+        _expected_idx = (0, 2, None, None, 2, 2)
+
+        with self.assertRaises(ConsistencyError) as exc_cm:
+            board._check_consistency()
+
+        self.assertEqual(exc_cm.exception._idx, _expected_idx)
+
+    def test_box_consistency_check(self):
+        """
+        Check that _consistency_check() raises when number 4 has no valid
+        place in the middle box.
+        """
+        squares = np.array([
+            [0, 0, 0, 4, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 2, 3, 0, 0, 0],
+            [0, 0, 0, 0, 0, 6, 0, 0, 0],
+            [0, 0, 0, 7, 8, 9, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 4, 0, 0, 0, 0],
+        ])
+        board = HB6DBoard.from_array(squares)
+        # _num is 3, _boxrow is 1, _boxcol is 1
+        # Nones are for 'no _subrow or _subcol'
+        _expected_idx = (1, 0, 1, None, 1, None)
+
+        with self.assertRaises(ConsistencyError) as exc_cm:
+            board._check_consistency()
+
+        self.assertEqual(exc_cm.exception._idx, _expected_idx)
 
     def test_consistency_check_for_valid_board(self):
         # A valid sudoku board
