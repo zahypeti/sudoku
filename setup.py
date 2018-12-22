@@ -16,12 +16,18 @@ TROVE_CLASSIFIERS = [
 SHORT_DESCRIPTION = "A platform independent sudoku solver written in Python 3."
 
 
+with open('README.md') as f:
+    LONG_DESCRIPTION = f.read()
+
 setuptools.setup(
     name="sudoku",
     version="0.1.0",
 
     # Short description used by `pip`
     description=SHORT_DESCRIPTION,
+    # Long description used on PyPI
+    long_description=LONG_DESCRIPTION,
+    long_description_content_type='text/markdown',
     url="https://github.com/pzahemszky/sudoku",
     author="Peter Zahemszky",
     author_email="29452238+pzahemszky@users.noreply.github.com",
