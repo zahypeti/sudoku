@@ -35,7 +35,7 @@ task:
 
   setup_script:
     # Use `pip install .` instead of `setup.py install`
-    - python -m pip install --no-deps .
+    - python -m pip install .
 
   test_script:
     # Print Python version for easier debugging
