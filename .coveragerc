@@ -1,0 +1,6 @@
+# Configuration file to control coverage.py
+[run]
+# Measure branch coverage in addition to statement coverage
+branch = ON
+# Don't measure the Python standard library for now
+cover_pylib = OFF
