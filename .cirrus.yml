@@ -47,4 +47,5 @@ task:
     - coverage run setup.py test
 
   codecov_report_script:
+    - python -m pip install codecov
     - codecov --token=CODECOV_TOKEN
