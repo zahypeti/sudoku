@@ -43,6 +43,7 @@ task:
   test_script:
     # Print Python version for easier debugging
     - python --version
+    - python -m pip install coverage
     - coverage run setup.py test
 
   codecov_report_script:
