@@ -1,4 +1,7 @@
 task:
+  environment:
+    CODECOV_TOKEN: ENCRYPTED[fe8b1d1fb2cfca1b2949d30a7a702c7bc0e2d36f65ed94928f589fea6483ed90f4b1e93156091d4b8d96a431b0c6f426]
+
   matrix:
     # Use the default name.
     # GitHub will require pull requests to pass these tests.
@@ -40,4 +43,10 @@ task:
   test_script:
     # Print Python version for easier debugging
     - python --version
-    - python setup.py test
+    - python -m pip install coverage
+    - coverage run setup.py test
+
+  codecov_report_script:
+    - python -m pip install codecov
+    # Use the CODECOV_TOKEN environment variable
+    - codecov
