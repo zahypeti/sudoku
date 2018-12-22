@@ -2,6 +2,11 @@
   ![CirrusCI](https://api.cirrus-ci.com/github/pzahemszky/sudoku.svg)
 ](https://cirrus-ci.com/github/pzahemszky/sudoku)
 
+[
+  ![codecov](https://codecov.io/gh/pzahemszky/sudoku/branch/master/graph/badge.svg)
+](https://codecov.io/gh/pzahemszky/sudoku)
+
+
 # sudoku
 
 A Python implementation of a sudoku solver, using my own 6D boolean array data structure as well as my `_quick_fill` and recursion strategies.
