@@ -1,6 +1,6 @@
 import unittest
 
-from indexing import _boxrows, _boxcols, boxindex, rows_cols, square
+from sudoku.indexing import _boxrows, _boxcols, boxindex, rows_cols, square
 
 
 class TestIndexing(unittest.TestCase):

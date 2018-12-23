@@ -1,8 +1,10 @@
 from collections import deque
 import unittest
 
-from operation import DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, Operation, ROW_COLUMN
-from operation_queue import OperationQueue
+from sudoku.operation import (
+    DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, Operation, ROW_COLUMN,
+)
+from sudoku.operation_queue import OperationQueue
 
 
 class TestOperationQueue(unittest.TestCase):

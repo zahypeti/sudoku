@@ -1,4 +1,4 @@
-from indexing import boxindex, rows_cols
+from sudoku.indexing import boxindex, rows_cols
 
 
 ROW_COLUMN = 'square'

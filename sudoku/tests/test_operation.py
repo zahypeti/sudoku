@@ -1,6 +1,8 @@
 import unittest
 
-from operation import DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, Operation, ROW_COLUMN
+from sudoku.operation import (
+    DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, Operation, ROW_COLUMN,
+)
 
 
 class TestOperation(unittest.TestCase):

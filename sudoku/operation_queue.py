@@ -1,7 +1,9 @@
 from collections import deque
 
-from indexing import boxindex
-from operation import DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, Operation, ROW_COLUMN
+from sudoku.indexing import boxindex
+from sudoku.operation import (
+    DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, Operation, ROW_COLUMN,
+)
 
 
 class OperationQueue:

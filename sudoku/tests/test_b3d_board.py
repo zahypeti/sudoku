@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from b3d_board import B3DBoard
+from sudoku.b3d_board import B3DBoard
 
 
 class TestB3DBoardInit(unittest.TestCase):

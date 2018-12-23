@@ -4,9 +4,9 @@ import string
 
 import numpy as np
 
-from indexing import rows_cols, square
-from operation import DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, ROW_COLUMN
-from operation_queue import OperationQueue
+from sudoku.indexing import rows_cols, square
+from sudoku.operation import DIGIT_BOX, DIGIT_COLUMN, DIGIT_ROW, ROW_COLUMN
+from sudoku.operation_queue import OperationQueue
 
 
 class B3DBoard:
