@@ -251,11 +251,12 @@ class B3DBoard:
     def quick_fill(self):
         """
         Fill in the obvious digits in place.
-        
+
         Returns
         -------
         success : bool
-            False if detects immediate clash during the process, True otherwise.
+            False if detects immediate clash during the process,
+            True otherwise.
         """
 
         # repeat this until no new entry, FIXME 30 Mar 2018
@@ -313,22 +314,22 @@ class B3DBoard:
         Return False if all squares have at least one possible candidate,
         otherwise return the position of the first found.
         """
-        
+
         for i, j in self._double_loop:
             if len(self._board[:, i, j].nonzero()[0]) == 0:
                 return i, j
-        
+
         return False
-        
+
     def _first_empty_square(self):
         """
         Find an empty square to be filled in and return its coordinates.
         """
-        
+
         for row, col in self._double_loop:
             if len(self._board[:, row, col].nonzero()[0]) > 1:
                 return row, col
-        
+
         return None, None
 
     def solve(self):
@@ -338,10 +339,10 @@ class B3DBoard:
     def _recursively_solve(self):
         """
         Find the "first" solution recursively and using quick_fill().
-        
+
         Find an empty square, try all possible candidates, and solve each new
         board recursively until first solution found.
-        
+
         Returns
         -------
         success : bool
@@ -359,24 +360,24 @@ class B3DBoard:
         if not success:
             # Clash found during the solution of the board
             return False, depth
-        
+
         # Check if finished, FIXME
-        
+
         # Check if there are no-candidate squares
         tpl = self._hidden_clash()
         if tpl:
             # Hidden clash found during the solution of the board at tpl
             return False, depth
-        
+
         # Find a square not yet filled
         row, column = self._first_empty_square()
         if row is None and column is None:
             # No empty cells
             return True, depth
-        
+
         # Put most probable candidate first, FIXME 30 Mar
         candidate_digits = sorted(self._board[:, row, column].nonzero()[0])
-        
+
         # Recursively call this method with one new entry
         for digit in candidate_digits:
             # Add the candidate digit to the child
@@ -398,7 +399,7 @@ class B3DBoard:
         # None of the children lead to a solution
         # msg = 'No solution exists.'
         return False, depth
-    
+
     def _update(self, obj):
         """
         Update nonzero (filled in) squares from the board attribute of obj.
