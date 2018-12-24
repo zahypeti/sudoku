@@ -37,11 +37,11 @@ setuptools.setup(
     classifiers=TROVE_CLASSIFIERS,
     keywords='sudoku sudoku-solver',
 
-    packages=setuptools.find_packages(exclude=['development', 'tests']),
+    packages=setuptools.find_packages(exclude=['tests']),
     # Requirements installed by `python setup.py install`
     install_requires=["numpy >= 1.14.2"],
     python_requires=">=3.4",
-    test_requires=["coverage >= 4.5.2", "codecov"],
+    tests_require=["coverage >= 4.5.2", "codecov"],
 
     project_urls={
         "Tracker": "https://github.com/pzahemszky/sudoku/issues",
