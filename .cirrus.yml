@@ -91,8 +91,8 @@ task:
       freebsd_setup_script:
         # Install Python 3 (assume yes when asked for confirmation)
         - pkg install -y python3
-        # Install pip separately (needed for the FreeBSD 11.1 container)
-        - pkg install -y py3-pip
+        # Try bootstrapping `pip` from the standard library
+        - python3 -m ensurepip --default-pip
         # Upgrade pip, setuptools and wheel
         - python3 -m pip install --upgrade pip setuptools wheel
         # Use `pip install .` instead of `setup.py install`
