@@ -13,6 +13,8 @@ task:
           image: python:3.4
 
       linux_setup_script:
+        # Upgrade pip, setuptools and wheel
+        - python -m pip install --upgrade pip setuptools wheel
         # Use `pip install .` instead of `setup.py install`
         - python -m pip install .
 
@@ -34,6 +36,8 @@ task:
           # No Python 3.4 or 3.5 for Windows
 
       windows_setup_script:
+        # Upgrade pip, setuptools and wheel
+        - python -m pip install --upgrade pip setuptools wheel
         # Use `pip install .` instead of `setup.py install`
         - python -m pip install .
 
@@ -61,6 +65,8 @@ task:
         - brew install python3
         # Try bootstrapping `pip` from the standard library
         - python3 -m ensurepip --default-pip
+        # Upgrade pip, setuptools and wheel
+        - python3 -m pip install --upgrade pip setuptools wheel
         # Use `pip install .` instead of `setup.py install`
         - python3 -m pip install .
 
@@ -86,6 +92,8 @@ task:
         image: python:latest
 
       freebsd_setup_script:
+        # Upgrade pip, setuptools and wheel
+        - python -m pip install --upgrade pip setuptools wheel
         # Use `pip install .` instead of `setup.py install`
         - python -m pip install .
 
