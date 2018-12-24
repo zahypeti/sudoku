@@ -1,7 +1,7 @@
-task:
-  environment:
-    CODECOV_TOKEN: ENCRYPTED[fe8b1d1fb2cfca1b2949d30a7a702c7bc0e2d36f65ed94928f589fea6483ed90f4b1e93156091d4b8d96a431b0c6f426]
+environment:
+  CODECOV_TOKEN: ENCRYPTED[fe8b1d1fb2cfca1b2949d30a7a702c7bc0e2d36f65ed94928f589fea6483ed90f4b1e93156091d4b8d96a431b0c6f426]
 
+task:
   matrix:
     # Use the default name.
     # GitHub will require pull requests to pass these tests.
@@ -12,11 +12,43 @@ task:
           image: python:3.5
           image: python:3.4
 
+      linux_setup_script:
+        # Upgrade pip, setuptools and wheel
+        - python3 -m pip install --upgrade pip setuptools wheel
+        # Use `pip install .` instead of `setup.py install`
+        - python3 -m pip install .
+
+      linux_test_script:
+        # Print Python version for easier debugging
+        - python3 --version
+        - python3 -m pip install coverage
+        - coverage run setup.py test
+
+      linux_codecov_report_script:
+        - python3 -m pip install codecov
+        - codecov
+
     - windows_container:
         matrix:
           image: python:3.7
           image: python:3.6
           # No Python 3.4 or 3.5 for Windows
+
+      windows_setup_script:
+        # Upgrade pip, setuptools and wheel
+        - python -m pip install --upgrade pip setuptools wheel
+        # Use `pip install .` instead of `setup.py install`
+        - python -m pip install .
+
+      windows_test_script:
+        # Print Python version for easier debugging
+        - python --version
+        - python -m pip install coverage
+        - coverage run setup.py test
+
+      windows_codecov_report_script:
+        - python -m pip install codecov
+        - codecov
 
     - osx_instance:
         matrix:
@@ -25,6 +57,26 @@ task:
       container:
         # Use Python 2.7 for now
         image: python:latest
+
+      macos_setup_script:
+        # Install Python 3
+        - brew install python3
+        # Try bootstrapping `pip` from the standard library
+        - python3 -m ensurepip --default-pip
+        # Upgrade pip, setuptools and wheel
+        - python3 -m pip install --upgrade pip setuptools wheel
+        # Use `pip install .` instead of `setup.py install`
+        - python3 -m pip install .
+
+      macos_test_script:
+        # Print Python version for easier debugging
+        - python3 --version
+        - python3 -m pip install coverage
+        - coverage run setup.py test
+
+      macos_codecov_report_script:
+        - python3 -m pip install codecov
+        - codecov
 
     - freebsd_instance:
         matrix:
@@ -36,17 +88,22 @@ task:
         # Use Python 2.7 for now
         image: python:latest
 
-  setup_script:
-    # Use `pip install .` instead of `setup.py install`
-    - python -m pip install .
+      freebsd_setup_script:
+        # Install Python 3 (assume yes when asked for confirmation)
+        - pkg install -y python3
+        # Try bootstrapping `pip` from the standard library
+        - python3 -m ensurepip --default-pip
+        # Upgrade pip, setuptools and wheel
+        - python3 -m pip install --upgrade pip setuptools wheel
+        # Use `pip install .` instead of `setup.py install`
+        - python3 -m pip install .
 
-  test_script:
-    # Print Python version for easier debugging
-    - python --version
-    - python -m pip install coverage
-    - coverage run setup.py test
+      freebsd_test_script:
+        # Print Python version for easier debugging
+        - python3 --version
+        - python3 -m pip install coverage
+        - coverage run setup.py test
 
-  codecov_report_script:
-    - python -m pip install codecov
-    # Use the CODECOV_TOKEN environment variable
-    - codecov
+      freebsd_codecov_report_script:
+        - python3 -m pip install codecov
+        - codecov
