@@ -2,7 +2,7 @@ environment:
   CODECOV_TOKEN: ENCRYPTED[fe8b1d1fb2cfca1b2949d30a7a702c7bc0e2d36f65ed94928f589fea6483ed90f4b1e93156091d4b8d96a431b0c6f426]
 
 task:
-  only_if: $CIRRUS_BRANCH == 'pull/.*'
+  only_if: $CIRRUS_BRANCH ~= 'pull/.*'
 
   matrix:
     # Use the default name.
