@@ -9,7 +9,14 @@
 
 # sudoku
 
-A Python implementation of a sudoku solver, using my own 6D boolean array data structure as well as my `_quick_fill` and recursion strategies.
+A Python 3 implementation of a sudoku solver, using my own 6D boolean array data structure as well as my `_quick_fill` and recursion strategies.
+
+## Prerequisites
+
+You'll need the following Python packages installed.
+- `pip`
+- `setuptools`
+- `numpy`
 
 ## Usage
 
