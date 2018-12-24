@@ -26,7 +26,6 @@ task:
 
       linux_codecov_report_script:
         - python3 -m pip install codecov
-        # Use the CODECOV_TOKEN environment variable
         - codecov
 
     - windows_container:
@@ -49,7 +48,6 @@ task:
 
       windows_codecov_report_script:
         - python -m pip install codecov
-        # Use the CODECOV_TOKEN environment variable
         - codecov
 
     - osx_instance:
@@ -78,7 +76,6 @@ task:
 
       macos_codecov_report_script:
         - python3 -m pip install codecov
-        # Use the CODECOV_TOKEN environment variable
         - codecov
 
     - freebsd_instance:
@@ -109,5 +106,4 @@ task:
 
       freebsd_codecov_report_script:
         - python3 -m pip install codecov
-        # Use the CODECOV_TOKEN environment variable
         - codecov
