@@ -40,16 +40,16 @@ task:
     # Try to bootstrap `pip` from the standard library
     - python -m ensurepip --default-pip
     # Install setuptools
-    - pip3 --user install setuptools
+    - pip3 install --user setuptools
     # Use `pip install .` instead of `setup.py install`
-    - pip3 --user install .
+    - pip3 install --user .
 
   test_script:
     # Print Python version for easier debugging
     - python --version
-    - pip3 --user install coverage
+    - pip3 install --user coverage
     - coverage run setup.py test
 
   codecov_report_script:
-    - pip3 --user install codecov
+    - pip3 install --user codecov
     - codecov
