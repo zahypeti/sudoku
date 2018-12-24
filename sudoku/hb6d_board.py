@@ -393,6 +393,50 @@ class HB6DBoard(object):
                     (_p, _q, _r, None, _s, None)
                 )
 
+    def _first_empty_square(self, method=None):
+        """
+        Find a square that has more than one candidate number, and return
+        its coordinates.
+
+        Parameters
+        ----------
+        method : str
+            This parameter is not used currently.
+
+        Returns
+        -------
+        _candidates : 2-tuple of tuples
+            The _num_div3 and _num_mod3 candidates in the empty square found.
+            (_num_div3_array, _num_mod3_array)
+        _square : 4-tuple of ints
+            Zero-based 4-D coordinates of the found square.
+            (_boxrow, _subrow, _boxcol, _subcol)
+
+        Raises
+        ------
+        ValueError
+            If there is not empty square.
+        """
+        for _linear_idx in range(np.prod(self._shape[:4])):
+
+            # Fix four out of six coordinates
+            _boxrow, _subrow, _boxcol, _subcol = (
+                np.unravel_index(_linear_idx, self._shape[:4])
+            )
+
+            # Inspect a single square
+            x, y = (
+                self._cells[:, :, _boxrow, _subrow, _boxcol, _subcol].nonzero()
+            )
+            if 1 < len(x):
+                # There are more than one candidate numbers in this square
+                _candidates = (x, y)
+                _square = (_boxrow, _subrow, _boxcol, _subcol)
+                return _candidates, _square
+        else:
+            msg = "No empty square found."
+            raise ValueError(msg)
+
     def _recursive_solve(self):
         """
         Solve completely this board, in-place.
@@ -410,21 +454,17 @@ class HB6DBoard(object):
         self._check_consistency()
 
         # Find an empty square
-        for _linear_idx in range(np.prod(self._shape[:4])):
-
-            # Fix four out of six coordinates
-            _p, _q, _r, _s = np.unravel_index(_linear_idx, self._shape[:4])
-
-            # Inspect a single square
-            x, y = self._cells[:, :, _p, _q, _r, _s].nonzero()
-            if 1 < len(x):
-                # There are more than one candidate numbers in this square
-                break
-        else:
+        try:
+            tpl = self._first_empty_square()
+        except ValueError:
             # Didn't raise due to inconsistency (so every square has at least
             # one candidate), and no empty square found (i.e. squares have
             # at most one candidate), so (one of) the solution(s) is found
             return
+        else:
+            _candidates, _square = tpl
+            x, y = _candidates
+            _p, _q, _r, _s = _square
 
         # Try a different valid candidate on each iteration
         for _num_div3, _num_mod3 in zip(x, y):
