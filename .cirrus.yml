@@ -12,11 +12,41 @@ task:
           image: python:3.5
           image: python:3.4
 
+      linux_setup_script:
+        # Use `pip install .` instead of `setup.py install`
+        - python -m pip install .
+
+      linux_test_script:
+        # Print Python version for easier debugging
+        - python --version
+        - python -m pip install coverage
+        - coverage run setup.py test
+
+      linux_codecov_report_script:
+        - python -m pip install codecov
+        # Use the CODECOV_TOKEN environment variable
+        - codecov
+
     - windows_container:
         matrix:
           image: python:3.7
           image: python:3.6
           # No Python 3.4 or 3.5 for Windows
+
+      windows_setup_script:
+        # Use `pip install .` instead of `setup.py install`
+        - python -m pip install .
+
+      windows_test_script:
+        # Print Python version for easier debugging
+        - python --version
+        - python -m pip install coverage
+        - coverage run setup.py test
+
+      windows_codecov_report_script:
+        - python -m pip install codecov
+        # Use the CODECOV_TOKEN environment variable
+        - codecov
 
     - osx_instance:
         matrix:
@@ -25,6 +55,21 @@ task:
       container:
         # Use Python 2.7 for now
         image: python:latest
+
+      macos_setup_script:
+        # Use `pip install .` instead of `setup.py install`
+        - python -m pip install .
+
+      macos_test_script:
+        # Print Python version for easier debugging
+        - python --version
+        - python -m pip install coverage
+        - coverage run setup.py test
+
+      macos_codecov_report_script:
+        - python -m pip install codecov
+        # Use the CODECOV_TOKEN environment variable
+        - codecov
 
     - freebsd_instance:
         matrix:
@@ -36,17 +81,17 @@ task:
         # Use Python 2.7 for now
         image: python:latest
 
-  setup_script:
-    # Use `pip install .` instead of `setup.py install`
-    - python -m pip install .
+      freebsd_setup_script:
+        # Use `pip install .` instead of `setup.py install`
+        - python -m pip install .
 
-  test_script:
-    # Print Python version for easier debugging
-    - python --version
-    - python -m pip install coverage
-    - coverage run setup.py test
+      freebsd_test_script:
+        # Print Python version for easier debugging
+        - python --version
+        - python -m pip install coverage
+        - coverage run setup.py test
 
-  codecov_report_script:
-    - python -m pip install codecov
-    # Use the CODECOV_TOKEN environment variable
-    - codecov
+      freebsd_codecov_report_script:
+        - python -m pip install codecov
+        # Use the CODECOV_TOKEN environment variable
+        - codecov
