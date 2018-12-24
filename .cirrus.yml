@@ -52,5 +52,4 @@ task:
 
   codecov_report_script:
     - pip3 install codecov
-    # Use the CODECOV_TOKEN environment variable
     - codecov
