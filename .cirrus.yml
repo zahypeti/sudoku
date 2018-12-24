@@ -82,8 +82,6 @@ task:
         matrix:
           image: freebsd-12-0-release-amd64
           image: freebsd-11-2-release-amd64
-          image: freebsd-11-1-release-amd64
-          image: freebsd-10-4-release-amd64
       container:
         # Use Python 2.7 for now
         image: python:latest
