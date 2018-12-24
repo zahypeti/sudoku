@@ -37,16 +37,20 @@ task:
         image: python:latest
 
   setup_script:
+    # Try to bootstrap `pip` from the standard library
+    python -m ensurepip --default-pip
+    # Install setuptools
+    - pip3 --user install setuptools
     # Use `pip install .` instead of `setup.py install`
-    - python -m pip install .
+    - pip3 --user install .
 
   test_script:
     # Print Python version for easier debugging
     - python --version
-    - python -m pip install coverage
+    - pip3 install coverage
     - coverage run setup.py test
 
   codecov_report_script:
-    - python -m pip install codecov
+    - pip3 install codecov
     # Use the CODECOV_TOKEN environment variable
     - codecov
