@@ -90,7 +90,7 @@ task:
 
       freebsd_setup_script:
         # Install Python 3 (assume yes when asked for confirmation)
-        - pkg install -y python3
+        - pkg install -y python3 py36-pip
         # Try bootstrapping `pip` from the standard library
         - python3 -m ensurepip --default-pip
         # Upgrade pip, setuptools and wheel
