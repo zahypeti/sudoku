@@ -92,18 +92,22 @@ task:
         image: python:latest
 
       freebsd_setup_script:
+        # Install Python 3
+        - pkg install python3
+        # Try bootstrapping `pip` from the standard library
+        - python3 -m ensurepip --default-pip
         # Upgrade pip, setuptools and wheel
-        - python -m pip install --upgrade pip setuptools wheel
+        - python3 -m pip install --upgrade pip setuptools wheel
         # Use `pip install .` instead of `setup.py install`
-        - python -m pip install .
+        - python3 -m pip install .
 
       freebsd_test_script:
         # Print Python version for easier debugging
-        - python --version
-        - python -m pip install coverage
+        - python3 --version
+        - python3 -m pip install coverage
         - coverage run setup.py test
 
       freebsd_codecov_report_script:
-        - python -m pip install codecov
+        - python3 -m pip install codecov
         # Use the CODECOV_TOKEN environment variable
         - codecov
