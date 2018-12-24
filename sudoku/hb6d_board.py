@@ -393,20 +393,16 @@ class HB6DBoard(object):
                     (_p, _q, _r, None, _s, None)
                 )
 
-    def _first_empty_square(self, method=None):
+    def _first_empty_square(self):
         """
-        Find a square that has more than one candidate number, and return
-        its coordinates.
-
-        Parameters
-        ----------
-        method : str
-            This parameter is not used currently.
+        Find a square that has more than one candidate number. Return the
+        candidates and the square's coordinates.
 
         Returns
         -------
-        _candidates : 2-tuple of tuples
-            The _num_div3 and _num_mod3 candidates in the empty square found.
+        _candidates : 2-tuple of arrays
+            All possible _num_div3 and _num_mod3 candidates in the empty square
+            found. Zero-based.
             (_num_div3_array, _num_mod3_array)
         _square : 4-tuple of ints
             Zero-based 4-D coordinates of the found square.
