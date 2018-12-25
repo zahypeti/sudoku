@@ -1,8 +1,11 @@
 ### Python ###
+*.egg-info
 __pycache__/
 *.pyc
 
 # Coverage reports
+.coverage
+coverage.xml
 htmlcov/
 
 # Environments
