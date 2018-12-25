@@ -13,7 +13,6 @@ task:
           image: python:3.4
 
       linux_setup_script:
-        - git status
         # Upgrade pip, setuptools and wheel
         - python3 -m pip install --upgrade pip setuptools wheel
         # Use `pip install .` instead of `setup.py install`
@@ -28,6 +27,7 @@ task:
       linux_codecov_report_script:
         - python3 -m pip install codecov
         - codecov
+        - git status
 
     - windows_container:
         matrix:
