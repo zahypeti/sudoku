@@ -27,7 +27,6 @@ task:
       linux_codecov_report_script:
         - python3 -m pip install codecov
         - codecov
-        - git status
 
     - windows_container:
         matrix:
