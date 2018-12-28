@@ -302,8 +302,8 @@ class HB6DBoard(object):
         try:
             self._put(_idx)
         except ValueError:
-            msg = ""
-            raise ValueError(msg)
+            msg = "Number {} is not a valid candidate in square ({}, {})."
+            raise ValueError(msg.format(number, row, column))
 
     def _quick_fill(self):
 
