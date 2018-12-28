@@ -185,6 +185,24 @@ class TestBoardFromArray(unittest.TestCase):
 
         self.assertEqual(str(board), expected_str)
 
+    def test_instantiation_from_array_raises(self):
+        squares = np.array([
+            [7,    None, None, None, None, None, None, None, None],  # noqa: E241
+            [7,    None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+        ])
+
+        with self.assertRaises(ConsistencyError) as exc_cm:
+            board = HB6DBoard.from_array(squares)
+
+        self.assertIn("Clash found", str(exc_cm.exception))
+
 
 class TestCandidates(unittest.TestCase):
 
