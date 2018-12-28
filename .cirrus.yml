@@ -30,9 +30,7 @@ task:
 
     - windows_container:
         matrix:
-          image: python:3.7
-          image: python:3.6
-          # No Python 3.4 or 3.5 for Windows
+          image: microsoft/windowsservercore:ltsc2016
 
       windows_setup_script:
         # Upgrade pip, setuptools and wheel
