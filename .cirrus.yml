@@ -30,7 +30,7 @@ task:
 
     - windows_container:
         matrix:
-          image: microsoft/windowsservercore:ltsc2016
+          image: microsoft/3.7.2-windowsservercore-ltsc2016
 
       windows_setup_script:
         # Upgrade pip, setuptools and wheel
