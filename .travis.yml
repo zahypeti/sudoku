@@ -1,0 +1,33 @@
+language: python
+python:
+  - "3.7"
+  - "3.6"
+  - "3.5"
+  - "3.4"
+
+matrix:
+  include:
+    # Different Ubuntu images to run tests with
+    - os: linux
+      dist: xenial
+    - os: linux
+      dist: trusty
+    - os: linux
+      dist: precise
+    # To add macOS here, see https://docs.travis-ci.com/user/multi-os/#python-example-unsupported-languages
+
+install:
+  # Print the Python version for easier debugging
+  - python --version
+  # Upgrade pip, setuptools and wheel
+  - python -m pip install --upgrade pip setuptools wheel
+  # Use `pip install .` instead of `setup.py install`
+  - python -m pip install .
+
+script:
+  # Run tests and compute code coverage
+  - python -m pip install coverage
+  - coverage run setup.py test
+  # Codecov report
+  - python -m pip install codecov
+  - codecov
