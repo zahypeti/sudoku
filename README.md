@@ -1,16 +1,16 @@
+Linux, macOS, FreeBSD, Windows:
 [
-  ![CirrusCI](https://api.cirrus-ci.com/github/pzahemszky/sudoku.svg)
+  ![CirrusCI build status](https://api.cirrus-ci.com/github/pzahemszky/sudoku.svg)
 ](https://cirrus-ci.com/github/pzahemszky/sudoku)
-
-[
-  ![codecov](https://codecov.io/gh/pzahemszky/sudoku/branch/master/graph/badge.svg)
-](https://codecov.io/gh/pzahemszky/sudoku)
-
 
 Windows:
 [
   ![AppVeyor build status](https://ci.appveyor.com/api/projects/status/yf8618ivmnrumk9t?svg=true)
 ](https://ci.appveyor.com/project/pzahemszky/sudoku)
+
+[
+  ![codecov percentage](https://codecov.io/gh/pzahemszky/sudoku/branch/master/graph/badge.svg)
+](https://codecov.io/gh/pzahemszky/sudoku)
 
 # sudoku
 
