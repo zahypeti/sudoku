@@ -15,10 +15,10 @@ environment:
     - PYTHON: "C:\\Python36-x64"
 
 install:
+  # Put the Python executable on `PATH`
   - set PATH=%PYTHON%;%PATH%
-  # Debug
+  # Print the Python version for easier debugging
   - python --version
-  - python.exe --version
   # Upgrade pip, setuptools and wheel
   - ps: python -m pip install --upgrade pip setuptools wheel
   # Use `pip install .` instead of `setup.py install`
@@ -27,8 +27,6 @@ install:
 build: off
 
 test_script:
-  # Print Python version for easier debugging
-  - ps: python --version
   - ps: python -m pip install coverage
   - ps: coverage run setup.py test
   # Codecov report
