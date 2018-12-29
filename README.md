@@ -7,6 +7,11 @@
 ](https://codecov.io/gh/pzahemszky/sudoku)
 
 
+Windows:
+[
+  ![AppVeyor build status](https://ci.appveyor.com/api/projects/status/yf8618ivmnrumk9t?svg=true)
+](https://ci.appveyor.com/project/pzahemszky/sudoku)
+
 # sudoku
 
 A Python 3 implementation of a sudoku solver, using my own 6D boolean array data structure as well as my `_quick_fill` and recursion strategies.
