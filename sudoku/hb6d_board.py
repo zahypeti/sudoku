@@ -222,7 +222,9 @@ class HB6DBoard(object):
                         obj._put(_idx)
                     except ValueError:
                         msg = "Clash found during instantiation: {} ({}, {})."
-                        raise ValueError(msg.format(number, _row+1, _col+1))
+                        raise ConsistencyError(
+                            msg.format(number, _row+1, _col+1)
+                        )
 
         return obj
 
@@ -300,8 +302,8 @@ class HB6DBoard(object):
         try:
             self._put(_idx)
         except ValueError:
-            msg = ""
-            raise ValueError(msg)
+            msg = "Number {} is not a valid candidate in square ({}, {})."
+            raise ValueError(msg.format(number, row, column))
 
     def _quick_fill(self):
 
