@@ -3,7 +3,19 @@ image:
   - Visual Studio 2015
   - Visual Studio 2017
 
+environment:
+  matrix:
+    # Different Python versions to run tests with
+    - PYTHON: "C:\\Python33"
+    - PYTHON: "C:\\Python33-x64"
+    - PYTHON: "C:\\Python34"
+    - PYTHON: "C:\\Python34-x64"
+    - PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python35-x64"
+    - PYTHON: "C:\\Python36-x64"
+
 install:
+  - set PATH=%PATH%;%PYTHON%
   # Upgrade pip, setuptools and wheel
   - ps: python3 -m pip install --upgrade pip setuptools wheel
   # Use `pip install .` instead of `setup.py install`
