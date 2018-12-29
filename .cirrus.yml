@@ -35,7 +35,7 @@ task:
       windows_setup_script:
         # Install Python 3 (including pip)
         - powershell -Command '[Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"'
-        - powershell -Command "curl https://www.python.org/ftp/python/3.7.2/python-3.7.2-amd64.exe -OutFile python.exe"
+        - powershell -Command "wget https://www.python.org/ftp/python/3.7.2/python-3.7.2-amd64.exe -OutFile python.exe"
         - python.exe /passive PrependPath=1
         # Upgrade pip, setuptools and wheel
         - python -m pip install --upgrade pip setuptools wheel
