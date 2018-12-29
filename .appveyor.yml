@@ -17,8 +17,8 @@ environment:
 install:
   - set PATH=%PATH%;%PYTHON%
   # Debug
-  - ps: python --version
-  - ps: python.exe --version
+  - python --version
+  - python.exe --version
   # Upgrade pip, setuptools and wheel
   - ps: python -m pip install --upgrade pip setuptools wheel
   # Use `pip install .` instead of `setup.py install`
