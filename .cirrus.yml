@@ -30,7 +30,7 @@ task:
 
     - windows_container:
         matrix:
-          image: microsoft/windowsservercore-ltsc2016
+          image: microsoft/windowsservercore:ltsc2016
 
       windows_setup_script:
         # Install Python 3 (including pip)
