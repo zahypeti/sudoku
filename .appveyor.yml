@@ -15,7 +15,7 @@ environment:
     - PYTHON: "C:\\Python36-x64"
 
 install:
-  - set PATH=%PATH%;%PYTHON%
+  - set PATH=%PYTHON%;%PATH%
   # Debug
   - python --version
   - python.exe --version
