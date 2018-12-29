@@ -30,9 +30,12 @@ task:
 
     - windows_container:
         matrix:
-          image: microsoft/3.7.2-windowsservercore-ltsc2016
+          image: microsoft/azure-functions-python3.6
 
       windows_setup_script:
+        # Install Python 3 (including pip)
+        - powershell -Command "wget https://www.python.org/ftp/python/3.7.2/python-3.7.2-amd64.exe -OutFile python.exe"
+        - python.exe /passive PrependPath=1
         # Upgrade pip, setuptools and wheel
         - python -m pip install --upgrade pip setuptools wheel
         # Use `pip install .` instead of `setup.py install`
