@@ -5,6 +5,7 @@ image:
 
 environment:
   matrix:
+    # Codecov token not needed for AppVeyor
     # Different Python versions to run tests with
     - PYTHON: "C:\\Python34"
     - PYTHON: "C:\\Python34-x64"
@@ -28,6 +29,7 @@ install:
 build: off
 
 test_script:
+  # Run tests and compute code coverage
   - python -m pip install coverage
   - coverage run setup.py test
   # Codecov report
