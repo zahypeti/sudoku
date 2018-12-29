@@ -16,7 +16,7 @@ environment:
 
 install:
   # Put the Python executable on `PATH`
-  - set PATH=%PYTHON%;%PATH%
+  - set PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
   # Print the Python version for easier debugging
   - python --version
   # Upgrade pip, setuptools and wheel
