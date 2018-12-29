@@ -5,17 +5,17 @@ image:
 
 install:
   # Upgrade pip, setuptools and wheel
-  - ps: python -m pip install --upgrade pip setuptools wheel
+  - ps: python3 -m pip install --upgrade pip setuptools wheel
   # Use `pip install .` instead of `setup.py install`
-  - ps: python -m pip install .
+  - ps: python3 -m pip install .
 
 build: off
 
 test_script:
   # Print Python version for easier debugging
-  - ps: python --version
-  - ps: python -m pip install coverage
+  - ps: python3 --version
+  - ps: python3 -m pip install coverage
   - ps: coverage run setup.py test
   # Codecov report
-  - ps: python -m pip install codecov
+  - ps: python3 -m pip install codecov
   - ps: codecov
