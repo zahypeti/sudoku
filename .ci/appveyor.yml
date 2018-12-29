@@ -1,0 +1,38 @@
+image:
+  # Different Windows images to run tests with
+  - Visual Studio 2013
+  - Visual Studio 2015
+  - Visual Studio 2017
+
+environment:
+  matrix:
+    # Different Python versions to run tests with
+    - PYTHON: "C:\\Python37-x64"
+    - PYTHON: "C:\\Python37"
+    - PYTHON: "C:\\Python36-x64"
+    - PYTHON: "C:\\Python36"
+    - PYTHON: "C:\\Python35-x64"
+    - PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python34-x64"
+    - PYTHON: "C:\\Python34"
+    # Codecov token not needed for AppVeyor
+
+install:
+  # Put the Python executable on `PATH`
+  - set PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
+  # Print the Python version for easier debugging
+  - python --version
+  # Upgrade pip, setuptools and wheel
+  - python -m pip install --upgrade pip setuptools wheel
+  # Use `pip install .` instead of `setup.py install`
+  - python -m pip install .
+
+build: off
+
+test_script:
+  # Run tests and compute code coverage
+  - python -m pip install coverage
+  - coverage run setup.py test
+  # Codecov report
+  - python -m pip install codecov
+  - codecov
