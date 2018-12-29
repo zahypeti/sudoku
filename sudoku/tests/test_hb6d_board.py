@@ -185,6 +185,24 @@ class TestBoardFromArray(unittest.TestCase):
 
         self.assertEqual(str(board), expected_str)
 
+    def test_instantiation_from_array_raises(self):
+        squares = np.array([
+            [7,    None, None, None, None, None, None, None, None],  # noqa: E241
+            [7,    None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+        ])
+
+        with self.assertRaises(ConsistencyError) as exc_cm:
+            board = HB6DBoard.from_array(squares)
+
+        self.assertIn("Clash found", str(exc_cm.exception))
+
 
 class TestCandidates(unittest.TestCase):
 
@@ -207,6 +225,47 @@ class TestCandidates(unittest.TestCase):
         candidates = board.candidates(6, 7)
 
         self.assertEqual(candidates, expected_candidates)
+
+
+class TestInsert(unittest.TestCase):
+
+    def test_insert(self):
+        squares = np.array([
+            [7,    None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, 7,    None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, 2,    1,    None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+        ])
+        board = HB6DBoard.from_array(squares)
+        expected_candidates = [9]
+
+        board.insert(number=9, row=1, column=2)
+
+        self.assertEqual(board.candidates(1, 2), expected_candidates)
+
+    def test_insert_raises(self):
+        squares = np.array([
+            [7,    None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, 7,    None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, 2,    1,    None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+        ])
+        board = HB6DBoard.from_array(squares)
+
+        with self.assertRaises(ValueError) as exc_cm:
+            board.insert(number=2, row=6, column=7)
+
+        self.assertIn("not a valid candidate", str(exc_cm.exception))
 
 
 class TestQuickFill(unittest.TestCase):
