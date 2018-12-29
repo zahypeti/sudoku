@@ -1,0 +1,18 @@
+os: windows
+language: minimal
+
+install:
+  # Python is included in the `minimal` image of Travis CI
+  # Upgrade pip, setuptools and wheel
+  - python -m pip install --upgrade pip setuptools wheel
+  # Use `pip install .` instead of `setup.py install`
+  - python -m pip install .
+
+script:
+  # Print Python version for easier debugging
+  - python --version
+  - python -m pip install coverage
+  - coverage run setup.py test
+  # Code coverage report
+  - python -m pip install codecov
+  - codecov
