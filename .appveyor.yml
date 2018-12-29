@@ -7,14 +7,14 @@ environment:
   matrix:
     # Codecov token not needed for AppVeyor
     # Different Python versions to run tests with
-    - PYTHON: "C:\\Python34"
-    - PYTHON: "C:\\Python34-x64"
-    - PYTHON: "C:\\Python35"
-    - PYTHON: "C:\\Python35-x64"
-    - PYTHON: "C:\\Python36"
-    - PYTHON: "C:\\Python36-x64"
-    - PYTHON: "C:\\Python37"
     - PYTHON: "C:\\Python37-x64"
+    - PYTHON: "C:\\Python37"
+    - PYTHON: "C:\\Python36-x64"
+    - PYTHON: "C:\\Python36"
+    - PYTHON: "C:\\Python35-x64"
+    - PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python34-x64"
+    - PYTHON: "C:\\Python34"
 
 install:
   # Put the Python executable on `PATH`
