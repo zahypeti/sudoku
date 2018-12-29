@@ -1,4 +1,4 @@
-Linux, macOS, FreeBSD, Windows:
+Linux, macOS, FreeBSD:
 [
   ![CirrusCI build status](https://api.cirrus-ci.com/github/pzahemszky/sudoku.svg)
 ](https://cirrus-ci.com/github/pzahemszky/sudoku)
