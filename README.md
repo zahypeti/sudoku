@@ -3,6 +3,11 @@ Linux, macOS, FreeBSD:
   ![CirrusCI build status](https://api.cirrus-ci.com/github/pzahemszky/sudoku.svg)
 ](https://cirrus-ci.com/github/pzahemszky/sudoku)
 
+Ubuntu:
+[
+  ![Travis CI build status](https://travis-ci.com/pzahemszky/sudoku.svg?branch=master)
+](https://travis-ci.com/pzahemszky/sudoku)
+
 Windows:
 [
   ![AppVeyor build status](https://ci.appveyor.com/api/projects/status/yf8618ivmnrumk9t?svg=true)
