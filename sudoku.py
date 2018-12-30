@@ -180,7 +180,7 @@ class Sudoku:
 
         # Try solving the board completely
         try:
-            array = solver.recursively_solve()
+            success, array, depth = solver.recursively_solve()
         except RuntimeError:
             msg = 'Invalid sudoku board, no solution.'
             print(msg)

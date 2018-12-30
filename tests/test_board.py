@@ -7,34 +7,6 @@ from board import Board
 
 class TestBoardInit(unittest.TestCase):
 
-    def test_default_board_instantiation(self):
-        Board()
-        # No errors
-
-    def test_4x4_board_instantiation(self):
-        Board(4)
-        # No errors
-
-    def test_invalid_side_length(self):
-        with self.assertRaises(ValueError):
-            Board(8)
-
-    def test_rectangular_board_instantiation(self):
-        Board(2, 3)
-        # No errors
-
-    def test_too_many_init_arguments(self):
-        with self.assertRaises(ValueError):
-            Board(3, 3, 9)
-
-    def test_board_too_large(self):
-        with self.assertRaises(ValueError):
-            Board(37)
-
-    def test_init_side_length(self):
-        board_6x6 = Board(2, 3)
-        self.assertEqual(6, board_6x6._side_length)
-
     def test_init_double_loop(self):
         expected = [
             (0, 0), (0, 1), (0, 2),
@@ -43,22 +15,8 @@ class TestBoardInit(unittest.TestCase):
         board_3x3 = Board(1, 3)
         self.assertEqual(expected, board_3x3._double_loop)
 
-    def test_init_alphabet(self):
-        expected = '.123456789ABCDEFG'
-        board_16x16 = Board(16)
-        self.assertEqual(expected, board_16x16._alphabet)
-
 
 class TestBoardStr(unittest.TestCase):
-
-    def test_empty_board_str(self):
-        expected = (
-            '....\n'
-            '....\n'
-            '....\n'
-            '....\n')
-        board_4x4 = Board(4)
-        self.assertEqual(expected, str(board_4x4))
 
     def test_nonempty_board_str(self):
         expected = (
@@ -69,19 +27,6 @@ class TestBoardStr(unittest.TestCase):
         board4x4 = Board(4)
         board4x4.from_str('123434124321....')
         self.assertEqual(expected, str(board4x4))
-
-
-class TestBoardRepr(unittest.TestCase):
-
-    def test_board_repr_of_9x9(self):
-        expected = 'Board(9)'
-        board_9x9 = Board(9)
-        self.assertEqual(expected, repr(board_9x9))
-
-    def test_board_repr_of_12x12(self):
-        expected = 'Board(3, 4)'
-        board_3x4 = Board(3, 4)
-        self.assertEqual(expected, repr(board_3x4))
 
 
 class TestFromStr(unittest.TestCase):

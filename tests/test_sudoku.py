@@ -119,3 +119,7 @@ class TestFromTxtFile(unittest.TestCase):
         fname = 'tests/examples/rectangular_2x3/example1.txt'
         board = Sudoku(2, 3)
         board.from_txt_file(fname)
+
+
+class TestSolveSudoku():
+    pass
