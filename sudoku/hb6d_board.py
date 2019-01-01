@@ -66,14 +66,16 @@ class HB6DBoard(object):
         self._shape = _SHAPE
         self._cells = np.full(shape=self._shape, fill_value=True, dtype=bool)
 
-    def _num_row_col_to_idx(self, _num, _row, _col):
+    @staticmethod
+    def _num_row_col_to_idx(_num, _row, _col):
         _num_div3, _num_mod3 = divmod(_num, 3)
         _boxrow, _subrow = divmod(_row, 3)
         _boxcol, _subcol = divmod(_col, 3)
         _idx = (_num_div3, _num_mod3, _boxrow, _subrow, _boxcol, _subcol)
         return _idx
 
-    def _idx_to_num_row_col(self, _idx):
+    @staticmethod
+    def _idx_to_num_row_col(_idx):
         """
         Return the number, row, and column that is represented by the cell
         with the given coordinates.
