@@ -62,12 +62,31 @@ class HB6DBoard(object):
     """
 
     def __init__(self):
-        # Dimensions of the underlying 6D boolean array
+        # Dimensions of the underlying 6-D boolean array
         self._shape = _SHAPE
         self._cells = np.full(shape=self._shape, fill_value=True, dtype=bool)
 
     @staticmethod
     def _num_row_col_to_idx(_num, _row, _col):
+        """
+        Return the 6-D coordinate of the cell corresponding to the given
+        candidate number, row, and column.
+
+        Parameters
+        ----------
+        _num : int between 0 and 8 inclusive
+            Candidate referenced by the cell with the given index. Zero-based.
+        _row : int between 0 and 8 inclusive
+            Row referenced by the the cell with the given index. Zero-based.
+        _col : int between 0 and 8 inclusive
+            Column referenced by the cell with the given index. Zero-based.
+
+        Returns
+        -------
+        _idx : numpy.ndarray of shape (6,)
+            Zero-based coordinates referring to a single cell.
+            (_num_div3, _num_mod3, _boxrow, _subrow, _boxcol, _subcol)
+        """
         _num_div3, _num_mod3 = divmod(_num, 3)
         _boxrow, _subrow = divmod(_row, 3)
         _boxcol, _subcol = divmod(_col, 3)
@@ -82,8 +101,9 @@ class HB6DBoard(object):
 
         Parameters
         ----------
-        _idx : numpy.ndarray
+        _idx : numpy.ndarray of shape (6,)
             Zero-based coordinates referring to a single cell.
+            (_num_div3, _num_mod3, _boxrow, _subrow, _boxcol, _subcol)
 
         Returns
         -------
@@ -199,7 +219,7 @@ class HB6DBoard(object):
     @classmethod
     def from_array(cls, array):
         """
-        Create a HB6DBoard instance from the given 2D array.
+        Create a HB6DBoard instance from the given 2-D array.
 
         Parameters
         ----------
@@ -211,7 +231,11 @@ class HB6DBoard(object):
 
         Raises
         ------
-        ValueError
+        ConsistencyError
+            If the given 2-D array is inconsistent.
+
+            Note: this function is not guaranteed to raise for every invalid
+            sudoku board.
         """
         obj = cls()
 
@@ -300,6 +324,20 @@ class HB6DBoard(object):
         return result
 
     def insert(self, number, row, column):
+        """
+        Insert a number into the given square.
+
+        Parameters
+        ----------
+        number : int between 1 and 9 (inclusive)
+        row : int between 1 and 9 (inclusive)
+        column : int between 1 and 9 (inclusive)
+
+        Raises
+        ------
+        ValueError
+            If the number is not a condidate in the given square.
+        """
         _idx = self._num_row_col_to_idx(number - 1, row - 1, column - 1)
         try:
             self._put(_idx)
@@ -308,6 +346,10 @@ class HB6DBoard(object):
             raise ValueError(msg.format(number, row, column))
 
     def _quick_fill(self):
+        """
+        Fill in some squares by repeatedly trying to apply four simple
+        techniques.
+        """
 
         # Repeat until there are definitely no more insertions
         # Assume that there are at least 17 squares filled in, so it's
