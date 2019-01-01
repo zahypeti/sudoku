@@ -462,7 +462,10 @@ class HB6DBoard(object):
         Raises
         ------
         ValueError
-            If there is not empty square.
+            If every square has at most one valid candidate.
+
+            Note, that this either means the board is full, or that it's
+            invalid (and some squares have no candidate numbers).
         """
         for _linear_idx in range(np.prod(self._shape[:4])):
 
