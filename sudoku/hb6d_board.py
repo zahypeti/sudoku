@@ -349,6 +349,11 @@ class HB6DBoard(object):
         """
         Fill in some squares by repeatedly trying to apply four simple
         techniques.
+
+        Iteratively apply four basic search steps: "hidden single" for rows,
+        columns and boxes, and "unique candidate" (also called  "full house" or
+        "lone single"). Repeat until none of these four techniques result in
+        new insertions.
         """
 
         # Repeat until there are definitely no more insertions
