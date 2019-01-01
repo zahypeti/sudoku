@@ -43,9 +43,9 @@ class ConsistencyError(Exception):
 
         Parameters
         ----------
-        message : unicode
+        message : str
             Error message used for reporting.
-        _idx : tuple of int or None of shape (6,) or None, optional
+        _idx : None or tuple of int or None of shape (6,), optional
             Coordinates of the HB6DBoard object's boolean array that
             correspond to the found inconsistency. Default is None.
         """
