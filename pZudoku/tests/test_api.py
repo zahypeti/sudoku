@@ -22,7 +22,7 @@ class TestReadme(unittest.TestCase):
         ]
 
         # When
-        from sudoku.api import Board
+        from pZudoku.api import Board
         my_board = Board.from_array(squares)
         my_board.solve()
         # Use str() instead of print() to keep the test output clean

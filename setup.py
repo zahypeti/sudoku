@@ -48,5 +48,5 @@ setuptools.setup(
     },
 
     # Test run by `python setup.py test`
-    test_suite="sudoku.tests",
+    test_suite="pZudoku.tests",
 )
