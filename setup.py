@@ -41,7 +41,7 @@ setuptools.setup(
     # Requirements installed by `python setup.py install`
     install_requires=["numpy >= 1.14.2"],
     python_requires=">=3.4",
-    tests_require=["coverage >= 4.5.2", "codecov"],
+    tests_require=["flake8 >= 3.4", "coverage >= 4.5.2", "codecov"],
 
     project_urls={
         "Tracker": "https://github.com/pzahemszky/sudoku/issues",
