@@ -157,15 +157,15 @@ class TestBoardFromArray(unittest.TestCase):
 
     def test_instantiation_from_array(self):
         squares = np.array([
-            [7,    None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, 7,    None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, 2,    1,    None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [7,    None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, 7,    None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, 2,    1,    None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
         ])
         expected_str = (
             "7 . . | . . . | . . .\n"
@@ -187,19 +187,19 @@ class TestBoardFromArray(unittest.TestCase):
 
     def test_instantiation_from_array_raises(self):
         squares = np.array([
-            [7,    None, None, None, None, None, None, None, None],  # noqa: E241
-            [7,    None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [7,    None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [7,    None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
         ])
 
         with self.assertRaises(ConsistencyError) as exc_cm:
-            board = HB6DBoard.from_array(squares)
+            HB6DBoard.from_array(squares)
 
         self.assertIn("Clash found", str(exc_cm.exception))
 
@@ -208,15 +208,15 @@ class TestCandidates(unittest.TestCase):
 
     def test_candidates(self):
         squares = np.array([
-            [7,    None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, 7,    None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, 2,    1,    None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [7,    None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, 7,    None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, 2,    1,    None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
         ])
         board = HB6DBoard.from_array(squares)
         # 2, 3, and 7 are not candidates, but every other number is
@@ -231,15 +231,15 @@ class TestInsert(unittest.TestCase):
 
     def test_insert(self):
         squares = np.array([
-            [7,    None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, 7,    None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, 2,    1,    None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [7,    None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, 7,    None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, 2,    1,    None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
         ])
         board = HB6DBoard.from_array(squares)
         expected_candidates = [9]
@@ -250,15 +250,15 @@ class TestInsert(unittest.TestCase):
 
     def test_insert_raises(self):
         squares = np.array([
-            [7,    None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, 7,    None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, 2,    1,    None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [7,    None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, 7,    None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, 2,    1,    None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
         ])
         board = HB6DBoard.from_array(squares)
 
