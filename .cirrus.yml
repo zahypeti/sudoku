@@ -41,14 +41,14 @@ task:
         - python3 -m ensurepip --default-pip
 
   install_script:
+    # Print Python version for easier debugging
+    - python3 --version
     # Upgrade pip, setuptools and wheel
     - python3 -m pip install --upgrade pip setuptools wheel
     # Use `pip install .` instead of `setup.py install`
     - python3 -m pip install .
 
   test_script:
-    # Print Python version for easier debugging
-    - python3 --version
     # Run tests and compute code coverage
     - python3 -m pip install coverage
     - coverage run setup.py test
