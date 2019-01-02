@@ -23,10 +23,17 @@ A Python 3 implementation of a sudoku solver, using my own 6D boolean array data
 
 ## Prerequisites
 
-You'll need the following Python packages installed.
+You'll need Python 3, as well as the following packages installed.
 - `pip`
 - `setuptools`
 - `numpy`
+
+## Install
+
+- Clone or download the repository from GitHub (e.g. `git clone https://github
+.com/pzahemszky/sudoku.git`).
+- Change to the `sudoku` directory (e.g. `cd sudoku`).
+- Install the `sudoku` Python package (e.g. `pip install --user .`).
 
 ## Usage
 
@@ -73,3 +80,7 @@ You'll need the following Python packages installed.
 5 7 3 | 2 9 1 | 6 8 4
 1 6 4 | 8 7 5 | 2 9 3
 ```
+
+## Uninstall
+
+Remove the `sudoku` Python package (e.g. `pip uninstall sudoku`).
