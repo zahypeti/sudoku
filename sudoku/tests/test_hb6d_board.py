@@ -612,15 +612,15 @@ class TestFirstEmptySquare(unittest.TestCase):
     def test_first_empty_square(self):
         # A board that has an empty square (with valid candidate numbers)
         squares = np.array([
-            [6,    None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, None, None, None, None, None, None, None, None],  # noqa: E241
-            [None, 5,    None, None, None, None, None, None, None],  # noqa: E241
-            [None, 4,    None, None, None, None, None, None, None],  # noqa: E241
-            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241
-            [None, 2,    None, None, None, None, None, None, None],  # noqa: E241
-            [None, 1,    None, None, None, None, None, None, None],  # noqa: E241
+            [6,    None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, 5,    None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, 4,    None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, 2,    None, None, None, None, None, None, None],  # noqa: E241, E501
+            [None, 1,    None, None, None, None, None, None, None],  # noqa: E241, E501
         ])
         board = HB6DBoard.from_array(squares)
         # Candidate numbers are 7, 8 and 9
