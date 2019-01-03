@@ -48,7 +48,7 @@ install:
 
 script:
   # Run the PEP8 code style checks
-  - python3 -m pip install flake8
+  - python -m pip install flake8
   - flake8 --filename=*.py --exclude=venv,.eggs .
   # Run tests and compute code coverage
   - python -m pip install coverage
