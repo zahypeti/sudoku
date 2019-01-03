@@ -29,7 +29,7 @@ setuptools.setup(
     # Long description used on PyPI
     long_description=LONG_DESCRIPTION,
     long_description_content_type='text/markdown',
-    url="https://github.com/pzahemszky/sudoku",
+    url="https://github.com/pzahemszky/pZudoku",
     author="Peter Zahemszky",
     author_email="29452238+pzahemszky@users.noreply.github.com",
 
@@ -44,7 +44,7 @@ setuptools.setup(
     tests_require=["coverage >= 4.5.2", "codecov"],
 
     project_urls={
-        "Tracker": "https://github.com/pzahemszky/sudoku/issues",
+        "Tracker": "https://github.com/pzahemszky/pZudoku/issues",
     },
 
     # Test run by `python setup.py test`

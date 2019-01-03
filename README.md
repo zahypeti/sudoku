@@ -1,21 +1,21 @@
 Linux, macOS, FreeBSD:
 [
-  ![CirrusCI build status](https://api.cirrus-ci.com/github/pzahemszky/sudoku.svg)
-](https://cirrus-ci.com/github/pzahemszky/sudoku)
+  ![CirrusCI build status](https://api.cirrus-ci.com/github/pzahemszky/pZudoku.svg)
+](https://cirrus-ci.com/github/pzahemszky/pZudoku)
 
 Ubuntu:
 [
-  ![Travis CI build status](https://travis-ci.com/pzahemszky/sudoku.svg?branch=master)
-](https://travis-ci.com/pzahemszky/sudoku)
+  ![Travis CI build status](https://travis-ci.com/pzahemszky/pZudoku.svg?branch=master)
+](https://travis-ci.com/pzahemszky/pZudoku)
 
 Windows:
 [
   ![AppVeyor build status](https://ci.appveyor.com/api/projects/status/yf8618ivmnrumk9t?svg=true)
-](https://ci.appveyor.com/project/pzahemszky/sudoku)
+](https://ci.appveyor.com/project/pzahemszky/pZudoku)
 
 [
-  ![codecov percentage](https://codecov.io/gh/pzahemszky/sudoku/branch/master/graph/badge.svg)
-](https://codecov.io/gh/pzahemszky/sudoku)
+  ![codecov percentage](https://codecov.io/gh/pzahemszky/pZudoku/branch/master/graph/badge.svg)
+](https://codecov.io/gh/pzahemszky/pZudoku)
 
 # pZudoku
 
@@ -31,7 +31,7 @@ You'll need Python 3, as well as the following packages installed.
 ## Install
 
 - Clone or download the repository from GitHub (e.g. `git clone https://github
-.com/pzahemszky/sudoku.git`).
+.com/pzahemszky/pZudoku.git`).
 - Change to the `pZudoku` directory (e.g. `cd pZudoku`).
 - Install the `pZudoku` Python package (e.g. `pip install --user .`).
 
@@ -57,7 +57,7 @@ You'll need Python 3, as well as the following packages installed.
 [//]: # (Note: keep this tested in tests.test_api)
 
 ```python
->>> from sudoku.api import Board
+>>> from pZudoku.api import Board
 >>> my_board = Board.from_array(squares)
 ```
 
