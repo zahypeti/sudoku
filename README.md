@@ -17,7 +17,7 @@ Windows:
   ![codecov percentage](https://codecov.io/gh/pzahemszky/sudoku/branch/master/graph/badge.svg)
 ](https://codecov.io/gh/pzahemszky/sudoku)
 
-# sudoku
+# pZudoku
 
 A Python 3 implementation of a sudoku solver, using my own 6D boolean array data structure as well as my `_quick_fill` and recursion strategies.
 
@@ -32,8 +32,8 @@ You'll need Python 3, as well as the following packages installed.
 
 - Clone or download the repository from GitHub (e.g. `git clone https://github
 .com/pzahemszky/sudoku.git`).
-- Change to the `sudoku` directory (e.g. `cd sudoku`).
-- Install the `sudoku` Python package (e.g. `pip install --user .`).
+- Change to the `pZudoku` directory (e.g. `cd pZudoku`).
+- Install the `pZudoku` Python package (e.g. `pip install --user .`).
 
 ## Usage
 
@@ -83,4 +83,4 @@ You'll need Python 3, as well as the following packages installed.
 
 ## Uninstall
 
-Remove the `sudoku` Python package (e.g. `pip uninstall sudoku`).
+Remove the `pZudoku` Python package (e.g. `pip uninstall pZudoku`).

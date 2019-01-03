@@ -21,7 +21,7 @@ with open('README.md') as f:
     LONG_DESCRIPTION = f.read()
 
 setuptools.setup(
-    name="sudoku",
+    name="pZudoku",
     version="0.1.0",
 
     # Short description used by `pip`
