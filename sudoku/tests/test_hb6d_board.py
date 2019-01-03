@@ -560,6 +560,80 @@ class TestConsistencyCheck(unittest.TestCase):
         # No errors
 
 
+class TestFirstEmptySquare(unittest.TestCase):
+
+    def test_first_empty_square_raises(self):
+        """
+        Check that a completely solved board doesn't have a "first empty
+        square".
+        """
+        # Board is already filled
+        squares = np.array([
+            [4, 8, 3, 9, 2, 1, 6, 5, 7],
+            [9, 6, 7, 3, 4, 5, 8, 2, 1],
+            [2, 5, 1, 8, 7, 6, 4, 9, 3],
+            [5, 4, 8, 1, 3, 2, 9, 7, 6],
+            [7, 2, 9, 5, 6, 4, 1, 3, 8],
+            [1, 3, 6, 7, 9, 8, 2, 4, 5],
+            [3, 7, 2, 6, 8, 9, 5, 1, 4],
+            [8, 1, 4, 2, 5, 3, 7, 6, 9],
+            [6, 9, 5, 4, 1, 7, 3, 8, 2],
+        ])
+        board = HB6DBoard.from_array(squares)
+
+        with self.assertRaises(ValueError) as exc_cm:
+            board._first_empty_square()
+
+        self.assertIn("No empty square", str(exc_cm.exception))
+
+    def test_first_empty_square_raises_invalid_board(self):
+        # Invalid board without candidates in the three empty squares
+        # Number 9 in square (1, 2) shouldn't be there (for example)
+        squares = np.array([
+            [4,    9,    3,    None, 2,    1,    6,    5,    7],
+            [None, 6,    7,    3,    4,    5,    8,    2,    1],
+            [2,    5,    1,    8,    7,    6,    4,    9,    3],
+            [5,    4,    8,    1,    3,    2,    9,    7,    6],
+            [7,    2,    9,    5,    6,    4,    1,    3,    8],
+            [1,    3,    6,    7,    9,    8,    2,    4,    5],
+            [3,    7,    2,    6,    8,    9,    5,    1,    4],
+            [8,    1,    4,    2,    5,    3,    7,    6,    9],
+            [6,    None, 5,    4,    1,    7,    3,    8,    2],
+        ])
+        board = HB6DBoard.from_array(squares)
+
+        with self.assertRaises(ValueError) as exc_cm:
+            board._first_empty_square()
+
+        # Even though the three squares are empty, they have no valid
+        # candidate numbers, so an exception is raised
+        self.assertIn("No empty square", str(exc_cm.exception))
+
+    def test_first_empty_square(self):
+        # A board that has an empty square (with valid candidate numbers)
+        squares = np.array([
+            [6,    None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, None, None, None, None, None, None, None, None],  # noqa: E241
+            [None, 5,    None, None, None, None, None, None, None],  # noqa: E241
+            [None, 4,    None, None, None, None, None, None, None],  # noqa: E241
+            [None, 3,    None, None, None, None, None, None, None],  # noqa: E241
+            [None, 2,    None, None, None, None, None, None, None],  # noqa: E241
+            [None, 1,    None, None, None, None, None, None, None],  # noqa: E241
+        ])
+        board = HB6DBoard.from_array(squares)
+        # Candidate numbers are 7, 8 and 9
+        _expected_candidates = [(2, 2, 2), (0, 1, 2)]
+        # Square is in row 1, column 2
+        _expected_square = (0, 0, 0, 1)
+
+        _candidates, _square = board._first_empty_square()
+
+        np.testing.assert_array_equal(_candidates, _expected_candidates)
+        np.testing.assert_array_equal(_square, _expected_square)
+
+
 class TestRecursiveSolve(unittest.TestCase):
 
     def test_recursive_solve_filled_board(self):
