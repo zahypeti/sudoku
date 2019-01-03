@@ -12,28 +12,12 @@ task:
           image: python:3.5
           image: python:3.4
 
-      linux_setup_script:
-        # Upgrade pip, setuptools and wheel
-        - python3 -m pip install --upgrade pip setuptools wheel
-        # Use `pip install .` instead of `setup.py install`
-        - python3 -m pip install .
-
-      linux_test_script:
-        # Print Python version for easier debugging
-        - python3 --version
-        - python3 -m pip install coverage
-        - coverage run setup.py test
-
-      linux_codecov_report_script:
-        - python3 -m pip install codecov
-        - codecov
-
     - osx_instance:
         matrix:
           image: mojave-base
           image: high-sierra-base
       container:
-        # Use Python 2.7 for now
+        # This has Python 2.7
         image: python:latest
 
       macos_setup_script:
@@ -41,20 +25,6 @@ task:
         - brew install python3
         # Try bootstrapping `pip` from the standard library
         - python3 -m ensurepip --default-pip
-        # Upgrade pip, setuptools and wheel
-        - python3 -m pip install --upgrade pip setuptools wheel
-        # Use `pip install .` instead of `setup.py install`
-        - python3 -m pip install .
-
-      macos_test_script:
-        # Print Python version for easier debugging
-        - python3 --version
-        - python3 -m pip install coverage
-        - coverage run setup.py test
-
-      macos_codecov_report_script:
-        - python3 -m pip install codecov
-        - codecov
 
     - freebsd_instance:
         matrix:
@@ -69,17 +39,26 @@ task:
         - pkg install -y python3
         # Try bootstrapping `pip` from the standard library
         - python3 -m ensurepip --default-pip
-        # Upgrade pip, setuptools and wheel
-        - python3 -m pip install --upgrade pip setuptools wheel
-        # Use `pip install .` instead of `setup.py install`
-        - python3 -m pip install .
 
-      freebsd_test_script:
-        # Print Python version for easier debugging
-        - python3 --version
-        - python3 -m pip install coverage
-        - coverage run setup.py test
+  install_script:
+    # Print Python version for easier debugging
+    - python3 --version
+    # Upgrade pip, setuptools and wheel
+    - python3 -m pip install --upgrade pip setuptools wheel
+    # Use `pip install .` instead of `setup.py install`
+    - python3 -m pip install .
 
-      freebsd_codecov_report_script:
-        - python3 -m pip install codecov
-        - codecov
+  flake8_script:
+    # Run the PEP8 code style checks
+    - python3 -m pip install flake8
+    - flake8 --filename=*.py --exclude=venv,.eggs .
+
+  test_script:
+    # Run tests and compute code coverage
+    - python3 -m pip install coverage
+    - coverage run setup.py test
+
+  codecov_report_script:
+    # Codecov report
+    - python3 -m pip install codecov
+    - codecov

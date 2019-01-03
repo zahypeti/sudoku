@@ -1,9 +1,9 @@
 import unittest
 
 
-class TestReadme(unittest.TestCase):
+class TestReadmeExample(unittest.TestCase):
 
-    def test_readme(self):
+    def test_readme_example(self):
         """
         This test is covering the example script in `README.md`.
         Make sure it is up to date.
