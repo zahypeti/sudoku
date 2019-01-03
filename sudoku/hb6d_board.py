@@ -532,8 +532,8 @@ class HB6DBoard(object):
                 del child_board
                 continue
             # One solution found, so copy its data (the boolean array)
-            self._cells = child_board._cells
-            del child_board
+            self._cells = child_board._cells  # noqa: F821
+            del child_board  # noqa: F821
             return
 
         else:
