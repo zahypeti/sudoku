@@ -1,23 +1,23 @@
 Linux, macOS, FreeBSD:
 [
-  ![CirrusCI build status](https://api.cirrus-ci.com/github/pzahemszky/sudoku.svg)
-](https://cirrus-ci.com/github/pzahemszky/sudoku)
+  ![CirrusCI build status](https://api.cirrus-ci.com/github/pzahemszky/pZudoku.svg)
+](https://cirrus-ci.com/github/pzahemszky/pZudoku)
 
 Ubuntu:
 [
-  ![Travis CI build status](https://travis-ci.com/pzahemszky/sudoku.svg?branch=master)
-](https://travis-ci.com/pzahemszky/sudoku)
+  ![Travis CI build status](https://travis-ci.com/pzahemszky/pZudoku.svg?branch=master)
+](https://travis-ci.com/pzahemszky/pZudoku)
 
 Windows:
 [
-  ![AppVeyor build status](https://ci.appveyor.com/api/projects/status/yf8618ivmnrumk9t?svg=true)
-](https://ci.appveyor.com/project/pzahemszky/sudoku)
+  ![AppVeyor build status](https://ci.appveyor.com/api/projects/status/gpjphlfl4aq50s6k?svg=true)
+](https://ci.appveyor.com/project/pzahemszky/pZudoku)
 
 [
-  ![codecov percentage](https://codecov.io/gh/pzahemszky/sudoku/branch/master/graph/badge.svg)
-](https://codecov.io/gh/pzahemszky/sudoku)
+  ![codecov percentage](https://codecov.io/gh/pzahemszky/pZudoku/branch/master/graph/badge.svg)
+](https://codecov.io/gh/pzahemszky/pZudoku)
 
-# sudoku
+# pZudoku
 
 A Python 3 implementation of a sudoku solver, using my own 6D boolean array data structure as well as my `_quick_fill` and recursion strategies.
 
@@ -31,9 +31,9 @@ You'll need Python 3, as well as the following packages installed.
 ## Install
 
 - Clone or download the repository from GitHub (e.g. `git clone https://github
-.com/pzahemszky/sudoku.git`).
-- Change to the `sudoku` directory (e.g. `cd sudoku`).
-- Install the `sudoku` Python package (e.g. `pip install --user .`).
+.com/pzahemszky/pZudoku.git`).
+- Change to the `pZudoku` directory (e.g. `cd pZudoku`).
+- Install the `pZudoku` Python package (e.g. `pip install --user .`).
 
 ## Usage
 
@@ -57,7 +57,7 @@ You'll need Python 3, as well as the following packages installed.
 [//]: # (Note: keep this tested in tests.test_api)
 
 ```python
->>> from sudoku.api import Board
+>>> from pZudoku.api import Board
 >>> my_board = Board.from_array(squares)
 ```
 
@@ -83,4 +83,4 @@ You'll need Python 3, as well as the following packages installed.
 
 ## Uninstall
 
-Remove the `sudoku` Python package (e.g. `pip uninstall sudoku`).
+Remove the `pZudoku` Python package (e.g. `pip uninstall pZudoku`).
