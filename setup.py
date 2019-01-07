@@ -21,7 +21,7 @@ with open('README.md') as f:
     LONG_DESCRIPTION = f.read()
 
 setuptools.setup(
-    name="sudoku",
+    name="pZudoku",
     version="0.1.0",
 
     # Short description used by `pip`
@@ -29,7 +29,7 @@ setuptools.setup(
     # Long description used on PyPI
     long_description=LONG_DESCRIPTION,
     long_description_content_type='text/markdown',
-    url="https://github.com/pzahemszky/sudoku",
+    url="https://github.com/pzahemszky/pZudoku",
     author="Peter Zahemszky",
     author_email="29452238+pzahemszky@users.noreply.github.com",
 
@@ -44,9 +44,9 @@ setuptools.setup(
     tests_require=["flake8 >= 3.4", "coverage >= 4.5.2", "codecov"],
 
     project_urls={
-        "Tracker": "https://github.com/pzahemszky/sudoku/issues",
+        "Tracker": "https://github.com/pzahemszky/pZudoku/issues",
     },
 
     # Test run by `python setup.py test`
-    test_suite="sudoku.tests",
+    test_suite="pZudoku.tests",
 )
