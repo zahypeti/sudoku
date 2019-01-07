@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from sudoku.hb6d_board import ConsistencyError, HB6DBoard
+from pZudoku.hb6d_board import ConsistencyError, HB6DBoard
 
 
 class TestHB6DBoard(unittest.TestCase):

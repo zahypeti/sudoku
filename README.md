@@ -57,7 +57,7 @@ You'll need Python 3, as well as the following packages installed.
 [//]: # (Note: keep this tested in tests.test_api)
 
 ```python
->>> from sudoku.api import Board
+>>> from pZudoku.api import Board
 >>> my_board = Board.from_array(squares)
 ```
 
