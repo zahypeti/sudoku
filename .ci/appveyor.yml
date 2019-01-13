@@ -22,8 +22,8 @@ install:
   - set PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
   # Print the Python version for easier debugging
   - python --version
-  # Upgrade pip, setuptools and wheel
-  - python -m pip install --upgrade pip setuptools wheel
+  # Upgrade pip, and setuptools
+  - python -m pip install --upgrade pip setuptools
   # Use `pip install .` instead of `setup.py install`
   - python -m pip install .
 
