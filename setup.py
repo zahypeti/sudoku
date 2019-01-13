@@ -38,8 +38,17 @@ setuptools.setup(
     keywords='sudoku sudoku-solver',
 
     packages=setuptools.find_packages(exclude=['tests']),
+
     # Requirements installed by `python setup.py install`
-    install_requires=["numpy >= 1.14.2"],
+    install_requires=[
+        # pip 9.0.0 notifies about python_requires incompatibility
+        "pip >= 9.0.0",
+        # setuptools 38.6.0 introduces long_description_content_type
+        "setuptools >= 38.6.0",
+        # NumPy 1.8.0 introduces np.full()
+        "numpy >= 1.8.0",
+    ],
+
     python_requires=">=3.4",
     tests_require=["flake8 >= 3.4", "coverage >= 4.5.2", "codecov"],
 
