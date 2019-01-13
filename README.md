@@ -33,8 +33,7 @@ packages.
 
 ## Install
 
-- Clone or download the repository from GitHub (e.g. `git clone https://github
-.com/pzahemszky/pZudoku.git`).
+- Clone or download the repository from GitHub (e.g. `git clone https://github.com/pzahemszky/pZudoku.git`).
 - Change to the `pZudoku` directory (e.g. `cd pZudoku`).
 - Install the `pZudoku` Python package (e.g. `pip install --user .`).
 
