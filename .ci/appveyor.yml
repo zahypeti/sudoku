@@ -23,19 +23,19 @@ install:
   # Print the Python version for easier debugging
   - python --version
   # Upgrade pip, and setuptools
-  - python -m pip install --upgrade pip setuptools
+  - python -m pip install --user --upgrade pip setuptools
   # Use `pip install .` instead of `setup.py install`
-  - python -m pip install .
+  - python -m pip install --user .
 
 build: off
 
 test_script:
   # Run the PEP8 code style checks
-  - python -m pip install flake8
+  - python -m pip install --user flake8
   - flake8 --filename=*.py --exclude=venv,.eggs .
   # Run tests and compute code coverage
-  - python -m pip install coverage
+  - python -m pip install --user coverage
   - coverage run setup.py test
   # Codecov report
-  - python -m pip install codecov
+  - python -m pip install --user codecov
   - codecov

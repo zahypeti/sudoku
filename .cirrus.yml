@@ -44,21 +44,21 @@ task:
     # Print Python version for easier debugging
     - python3 --version
     # Upgrade pip, and setuptools
-    - python3 -m pip install --upgrade pip setuptools
+    - python3 -m pip install --user --upgrade pip setuptools
     # Use `pip install .` instead of `setup.py install`
-    - python3 -m pip install .
+    - python3 -m pip install --user .
 
   flake8_script:
     # Run the PEP8 code style checks
-    - python3 -m pip install flake8
+    - python3 -m pip install --user flake8
     - flake8 --filename=*.py --exclude=venv,.eggs .
 
   test_script:
     # Run tests and compute code coverage
-    - python3 -m pip install coverage
+    - python3 -m pip install --user coverage
     - coverage run setup.py test
 
   codecov_report_script:
     # Codecov report
-    - python3 -m pip install codecov
+    - python3 -m pip install --user codecov
     - codecov
