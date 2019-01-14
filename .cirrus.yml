@@ -47,10 +47,10 @@ task:
     - python3 -m pip install --user --upgrade pip setuptools
     # Use `pip install .` instead of `setup.py install`
     - python3 -m pip install --user .
-      # Debug line
-      - python3 -m site --user-base
-      # Modify the PATH environment variable
-      - PATH=$PATH:~/.local/bin
+    # Debug line
+    - python3 -m site --user-base
+    # Modify the PATH environment variable
+    - PATH=$PATH:~/.local/bin
 
   flake8_script:
     # Run the PEP8 code style checks
