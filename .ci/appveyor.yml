@@ -26,6 +26,9 @@ install:
   - python -m pip install --user --upgrade pip setuptools
   # Use `pip install .` instead of `setup.py install`
   - python -m pip install --user .
+  # Debug line
+  - python -m site --user-base
+  # No need to further modify the PATH environment variable
 
 build: off
 

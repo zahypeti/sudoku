@@ -45,6 +45,10 @@ install:
   - python -m pip install --user --upgrade pip setuptools
   # Use `pip install .` instead of `setup.py install`
   - python -m pip install --user .
+  # Debug line
+  - python -m site --user-base
+  # Modify the PATH environment variable
+  - PATH=$PATH:~/.local/bin
 
 script:
   # Run the PEP8 code style checks
