@@ -37,6 +37,7 @@ class ConsistencyError(Exception):
     """
     Exception type for signalling the inconsistency of the sudoku board.
     """
+
     def __init__(self, message, _idx=None):
         """
         Initialise this Exception object.
@@ -117,7 +118,11 @@ class HB6DBoard(object):
         # _num = 3 * _idx[0] + _idx[1]
         # _row = 3 * _idx[2] + _idx[3]
         # _col = 3 * _idx[4] + _idx[5]
-        return _idx[0]*3 + _idx[1], _idx[2]*3 + _idx[3], _idx[4]*3 + _idx[5]
+        return (
+            _idx[0] * 3 + _idx[1],
+            _idx[2] * 3 + _idx[3],
+            _idx[4] * 3 + _idx[5],
+        )
 
     def __repr__(self):
         board_repr = ''
@@ -249,7 +254,7 @@ class HB6DBoard(object):
                     except ValueError:
                         msg = "Clash found during instantiation: {} ({}, {})."
                         raise ConsistencyError(
-                            msg.format(number, _row+1, _col+1)
+                            msg.format(number, _row + 1, _col + 1)
                         )
 
         return obj
@@ -272,7 +277,7 @@ class HB6DBoard(object):
         boxcol, subcol = divmod(column - 1, 3)
         cells = self._cells[:, :, boxrow, subrow, boxcol, subcol].flat
         numbers = [
-            idx+1
+            idx + 1
             for idx, is_candidate in enumerate(cells)
             if is_candidate
         ]
