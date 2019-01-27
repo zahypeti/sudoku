@@ -51,7 +51,7 @@ task:
   flake8_script:
     # Run the PEP8 code style checks
     - python3 -m pip install flake8
-    - flake8 --filename=*.py --exclude=venv,.eggs .
+    - flake8 --filename=*.py --ignore= --exclude=venv,.eggs .
 
   test_script:
     # Run tests and compute code coverage
