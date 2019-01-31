@@ -370,15 +370,15 @@ class TestConsistencyCheck(unittest.TestCase):
         # Invalid board without candidates in the three empty squares
         # Number 9 in square (1, 2) shouldn't be there (for example)
         squares = np.array([
-            [4,    9,    3,    None, 2,    1,    6,    5,    7],
-            [None, 6,    7,    3,    4,    5,    8,    2,    1],
-            [2,    5,    1,    8,    7,    6,    4,    9,    3],
-            [5,    4,    8,    1,    3,    2,    9,    7,    6],
-            [7,    2,    9,    5,    6,    4,    1,    3,    8],
-            [1,    3,    6,    7,    9,    8,    2,    4,    5],
-            [3,    7,    2,    6,    8,    9,    5,    1,    4],
-            [8,    1,    4,    2,    5,    3,    7,    6,    9],
-            [6,    None, 5,    4,    1,    7,    3,    8,    2],
+            [4,    9,    3,    None, 2,    1,    6,    5,    7],  # noqa: E241
+            [None, 6,    7,    3,    4,    5,    8,    2,    1],  # noqa: E241
+            [2,    5,    1,    8,    7,    6,    4,    9,    3],  # noqa: E241
+            [5,    4,    8,    1,    3,    2,    9,    7,    6],  # noqa: E241
+            [7,    2,    9,    5,    6,    4,    1,    3,    8],  # noqa: E241
+            [1,    3,    6,    7,    9,    8,    2,    4,    5],  # noqa: E241
+            [3,    7,    2,    6,    8,    9,    5,    1,    4],  # noqa: E241
+            [8,    1,    4,    2,    5,    3,    7,    6,    9],  # noqa: E241
+            [6,    None, 5,    4,    1,    7,    3,    8,    2],  # noqa: E241
         ])
         board = HB6DBoard.from_array(squares)
         repr_before = repr(board)
@@ -495,15 +495,15 @@ class TestConsistencyCheck(unittest.TestCase):
     def test_consistency_check_for_valid_board(self):
         # A valid sudoku board
         squares = np.array([
-            [4,    None, 3,    None, 2,    1,    6,    5,    7],
-            [None, 6,    7,    3,    4,    5,    8,    2,    1],
-            [2,    5,    1,    8,    7,    6,    4,    9,    3],
-            [5,    4,    8,    1,    3,    2,    9,    7,    6],
-            [7,    2,    9,    5,    6,    4,    1,    3,    8],
-            [1,    3,    6,    7,    9,    8,    2,    4,    5],
-            [3,    7,    2,    6,    8,    9,    5,    1,    4],
-            [8,    1,    4,    2,    5,    3,    7,    6,    9],
-            [6,    None, 5,    4,    1,    7,    3,    8,    2],
+            [4,    None, 3,    None, 2,    1,    6,    5,    7],  # noqa: E241
+            [None, 6,    7,    3,    4,    5,    8,    2,    1],  # noqa: E241
+            [2,    5,    1,    8,    7,    6,    4,    9,    3],  # noqa: E241
+            [5,    4,    8,    1,    3,    2,    9,    7,    6],  # noqa: E241
+            [7,    2,    9,    5,    6,    4,    1,    3,    8],  # noqa: E241
+            [1,    3,    6,    7,    9,    8,    2,    4,    5],  # noqa: E241
+            [3,    7,    2,    6,    8,    9,    5,    1,    4],  # noqa: E241
+            [8,    1,    4,    2,    5,    3,    7,    6,    9],  # noqa: E241
+            [6,    None, 5,    4,    1,    7,    3,    8,    2],  # noqa: E241
         ])
         board = HB6DBoard.from_array(squares)
         repr_before = repr(board)
@@ -525,15 +525,15 @@ class TestConsistencyCheck(unittest.TestCase):
         # to a valid solution (so the board has no solution), but this is
         # not discovered by `_consistency_check()`.
         squares = [
-            [4, 1, 7, 3, 6, 9, 8, 2,    5],
-            [2, 3, 6, 1, 5, 8, 7, None, 0],
-            [0, 5, 0, 7, 2, 4, 0, 1,    0],
-            [0, 2, 5, 4, 3, 7, 1, 6,    0],
-            [0, 0, 1, 0, 8, 0, 4, 0,    0],
-            [0, 4, 0, 0, 1, 0, 0, 0,    0],
-            [0, 0, 2, 6, 4, 3, 5, 7,    1],
-            [5, 0, 3, 2, 0, 1, 0, 0,    0],
-            [1, 0, 4, 8, 0, 5, 0, 0,    0],
+            [4, 1, 7, 3, 6, 9, 8, 2,    5],  # noqa: E241
+            [2, 3, 6, 1, 5, 8, 7, None, 0],  # noqa: E241
+            [0, 5, 0, 7, 2, 4, 0, 1,    0],  # noqa: E241
+            [0, 2, 5, 4, 3, 7, 1, 6,    0],  # noqa: E241
+            [0, 0, 1, 0, 8, 0, 4, 0,    0],  # noqa: E241
+            [0, 4, 0, 0, 1, 0, 0, 0,    0],  # noqa: E241
+            [0, 0, 2, 6, 4, 3, 5, 7,    1],  # noqa: E241
+            [5, 0, 3, 2, 0, 1, 0, 0,    0],  # noqa: E241
+            [1, 0, 4, 8, 0, 5, 0, 0,    0],  # noqa: E241
         ]
         # Try the first candidate number: 4
         board_1 = HB6DBoard.from_array(squares)
@@ -590,15 +590,15 @@ class TestFirstEmptySquare(unittest.TestCase):
         # Invalid board without candidates in the three empty squares
         # Number 9 in square (1, 2) shouldn't be there (for example)
         squares = np.array([
-            [4,    9,    3,    None, 2,    1,    6,    5,    7],
-            [None, 6,    7,    3,    4,    5,    8,    2,    1],
-            [2,    5,    1,    8,    7,    6,    4,    9,    3],
-            [5,    4,    8,    1,    3,    2,    9,    7,    6],
-            [7,    2,    9,    5,    6,    4,    1,    3,    8],
-            [1,    3,    6,    7,    9,    8,    2,    4,    5],
-            [3,    7,    2,    6,    8,    9,    5,    1,    4],
-            [8,    1,    4,    2,    5,    3,    7,    6,    9],
-            [6,    None, 5,    4,    1,    7,    3,    8,    2],
+            [4,    9,    3,    None, 2,    1,    6,    5,    7],  # noqa: E241
+            [None, 6,    7,    3,    4,    5,    8,    2,    1],  # noqa: E241
+            [2,    5,    1,    8,    7,    6,    4,    9,    3],  # noqa: E241
+            [5,    4,    8,    1,    3,    2,    9,    7,    6],  # noqa: E241
+            [7,    2,    9,    5,    6,    4,    1,    3,    8],  # noqa: E241
+            [1,    3,    6,    7,    9,    8,    2,    4,    5],  # noqa: E241
+            [3,    7,    2,    6,    8,    9,    5,    1,    4],  # noqa: E241
+            [8,    1,    4,    2,    5,    3,    7,    6,    9],  # noqa: E241
+            [6,    None, 5,    4,    1,    7,    3,    8,    2],  # noqa: E241
         ])
         board = HB6DBoard.from_array(squares)
 
@@ -672,15 +672,15 @@ class TestRecursiveSolve(unittest.TestCase):
         # Invalid board without candidates in the three empty squares
         # Number 9 in square (1, 2) shouldn't be there (for example)
         squares = np.array([
-            [4,    9,    3,    None, 2,    1,    6,    5,    7],
-            [None, 6,    7,    3,    4,    5,    8,    2,    1],
-            [2,    5,    1,    8,    7,    6,    4,    9,    3],
-            [5,    4,    8,    1,    3,    2,    9,    7,    6],
-            [7,    2,    9,    5,    6,    4,    1,    3,    8],
-            [1,    3,    6,    7,    9,    8,    2,    4,    5],
-            [3,    7,    2,    6,    8,    9,    5,    1,    4],
-            [8,    1,    4,    2,    5,    3,    7,    6,    9],
-            [6,    None, 5,    4,    1,    7,    3,    8,    2],
+            [4,    9,    3,    None, 2,    1,    6,    5,    7],  # noqa: E241
+            [None, 6,    7,    3,    4,    5,    8,    2,    1],  # noqa: E241
+            [2,    5,    1,    8,    7,    6,    4,    9,    3],  # noqa: E241
+            [5,    4,    8,    1,    3,    2,    9,    7,    6],  # noqa: E241
+            [7,    2,    9,    5,    6,    4,    1,    3,    8],  # noqa: E241
+            [1,    3,    6,    7,    9,    8,    2,    4,    5],  # noqa: E241
+            [3,    7,    2,    6,    8,    9,    5,    1,    4],  # noqa: E241
+            [8,    1,    4,    2,    5,    3,    7,    6,    9],  # noqa: E241
+            [6,    None, 5,    4,    1,    7,    3,    8,    2],  # noqa: E241
         ])
 
         board = HB6DBoard.from_array(squares)
@@ -793,15 +793,15 @@ class TestRecursiveSolve(unittest.TestCase):
         # when the `_recursive_solve()` method raises because of an
         # inconsistency that isn't detected by `_consistency_check()`.
         squares = [
-            [4,    1,    7,    3,    6,    9,    8,    2,    5],
-            [2,    3,    6,    1,    5,    8,    7,    None, None],
-            [None, 5,    None, 7,    2,    4,    None, 1,    None],
-            [None, 2,    5,    4,    3,    7,    1,    6,    None],
-            [None, None, 1,    None, 8,    None, 4,    None, None],
-            [None, 4,    None, None, 1,    None, None, None, None],
-            [None, None, 2,    6,    4,    3,    5,    7,    1],
-            [5,    None, 3,    2,    None, 1,    None, None, None],
-            [1,    None, 4,    8,    None, 5,    None, None, None],
+            [4,    1,    7,    3,    6,    9,    8,    2,    5],  # noqa: E241
+            [2,    3,    6,    1,    5,    8,    7,    None, None],  # noqa: E241, E501
+            [None, 5,    None, 7,    2,    4,    None, 1,    None],  # noqa: E241, E501
+            [None, 2,    5,    4,    3,    7,    1,    6,    None],  # noqa: E241, E501
+            [None, None, 1,    None, 8,    None, 4,    None, None],  # noqa: E241, E501
+            [None, 4,    None, None, 1,    None, None, None, None],  # noqa: E241, E501
+            [None, None, 2,    6,    4,    3,    5,    7,    1],  # noqa: E241
+            [5,    None, 3,    2,    None, 1,    None, None, None],  # noqa: E241, E501
+            [1,    None, 4,    8,    None, 5,    None, None, None],  # noqa: E241, E501
         ]
         board = HB6DBoard.from_array(squares)
 
@@ -816,15 +816,15 @@ class TestSolve(unittest.TestCase):
         # Invalid board without candidates in the three empty squares
         # Number 9 in square (1, 2) shouldn't be there (for example)
         squares = np.array([
-            [4,    9,    3,    None, 2,    1,    6,    5,    7],
-            [None, 6,    7,    3,    4,    5,    8,    2,    1],
-            [2,    5,    1,    8,    7,    6,    4,    9,    3],
-            [5,    4,    8,    1,    3,    2,    9,    7,    6],
-            [7,    2,    9,    5,    6,    4,    1,    3,    8],
-            [1,    3,    6,    7,    9,    8,    2,    4,    5],
-            [3,    7,    2,    6,    8,    9,    5,    1,    4],
-            [8,    1,    4,    2,    5,    3,    7,    6,    9],
-            [6,    None, 5,    4,    1,    7,    3,    8,    2],
+            [4,    9,    3,    None, 2,    1,    6,    5,    7],  # noqa: E241
+            [None, 6,    7,    3,    4,    5,    8,    2,    1],  # noqa: E241
+            [2,    5,    1,    8,    7,    6,    4,    9,    3],  # noqa: E241
+            [5,    4,    8,    1,    3,    2,    9,    7,    6],  # noqa: E241
+            [7,    2,    9,    5,    6,    4,    1,    3,    8],  # noqa: E241
+            [1,    3,    6,    7,    9,    8,    2,    4,    5],  # noqa: E241
+            [3,    7,    2,    6,    8,    9,    5,    1,    4],  # noqa: E241
+            [8,    1,    4,    2,    5,    3,    7,    6,    9],  # noqa: E241
+            [6,    None, 5,    4,    1,    7,    3,    8,    2],  # noqa: E241
         ])
 
         board = HB6DBoard.from_array(squares)
