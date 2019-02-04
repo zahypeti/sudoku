@@ -2,18 +2,18 @@ import unittest
 
 import numpy as np
 
-from pZudoku.hb6d_board import ConsistencyError, HB6DBoard
+from pZudoku.hb6d_board import ConsistencyError, SixD_Board
 
 
-class TestHB6DBoard(unittest.TestCase):
+class TestSixD_Board(unittest.TestCase):
 
     def test_init(self):
-        HB6DBoard()
+        SixD_Board()
         # No errors
 
     def test_num_row_col_to_idx(self):
         # Convert _num, _row, and _col to 6D coordinates
-        board = HB6DBoard()
+        board = SixD_Board()
         # Zero-based values
         _num = 2
         _row = 3
@@ -26,7 +26,7 @@ class TestHB6DBoard(unittest.TestCase):
 
     def test_idx_to_num_row_col(self):
         # Convert 6D coordinates to _num, _row, and _col
-        board = HB6DBoard()
+        board = SixD_Board()
         _idx = (2, 2, 0, 1, 2, 0)
         expected_num_row_col = (8, 1, 6)
 
@@ -38,7 +38,7 @@ class TestHB6DBoard(unittest.TestCase):
 class TestPutMethod(unittest.TestCase):
 
     def test_simple_put(self):
-        board = HB6DBoard()
+        board = SixD_Board()
         expected_repr = (
             "1 . 3 | 1 . 3 | 1 . 3  1 2 3 | 1 2 3 | 1 2 3  1 2 3 | 1 2 3 | 1 2 3\n"  # noqa: E501
             "4 5 6 | 4 5 6 | 4 5 6  4 5 6 | 4 5 6 | 4 5 6  4 5 6 | 4 5 6 | 4 5 6\n"  # noqa: E501
@@ -84,7 +84,7 @@ class TestPutMethod(unittest.TestCase):
         self.assertEqual(repr(board), expected_repr)
 
     def test_put(self):
-        board = HB6DBoard()
+        board = SixD_Board()
         expected_repr = (
             "1 . 3 | 1 . 3 | 1 . 3  1 2 3 | 1 . 3 | 1 2 3  1 2 3 | 1 2 3 | 1 2 3\n"  # noqa: E501
             "4 5 6 | 4 5 6 | 4 5 6  4 5 6 | 4 5 6 | 4 5 6  4 5 6 | 4 5 6 | 4 5 6\n"  # noqa: E501
@@ -134,7 +134,7 @@ class TestPutMethod(unittest.TestCase):
         self.assertEqual(repr(board), expected_repr)
 
     def test_putting_twice_is_ok(self):
-        board = HB6DBoard()
+        board = SixD_Board()
         # Insert number 2 into square (3, 1)
         board._put((0, 1, 0, 2, 0, 0))
 
@@ -144,7 +144,7 @@ class TestPutMethod(unittest.TestCase):
         # No errors
 
     def test_put_raises(self):
-        board = HB6DBoard()
+        board = SixD_Board()
         # Insert number 2 into square (3, 1)
         board._put((0, 1, 0, 2, 0, 0))
 
@@ -181,7 +181,7 @@ class TestBoardFromArray(unittest.TestCase):
             ". . . | . . . | . . .\n"
         )
 
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
 
         self.assertEqual(str(board), expected_str)
 
@@ -199,7 +199,7 @@ class TestBoardFromArray(unittest.TestCase):
         ])
 
         with self.assertRaises(ConsistencyError) as exc_cm:
-            HB6DBoard.from_array(squares)
+            SixD_Board.from_array(squares)
 
         self.assertIn("Clash found", str(exc_cm.exception))
 
@@ -218,7 +218,7 @@ class TestCandidates(unittest.TestCase):
             [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
             [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         # 2, 3, and 7 are not candidates, but every other number is
         expected_candidates = [1, 4, 5, 6, 8, 9]
 
@@ -241,7 +241,7 @@ class TestInsert(unittest.TestCase):
             [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
             [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         expected_candidates = [9]
 
         board.insert(number=9, row=1, column=2)
@@ -260,7 +260,7 @@ class TestInsert(unittest.TestCase):
             [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
             [None, None, None, None, None, None, None, None, None],  # noqa: E241, E501
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
 
         with self.assertRaises(ValueError) as exc_cm:
             board.insert(number=2, row=6, column=7)
@@ -282,7 +282,7 @@ class TestQuickFill(unittest.TestCase):
             [8, 0, 0, 2, 0, 3, 0, 0, 9],
             [0, 0, 5, 0, 1, 0, 3, 0, 0],
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         expected_str = (
             "4 8 3 | 9 2 1 | 6 5 7\n"
             "9 6 7 | 3 4 5 | 8 2 1\n"
@@ -314,7 +314,7 @@ class TestQuickFill(unittest.TestCase):
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 1],
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         # The obvious squares should be filled in still
         expected_str = (
             ". 2 3 | 4 5 6 | 7 8 9\n"
@@ -350,7 +350,7 @@ class TestQuickFill(unittest.TestCase):
             [6, 0, 4, 0, 0, 1, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 5, 0],
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         # Make sure the board isn't filled (which would be a trivial test)
         self.assertGreater(board._cells.sum(), 81)
         board._quick_fill()
@@ -380,7 +380,7 @@ class TestConsistencyCheck(unittest.TestCase):
             [8,    1,    4,    2,    5,    3,    7,    6,    9],  # noqa: E241
             [6,    None, 5,    4,    1,    7,    3,    8,    2],  # noqa: E241
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         repr_before = repr(board)
 
         with self.assertRaises(ConsistencyError) as exc_cm:
@@ -407,7 +407,7 @@ class TestConsistencyCheck(unittest.TestCase):
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [9, 0, 0, 0, 0, 0, 0, 0, 0],
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         # Nones are for 'no candidate', _row is 0, _col is 0
         _expected_idx = (None, None, 0, 0, 0, 0)
 
@@ -432,7 +432,7 @@ class TestConsistencyCheck(unittest.TestCase):
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 2, 0, 0, 0, 0, 0, 0, 0],
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         # _num is 1, _row is 3, Nones are for 'no column'
         _expected_idx = (0, 1, 1, 0, None, None)
 
@@ -457,7 +457,7 @@ class TestConsistencyCheck(unittest.TestCase):
             [0, 0, 0, 0, 0, 0, 0, 0, 8],
             [0, 0, 0, 0, 0, 0, 0, 0, 9],
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         # _num is 2, Nones are for 'no row', _col is 8
         _expected_idx = (0, 2, None, None, 2, 2)
 
@@ -482,7 +482,7 @@ class TestConsistencyCheck(unittest.TestCase):
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 4, 0, 0, 0, 0],
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         # _num is 3, _boxrow is 1, _boxcol is 1
         # Nones are for 'no _subrow or _subcol'
         _expected_idx = (1, 0, 1, None, 1, None)
@@ -505,7 +505,7 @@ class TestConsistencyCheck(unittest.TestCase):
             [8,    1,    4,    2,    5,    3,    7,    6,    9],  # noqa: E241
             [6,    None, 5,    4,    1,    7,    3,    8,    2],  # noqa: E241
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         repr_before = repr(board)
 
         board._check_consistency()
@@ -536,20 +536,20 @@ class TestConsistencyCheck(unittest.TestCase):
             [1, 0, 4, 8, 0, 5, 0, 0,    0],  # noqa: E241
         ]
         # Try the first candidate number: 4
-        board_1 = HB6DBoard.from_array(squares)
+        board_1 = SixD_Board.from_array(squares)
         board_1.insert(4, 2, 8)
         with self.assertRaises(ConsistencyError):
             board_1._quick_fill()
             board_1._check_consistency()
         # Try the second candidate number: 9
-        board_1 = HB6DBoard.from_array(squares)
+        board_1 = SixD_Board.from_array(squares)
         board_1.insert(9, 2, 8)
         with self.assertRaises(ConsistencyError):
             board_1._quick_fill()
             board_1._check_consistency()
 
         # Given
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         # Make sure that there are no other candidates
         self.assertEqual(board.candidates(2, 8), [4, 9])
 
@@ -579,7 +579,7 @@ class TestFirstEmptySquare(unittest.TestCase):
             [8, 1, 4, 2, 5, 3, 7, 6, 9],
             [6, 9, 5, 4, 1, 7, 3, 8, 2],
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
 
         with self.assertRaises(ValueError) as exc_cm:
             board._first_empty_square()
@@ -600,7 +600,7 @@ class TestFirstEmptySquare(unittest.TestCase):
             [8,    1,    4,    2,    5,    3,    7,    6,    9],  # noqa: E241
             [6,    None, 5,    4,    1,    7,    3,    8,    2],  # noqa: E241
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
 
         with self.assertRaises(ValueError) as exc_cm:
             board._first_empty_square()
@@ -622,7 +622,7 @@ class TestFirstEmptySquare(unittest.TestCase):
             [None, 2,    None, None, None, None, None, None, None],  # noqa: E241, E501
             [None, 1,    None, None, None, None, None, None, None],  # noqa: E241, E501
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         # Candidate numbers are 7, 8 and 9
         _expected_candidates = [(2, 2, 2), (0, 1, 2)]
         # Square is in row 1, column 2
@@ -649,7 +649,7 @@ class TestRecursiveSolve(unittest.TestCase):
             [8, 1, 4, 2, 5, 3, 7, 6, 9],
             [6, 9, 5, 4, 1, 7, 3, 8, 2],
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         expected_str = (
             "4 8 3 | 9 2 1 | 6 5 7\n"
             "9 6 7 | 3 4 5 | 8 2 1\n"
@@ -683,7 +683,7 @@ class TestRecursiveSolve(unittest.TestCase):
             [6,    None, 5,    4,    1,    7,    3,    8,    2],  # noqa: E241
         ])
 
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
 
         with self.assertRaises(ConsistencyError):
             board._recursive_solve()
@@ -701,7 +701,7 @@ class TestRecursiveSolve(unittest.TestCase):
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         expected_repr = (
             ". . . | . 2 . | . . 3  . . . | . . . | . . .  . . . | . . . | . . .\n"  # noqa: E501
             ". . . | . . . | . . .  4 . . | . 5 . | . . 6  . . . | . . . | . . .\n"  # noqa: E501
@@ -759,12 +759,12 @@ class TestRecursiveSolve(unittest.TestCase):
             [6, 0, 4, 0, 0, 1, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 5, 0],
         ])
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         # Make sure _quick_fill() doesn't solve the board
         # (which would be a trivial test)
         board._quick_fill()
         self.assertGreater(board._cells.sum(), 81)
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
         expected_str = (
             "1 8 3 | 7 9 6 | 5 4 2\n"
             "4 5 2 | 3 1 8 | 9 6 7\n"
@@ -803,7 +803,7 @@ class TestRecursiveSolve(unittest.TestCase):
             [5,    None, 3,    2,    None, 1,    None, None, None],  # noqa: E241, E501
             [1,    None, 4,    8,    None, 5,    None, None, None],  # noqa: E241, E501
         ]
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
 
         with self.assertRaises(ConsistencyError) as exc_cm:
             board._recursive_solve()
@@ -827,7 +827,7 @@ class TestSolve(unittest.TestCase):
             [6,    None, 5,    4,    1,    7,    3,    8,    2],  # noqa: E241
         ])
 
-        board = HB6DBoard.from_array(squares)
+        board = SixD_Board.from_array(squares)
 
         with self.assertRaises(ConsistencyError):
             board.solve()

@@ -19,7 +19,7 @@ _REPR_VERTICAL_SQUARE_MEDIUM = ' | '
 
 _REPR_VERTICAL_SEP_SMALL = ' '
 
-# Dimensions of the HB6DBoard's underlying array
+# Dimensions of the SixD_Board's underlying array
 _SHAPE = (3,) * 6
 
 _STR_HORIZONTAL_SEP_MEDIUM = (
@@ -47,7 +47,7 @@ class ConsistencyError(Exception):
         message : str
             Error message used for reporting.
         _idx : None or tuple of int or None of shape (6,), optional
-            Coordinates of the HB6DBoard object's boolean array that
+            Coordinates of the SixD_Board object's boolean array that
             correspond to the found inconsistency. Default is None.
         """
         self.message = message
@@ -57,7 +57,7 @@ class ConsistencyError(Exception):
         return self.message
 
 
-class HB6DBoard(object):
+class SixD_Board(object):
     """
     Data structure for storing and solving a sudoku board.
     """
@@ -224,7 +224,7 @@ class HB6DBoard(object):
     @classmethod
     def from_array(cls, array):
         """
-        Create a HB6DBoard instance from the given 2-D array.
+        Create a SixD_Board instance from the given 2-D array.
 
         Parameters
         ----------

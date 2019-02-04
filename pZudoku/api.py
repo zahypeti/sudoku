@@ -1,1 +1,1 @@
-from pZudoku.hb6d_board import HB6DBoard as Board  # noqa: F401
+from pZudoku.hb6d_board import SixD_Board as Board  # noqa: F401
