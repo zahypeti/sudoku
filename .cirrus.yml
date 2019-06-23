@@ -11,6 +11,10 @@ task:
           image: python:3.6
           image: python:3.5
           image: python:3.4
+    # Allow failures for development versions of Python
+    - allow_failures: true
+      container:
+        image: python:3.8-rc-buster
 
     - osx_instance:
         matrix:
