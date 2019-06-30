@@ -16,7 +16,7 @@ task:
       container:
         image: python:3.8-rc
       cp38_setup_script:
-        - sudo apt-get install gcc gfortran python-dev libopenblas-dev liblapack-dev cython
+        - apt-get install gcc gfortran python-dev libopenblas-dev liblapack-dev cython
 
     - osx_instance:
         matrix:
