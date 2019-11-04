@@ -6,11 +6,11 @@ matrix:
     # Enumerate all possible combinations, because the other option doesn't seem to work
     - os: linux
       dist: xenial
-      python: "3.8-dev"
+      python: "3.8"
     - os: linux
       dist: xenial
       python: "3.7"
-      # No Python 3.7 or 3.8-dev archives for Trusty or Precise
+      # No Python 3.7 or 3.8 archives for Trusty or Precise
       # See https://github.com/travis-ci/travis-ci/issues/9069#issuecomment-425720905
     - os: linux
       dist: xenial
@@ -39,9 +39,6 @@ matrix:
     # To add macOS here, see https://docs.travis-ci.com/user/multi-os/#python-example-unsupported-languages
   # Only wait for required builds to finish
   fast_finish: true
-  allow_failures:
-    # Allow failures for development versions of Python
-    - python: "3.8-dev"
 
 install:
   # Print the Python version for easier debugging
