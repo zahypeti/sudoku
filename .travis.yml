@@ -36,9 +36,6 @@ matrix:
     - os: linux
       dist: trusty
       python: "3.4"
-    - os: linux
-      dist: precise
-      python: "3.4"
     # To add macOS here, see https://docs.travis-ci.com/user/multi-os/#python-example-unsupported-languages
   # Only wait for required builds to finish
   fast_finish: true
