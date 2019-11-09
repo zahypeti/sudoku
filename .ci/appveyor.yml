@@ -7,6 +7,8 @@ image:
 environment:
   matrix:
     # Different Python versions to run tests with
+    - PYTHON: "C:\\Python38-x64"
+    - PYTHON: "C:\\Python38"
     - PYTHON: "C:\\Python37-x64"
     - PYTHON: "C:\\Python37"
     - PYTHON: "C:\\Python36-x64"
