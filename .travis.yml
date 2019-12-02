@@ -60,4 +60,6 @@ script:
   - codecov
 
 after_script:
-  - if [ "$TRAVIS_PYTHON_VERSION" = "3.8" ]; then python -m pip install --upgrade pytest mutmut; ( mutmut run ) & sleep 10 ; kill $!; mutmut run 15; fi
+  - if [ "$TRAVIS_PYTHON_VERSION" = "3.8" ]; then python -m pip install --upgrade pytest mutmut; fi
+  - if [ "$TRAVIS_PYTHON_VERSION" = "3.8" ]; then ( mutmut run ) & sleep 10 ; kill $!; fi
+  - if [ "$TRAVIS_PYTHON_VERSION" = "3.8" ]; then mutmut run 15; fi
