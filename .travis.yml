@@ -58,3 +58,6 @@ script:
   # Codecov report
   - python -m pip install codecov
   - codecov
+
+after_script:
+  - if [ "$TRAVIS_PYTHON_VERSION" = "3.7" ]; then python -m pip install --upgrade pytest mutmut; ( mutmut run ) & sleep 5 ; kill $!; mutmut run 15; fi
