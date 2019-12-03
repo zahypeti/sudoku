@@ -62,3 +62,9 @@ task:
     # Codecov report
     - python3 -m pip install codecov
     - codecov
+
+  mutation_testing_script:
+    # Mutation testing
+    - python3 -m pip install --upgrade mutmut
+    - mutmut --runner 'python setup.py test' run
+    - mutmut results

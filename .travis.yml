@@ -58,3 +58,7 @@ script:
   # Codecov report
   - python -m pip install codecov
   - codecov
+  # Mutation testing
+  - python -m pip install --upgrade mutmut
+  - mutmut --runner 'python setup.py test' run
+  - mutmut results
