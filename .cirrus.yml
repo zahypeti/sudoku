@@ -14,7 +14,7 @@ task:
 
     - osx_instance:
         matrix:
-          image: mojave-base
+          image: catalina-base
       container:
         # This has Python 2.7
         image: python:latest
