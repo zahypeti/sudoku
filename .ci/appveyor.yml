@@ -15,8 +15,6 @@ environment:
     - PYTHON: "C:\\Python36"
     - PYTHON: "C:\\Python35-x64"
     - PYTHON: "C:\\Python35"
-    - PYTHON: "C:\\Python34-x64"
-    - PYTHON: "C:\\Python34"
     # Codecov token not needed for AppVeyor
 
 matrix:
@@ -26,12 +24,6 @@ matrix:
       PYTHON: "C:\\Python38-x64"
     - image: Visual Studio 2013
       PYTHON: "C:\\Python38"
-    # Exclude Visual Studio 2017, Python 3.4 configuration from build matrix
-    # See pzahemszky/pZudoku#89
-    - image: Visual Studio 2017
-      PYTHON: "C:\\Python34-x64"
-    - image: Visual Studio 2017
-      PYTHON: "C:\\Python34"
 
 install:
   # Put the Python executable on `PATH`
