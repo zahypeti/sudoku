@@ -10,7 +10,7 @@ matrix:
     - os: linux
       dist: xenial
       python: "3.7"
-      # No Python 3.7 or 3.8 archives for Trusty or Precise
+      # No Python 3.7 or 3.8 archives for Trusty
       # See https://github.com/travis-ci/travis-ci/issues/9069#issuecomment-425720905
     - os: linux
       dist: xenial
@@ -19,16 +19,10 @@ matrix:
       dist: trusty
       python: "3.6"
     - os: linux
-      dist: precise
-      python: "3.6"
-    - os: linux
       dist: xenial
       python: "3.5"
     - os: linux
       dist: trusty
-      python: "3.5"
-    - os: linux
-      dist: precise
       python: "3.5"
     # To add macOS here, see https://docs.travis-ci.com/user/multi-os/#python-example-unsupported-languages
   # Only wait for required builds to finish
