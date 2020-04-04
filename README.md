@@ -1,17 +1,7 @@
-Linux, macOS, FreeBSD:
-[
-  ![CirrusCI build status](https://api.cirrus-ci.com/github/pzahemszky/pZudoku.svg)
-](https://cirrus-ci.com/github/pzahemszky/pZudoku)
-
 Ubuntu:
 [
   ![Travis CI build status](https://travis-ci.com/pzahemszky/pZudoku.svg?branch=master)
 ](https://travis-ci.com/pzahemszky/pZudoku)
-
-Windows:
-[
-  ![AppVeyor build status](https://ci.appveyor.com/api/projects/status/gpjphlfl4aq50s6k?svg=true)
-](https://ci.appveyor.com/project/pzahemszky/pZudoku)
 
 [
   ![codecov percentage](https://codecov.io/gh/pzahemszky/pZudoku/branch/master/graph/badge.svg)
