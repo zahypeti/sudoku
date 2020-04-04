@@ -37,15 +37,16 @@ class ConsistencyError(Exception):
     """
     Exception type for signalling the inconsistency of the sudoku board.
     """
+
     def __init__(self, message, _idx=None):
         """
         Initialise this Exception object.
 
         Parameters
         ----------
-        message : unicode
+        message : str
             Error message used for reporting.
-        _idx : tuple of int or None of shape (6,) or None, optional
+        _idx : None or tuple of int or None of shape (6,), optional
             Coordinates of the HB6DBoard object's boolean array that
             correspond to the found inconsistency. Default is None.
         """
@@ -62,26 +63,48 @@ class HB6DBoard(object):
     """
 
     def __init__(self):
-        # Dimensions of the underlying 6D boolean array
+        # Dimensions of the underlying 6-D boolean array
         self._shape = _SHAPE
         self._cells = np.full(shape=self._shape, fill_value=True, dtype=bool)
 
-    def _num_row_col_to_idx(self, _num, _row, _col):
+    @staticmethod
+    def _num_row_col_to_idx(_num, _row, _col):
+        """
+        Return the 6-D coordinate of the cell corresponding to the given
+        candidate number, row, and column.
+
+        Parameters
+        ----------
+        _num : int between 0 and 8 inclusive
+            Candidate referenced by the cell with the given index. Zero-based.
+        _row : int between 0 and 8 inclusive
+            Row referenced by the the cell with the given index. Zero-based.
+        _col : int between 0 and 8 inclusive
+            Column referenced by the cell with the given index. Zero-based.
+
+        Returns
+        -------
+        _idx : numpy.ndarray of shape (6,)
+            Zero-based coordinates referring to a single cell.
+            (_num_div3, _num_mod3, _boxrow, _subrow, _boxcol, _subcol)
+        """
         _num_div3, _num_mod3 = divmod(_num, 3)
         _boxrow, _subrow = divmod(_row, 3)
         _boxcol, _subcol = divmod(_col, 3)
         _idx = (_num_div3, _num_mod3, _boxrow, _subrow, _boxcol, _subcol)
         return _idx
 
-    def _idx_to_num_row_col(self, _idx):
+    @staticmethod
+    def _idx_to_num_row_col(_idx):
         """
         Return the number, row, and column that is represented by the cell
         with the given coordinates.
 
         Parameters
         ----------
-        _idx : numpy.ndarray
+        _idx : numpy.ndarray of shape (6,)
             Zero-based coordinates referring to a single cell.
+            (_num_div3, _num_mod3, _boxrow, _subrow, _boxcol, _subcol)
 
         Returns
         -------
@@ -95,7 +118,11 @@ class HB6DBoard(object):
         # _num = 3 * _idx[0] + _idx[1]
         # _row = 3 * _idx[2] + _idx[3]
         # _col = 3 * _idx[4] + _idx[5]
-        return _idx[0]*3 + _idx[1], _idx[2]*3 + _idx[3], _idx[4]*3 + _idx[5]
+        return (
+            _idx[0] * 3 + _idx[1],
+            _idx[2] * 3 + _idx[3],
+            _idx[4] * 3 + _idx[5],
+        )
 
     def __repr__(self):
         board_repr = ''
@@ -197,7 +224,7 @@ class HB6DBoard(object):
     @classmethod
     def from_array(cls, array):
         """
-        Create a HB6DBoard instance from the given 2D array.
+        Create a HB6DBoard instance from the given 2-D array.
 
         Parameters
         ----------
@@ -209,7 +236,11 @@ class HB6DBoard(object):
 
         Raises
         ------
-        ValueError
+        ConsistencyError
+            If the given 2-D array is inconsistent.
+
+            Note: this function is not guaranteed to raise for every invalid
+            sudoku board.
         """
         obj = cls()
 
@@ -222,7 +253,9 @@ class HB6DBoard(object):
                         obj._put(_idx)
                     except ValueError:
                         msg = "Clash found during instantiation: {} ({}, {})."
-                        raise ValueError(msg.format(number, _row+1, _col+1))
+                        raise ConsistencyError(
+                            msg.format(number, _row + 1, _col + 1)
+                        )
 
         return obj
 
@@ -244,7 +277,7 @@ class HB6DBoard(object):
         boxcol, subcol = divmod(column - 1, 3)
         cells = self._cells[:, :, boxrow, subrow, boxcol, subcol].flat
         numbers = [
-            idx+1
+            idx + 1
             for idx, is_candidate in enumerate(cells)
             if is_candidate
         ]
@@ -296,14 +329,37 @@ class HB6DBoard(object):
         return result
 
     def insert(self, number, row, column):
+        """
+        Insert a number into the given square.
+
+        Parameters
+        ----------
+        number : int between 1 and 9 (inclusive)
+        row : int between 1 and 9 (inclusive)
+        column : int between 1 and 9 (inclusive)
+
+        Raises
+        ------
+        ValueError
+            If the number is not a condidate in the given square.
+        """
         _idx = self._num_row_col_to_idx(number - 1, row - 1, column - 1)
         try:
             self._put(_idx)
         except ValueError:
-            msg = ""
-            raise ValueError(msg)
+            msg = "Number {} is not a valid candidate in square ({}, {})."
+            raise ValueError(msg.format(number, row, column))
 
     def _quick_fill(self):
+        """
+        Fill in some squares by repeatedly trying to apply four simple
+        techniques.
+
+        Iteratively apply four basic search steps: "hidden single" for rows,
+        columns and boxes, and "unique candidate" (also called  "full house" or
+        "lone single"). Repeat until none of these four techniques result in
+        new insertions.
+        """
 
         # Repeat until there are definitely no more insertions
         # Assume that there are at least 17 squares filled in, so it's
@@ -393,6 +449,49 @@ class HB6DBoard(object):
                     (_p, _q, _r, None, _s, None)
                 )
 
+    def _first_empty_square(self):
+        """
+        Find a square that has more than one candidate number. Return the
+        candidates and the square's coordinates.
+
+        Returns
+        -------
+        _candidates : 2-tuple of arrays
+            All possible _num_div3 and _num_mod3 candidates in the empty square
+            found. Zero-based.
+            (_num_div3_array, _num_mod3_array)
+        _square : 4-tuple of ints
+            Zero-based 4-D coordinates of the found square.
+            (_boxrow, _subrow, _boxcol, _subcol)
+
+        Raises
+        ------
+        ValueError
+            If every square has at most one valid candidate.
+
+            Note, that this either means the board is full, or that it's
+            invalid (and some squares have no candidate numbers).
+        """
+        for _linear_idx in range(np.prod(self._shape[:4])):
+
+            # Fix four out of six coordinates
+            _boxrow, _subrow, _boxcol, _subcol = (
+                np.unravel_index(_linear_idx, self._shape[:4])
+            )
+
+            # Inspect a single square
+            x, y = (
+                self._cells[:, :, _boxrow, _subrow, _boxcol, _subcol].nonzero()
+            )
+            if 1 < len(x):
+                # There are more than one candidate numbers in this square
+                _candidates = (x, y)
+                _square = (_boxrow, _subrow, _boxcol, _subcol)
+                return _candidates, _square
+        else:
+            msg = "No empty square found."
+            raise ValueError(msg)
+
     def _recursive_solve(self):
         """
         Solve completely this board, in-place.
@@ -410,21 +509,17 @@ class HB6DBoard(object):
         self._check_consistency()
 
         # Find an empty square
-        for _linear_idx in range(np.prod(self._shape[:4])):
-
-            # Fix four out of six coordinates
-            _p, _q, _r, _s = np.unravel_index(_linear_idx, self._shape[:4])
-
-            # Inspect a single square
-            x, y = self._cells[:, :, _p, _q, _r, _s].nonzero()
-            if 1 < len(x):
-                # There are more than one candidate numbers in this square
-                break
-        else:
+        try:
+            tpl = self._first_empty_square()
+        except ValueError:
             # Didn't raise due to inconsistency (so every square has at least
             # one candidate), and no empty square found (i.e. squares have
             # at most one candidate), so (one of) the solution(s) is found
             return
+        else:
+            _candidates, _square = tpl
+            x, y = _candidates
+            _p, _q, _r, _s = _square
 
         # Try a different valid candidate on each iteration
         for _num_div3, _num_mod3 in zip(x, y):
@@ -442,8 +537,8 @@ class HB6DBoard(object):
                 del child_board
                 continue
             # One solution found, so copy its data (the boolean array)
-            self._cells = child_board._cells
-            del child_board
+            self._cells = child_board._cells  # noqa: F821
+            del child_board  # noqa: F821
             return
 
         else:

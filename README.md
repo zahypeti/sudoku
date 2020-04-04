@@ -1,15 +1,31 @@
+Ubuntu:
 [
-  ![CirrusCI](https://api.cirrus-ci.com/github/pzahemszky/sudoku.svg)
-](https://cirrus-ci.com/github/pzahemszky/sudoku)
+  ![Travis CI build status](https://travis-ci.com/pzahemszky/pZudoku.svg?branch=master)
+](https://travis-ci.com/pzahemszky/pZudoku)
 
 [
-  ![codecov](https://codecov.io/gh/pzahemszky/sudoku/branch/master/graph/badge.svg)
-](https://codecov.io/gh/pzahemszky/sudoku)
+  ![codecov percentage](https://codecov.io/gh/pzahemszky/pZudoku/branch/master/graph/badge.svg)
+](https://codecov.io/gh/pzahemszky/pZudoku)
 
+# pZudoku
 
-# sudoku
+A Python 3 implementation of a sudoku solver, using my own 6D boolean array data structure as well as my `_quick_fill` and recursion strategies.
 
-A Python implementation of a sudoku solver, using my own 6D boolean array data structure as well as my `_quick_fill` and recursion strategies.
+## Prerequisites
+
+You'll need Python 3 installed (3.4 or later), as well as the following
+packages.
+- `pip >= 9.0.0`
+- `setuptools >= 38.6.0`
+- `numpy >= 1.8.0`
+
+[//]: # (Note: keep these in sync with setup.py's install_requires)
+
+## Install
+
+- Clone or download the repository from GitHub (e.g. `git clone https://github.com/pzahemszky/pZudoku.git`).
+- Change to the `pZudoku` directory (e.g. `cd pZudoku`).
+- Install the `pZudoku` Python package (e.g. `pip install --user .`).
 
 ## Usage
 
@@ -33,7 +49,7 @@ A Python implementation of a sudoku solver, using my own 6D boolean array data s
 [//]: # (Note: keep this tested in tests.test_api)
 
 ```python
->>> from sudoku.api import Board
+>>> from pZudoku.api import Board
 >>> my_board = Board.from_array(squares)
 ```
 
@@ -56,3 +72,7 @@ A Python implementation of a sudoku solver, using my own 6D boolean array data s
 5 7 3 | 2 9 1 | 6 8 4
 1 6 4 | 8 7 5 | 2 9 3
 ```
+
+## Uninstall
+
+Remove the `pZudoku` Python package (e.g. `pip uninstall pZudoku`).

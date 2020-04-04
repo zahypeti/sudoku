@@ -1,9 +1,9 @@
 import unittest
 
 
-class TestReadme(unittest.TestCase):
+class TestReadmeExample(unittest.TestCase):
 
-    def test_readme(self):
+    def test_readme_example(self):
         """
         This test is covering the example script in `README.md`.
         Make sure it is up to date.
@@ -22,7 +22,7 @@ class TestReadme(unittest.TestCase):
         ]
 
         # When
-        from sudoku.api import Board
+        from pZudoku.api import Board
         my_board = Board.from_array(squares)
         my_board.solve()
         # Use str() instead of print() to keep the test output clean
