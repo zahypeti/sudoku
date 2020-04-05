@@ -46,8 +46,8 @@ setuptools.setup(
         "pip >= 9.0.0",
         # setuptools 38.6.0 introduces long_description_content_type
         "setuptools >= 38.6.0",
-        # NumPy 1.8.0 introduces np.full()
-        "numpy >= 1.8.0",
+        # NumPy 1.14 is not supported since 7th of January 2020
+        "numpy >= 1.15.0",
     ],
 
     python_requires=">=3.4",
