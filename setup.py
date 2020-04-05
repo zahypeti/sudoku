@@ -51,12 +51,11 @@ setuptools.setup(
     ],
 
     python_requires=">=3.4",
-    tests_require=["flake8 >= 3.4", "coverage >= 4.5.2", "codecov"],
+    extras_require={
+        "dev": ["flake8 >= 3.4", "coverage >= 4.5.2", "codecov"],
+    },
 
     project_urls={
         "Tracker": "https://github.com/pzahemszky/pZudoku/issues",
     },
-
-    # Test run by `python setup.py test`
-    test_suite="pZudoku.tests",
 )
