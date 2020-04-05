@@ -17,7 +17,7 @@ You'll need Python 3 installed (3.4 or later), as well as the following
 packages.
 - `pip >= 9.0.0`
 - `setuptools >= 38.6.0`
-- `numpy >= 1.8.0`
+- `numpy >= 1.15.0`
 
 [//]: # (Note: keep these in sync with setup.py's install_requires)
 
