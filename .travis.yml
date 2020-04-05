@@ -26,6 +26,6 @@ script:
   # Install the dependencies of the "dev" extra
   - python -m pip install .[dev]
   # Run the PEP8 code style checks
-  - flake8 --filename=*.py --ignore= --exclude=venv,.eggs .
+  - flake8 --filename=*.py --ignore= --exclude=.git,.eggs .
   # Codecov report
   - codecov
