@@ -40,12 +40,15 @@ setuptools.setup(
 
     packages=setuptools.find_packages(exclude=['tests']),
 
-    # Requirements installed by `python setup.py install`
-    install_requires=[
-        # pip 9.0.0 notifies about python_requires incompatibility
-        "pip >= 9.0.0",
+    # Installation requirements
+    setup_requires=[
         # setuptools 38.6.0 introduces long_description_content_type
+        # setuptools can't install setuptools; this is just documentation
         "setuptools >= 38.6.0",
+    ]
+
+    # Run time requirements
+    install_requires=[
         # NumPy 1.14 is not supported since 7th of January 2020
         "numpy >= 1.15.0",
     ],
