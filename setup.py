@@ -45,7 +45,7 @@ setuptools.setup(
         # setuptools 38.6.0 introduces long_description_content_type
         # setuptools can't install setuptools; this is just documentation
         "setuptools >= 38.6.0",
-    ]
+    ],
 
     # Run time requirements
     install_requires=[
