@@ -11,19 +11,9 @@ matrix:
   fast_finish: true
 
 install:
-  # Upgrade pip, and setuptools
-  - python -m pip install --upgrade pip setuptools
-  # Use `pip install .` instead of `setup.py install`
-  - python -m pip install .
-  # Install the minimal set of packages needed for running the tests under coverage
-  - python -m pip install --no-deps coverage
+  # Install the latest available Tox
+  - python -m pip install --upgrade tox>=3.0.0
 
 script:
-  # Run tests and compute code coverage
-  - coverage run -m unittest discover --verbose pZudoku
-  # Install the dependencies of the "dev" extra
-  - python -m pip install .[dev]
-  # Run the PEP8 code style checks
-  - flake8 --filename=*.py --ignore= --exclude=.git,.eggs .
-  # Codecov report
-  - codecov
+  # Run continuous integration steps using Tox
+  - tox
