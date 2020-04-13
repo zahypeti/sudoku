@@ -13,6 +13,10 @@ matrix:
 env:
   - TOX_PARALLEL_NO_SPINNER="1"
 
+cache:
+  directories:
+    - .tox/virtualenvs/
+
 install:
   # Install the latest available Tox
   - python -m pip install --upgrade 'tox>=3.0.0'
