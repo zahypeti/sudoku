@@ -15,7 +15,7 @@ env:
 
 install:
   # Install the latest available Tox
-  - python -m pip install --upgrade tox>=3.0.0
+  - python -m pip install --upgrade 'tox>=3.0.0'
 
 script:
   # Run continuous integration steps using Tox
