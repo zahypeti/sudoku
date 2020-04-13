@@ -55,7 +55,7 @@ setuptools.setup(
 
     python_requires=">=3.4",
     extras_require={
-        "dev": ["flake8 >= 3.4", "coverage >= 4.5.2", "codecov"],
+        "dev": ["flake8 >= 3.4", "coverage >= 4.5.2", "codecov >= 2.0.0"],
     },
 
     project_urls={
