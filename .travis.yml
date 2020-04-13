@@ -16,4 +16,4 @@ install:
 
 script:
   # Run continuous integration steps using Tox
-  - tox
+  - tox --parallel auto
