@@ -11,8 +11,6 @@ matrix:
   fast_finish: true
 
 install:
-  # Print the Python version for easier debugging
-  - python --version
   # Upgrade pip, and setuptools
   - python -m pip install --upgrade pip setuptools
   # Use `pip install .` instead of `setup.py install`
