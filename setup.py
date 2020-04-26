@@ -43,7 +43,7 @@ setuptools.setup(
     # Installation requirements
     setup_requires=[
         # setuptools 38.6.0 introduces long_description_content_type
-        # setuptools can't install setuptools; this is just documentation
+        # setuptools can upgrade itself if needed
         "setuptools >= 38.6.0",
     ],
 
