@@ -29,7 +29,7 @@ install:
   - conda create --quiet --name=py38-conda-env python=3.8
   # Install tox and tox-conda from the appropriate channel
   - conda install --name=py38-conda-env --channel=conda-forge 'tox>=3.0.0' tox-conda
-  - conda activate conda-env
+  - conda activate py38-conda-env
 
 script:
   # Run continuous integration steps using Tox
