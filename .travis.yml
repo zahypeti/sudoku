@@ -25,11 +25,11 @@ install:
   # Automatically choose the 'yes' option whenever asked to proceed with a conda operation
   - conda config --set always_yes yes
 
-  # Create a conda environment with Python 3.8
-  - conda create --quiet --name=py38-conda-env python=3.8
+  # Create a conda environment with Python 3.7
+  - conda create --quiet --name=py37-conda-env python=3.7
   # Install tox and tox-conda from the appropriate channel
-  - conda install --name=py38-conda-env --channel=conda-forge 'tox>=3.0.0' tox-conda
-  - conda activate py38-conda-env
+  - conda install --name=py37-conda-env --channel=conda-forge 'tox>=3.0.0' tox-conda
+  - conda activate py37-conda-env
 
 script:
   # Run continuous integration steps using Tox
