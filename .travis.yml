@@ -1,12 +1,9 @@
-language: python
+language: general
 
 matrix:
   include:
-    # Different Ubuntu images and Python versions to run tests with
-    # Enumerate all possible combinations, because the other option doesn't seem to work
     - os: linux
       dist: xenial
-      python: "3.8"
   # Only wait for required builds to finish
   fast_finish: true
 
@@ -18,8 +15,20 @@ cache:
     - .tox/virtualenvs/
 
 install:
-  # Install the latest available Tox
-  - python -m pip install --upgrade 'tox>=3.0.0'
+  # Install conda via Miniconda. Source:
+  # https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/
+  # use-conda-with-travis-ci.html#the-travis-yml-file
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - source "$HOME/miniconda/etc/profile.d/conda.sh"
+  - hash -r
+  # Automatically choose the 'yes' option whenever asked to proceed with a conda operation
+  - conda config --set always_yes yes
+
+  - conda create --quiet --name=py38-conda-env python=3.8 'tox>=3.0.0'
+  # Install tox-conda from the appropriate channel
+  - conda install --name=py38-conda-env --channel=conda-forge tox-conda
+  - conda activate conda-env
 
 script:
   # Run continuous integration steps using Tox
