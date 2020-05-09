@@ -49,7 +49,7 @@ setuptools.setup(
 
     # Run time requirements
     install_requires=[
-        # With test against NumPy 1.14.5 and later
+        # We test against NumPy 1.14.5 and later
         "numpy >= 1.14.5",
     ],
 
