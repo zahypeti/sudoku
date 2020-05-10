@@ -30,5 +30,7 @@ install:
   - conda activate py37-conda-env
 
 script:
+  # Create tox test environments serially. See tox-dev/tox-conda#39
+  - tox -v --notest
   # Run continuous integration steps using Tox
-  - tox -v
+  - tox -v --parallel auto --parallel-live
