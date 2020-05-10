@@ -18,6 +18,8 @@ install:
   - bash miniconda.sh -b -p $HOME/miniconda
   - source "$HOME/miniconda/etc/profile.d/conda.sh"
   - hash -r
+  # Upgrade conda to the latest version
+  - conda update --quiet conda
   # Automatically choose the 'yes' option whenever asked to proceed with a conda operation
   - conda config --set always_yes yes
 
