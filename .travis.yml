@@ -10,6 +10,10 @@ matrix:
 env:
   - TOX_PARALLEL_NO_SPINNER="1"
 
+cache:
+  directories:
+    - .tox/virtualenvs/
+
 install:
   # Install conda via Miniconda. Source:
   # https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/
