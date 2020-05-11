@@ -15,7 +15,7 @@ A Python 3 implementation of a sudoku solver, using my own 6D boolean array data
 
 You'll need Python 3 installed (3.4 or later), as well as the following
 packages.
-- `numpy >= 1.15.0`
+- NumPy (version 1.14.5 or later)
 
 [//]: # (Note: keep these in sync with setup.py's install_requires)
 

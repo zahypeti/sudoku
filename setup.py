@@ -49,8 +49,8 @@ setuptools.setup(
 
     # Run time requirements
     install_requires=[
-        # NumPy 1.14 is not supported since 7th of January 2020
-        "numpy >= 1.15.0",
+        # We test against NumPy 1.14.5 and later
+        "numpy >= 1.14.5",
     ],
 
     python_requires=">=3.4",
