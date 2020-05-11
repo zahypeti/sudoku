@@ -24,6 +24,8 @@ install:
   - hash -r
   # Automatically choose the 'yes' option whenever asked to proceed with a conda operation
   - conda config --set always_yes yes
+  # Upgrade conda to the latest version
+  - conda update --quiet conda
 
   # Create a conda environment with Python 3.7
   - conda create --quiet --name=py37-conda-env python=3.7
@@ -32,5 +34,7 @@ install:
   - conda activate py37-conda-env
 
 script:
+  # Create tox test environments serially. See tox-dev/tox-conda#39
+  - tox -v --notest
   # Run continuous integration steps using Tox
   - tox -v --parallel auto --parallel-live
